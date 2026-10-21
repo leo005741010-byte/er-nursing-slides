@@ -7,9 +7,9 @@
 (function(){var m=document.querySelector('meta[name=viewport]');if(m&&(/iP(hone|ad|od)/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))&&m.content.indexOf('maximum-scale')<0)m.content+=',maximum-scale=1';})();</script>
 <style>html,body,*{touch-action:manipulation}/* 連點兩下不放大，兩指放大照常 */</style>
 <title>急診護理互動投影片</title>
-<meta name="description" content="急診護理在職教育互動投影片：酸中毒、致命心律、休克與升壓劑、電解質、氧氣與BiPAP、呼吸器警報、V60、12導程心電圖">
+<meta name="description" content="急診護理在職教育互動投影片：酸中毒、致命心律、休克與升壓劑、電解質、氧氣與BiPAP、呼吸器警報、V60、12導程心電圖、心律不整">
 <meta property="og:title" content="急診護理互動投影片">
-<meta property="og:description" content="酸中毒・致命心律・休克與升壓劑・電解質・氧氣與BiPAP・呼吸器警報・V60・12導程心電圖">
+<meta property="og:description" content="酸中毒・致命心律・休克與升壓劑・電解質・氧氣與BiPAP・呼吸器警報・V60・12導程心電圖・心律不整">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#F2F4F0">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,6 +21,7 @@
   --red:#D9412B; --red-soft:#F8DCD4;
   --blue:#2E5BC9; --blue-soft:#D9E2F7;
   --teal:#1F7A80; --teal-soft:#D3E9EA;
+  --amber:#B06A08; --amber-soft:#F5E5C8;
   --f-display:"Huninn","Chiron GoRound TC","Microsoft JhengHei","PingFang TC",sans-serif;
   --f-body:"Noto Sans TC","Microsoft JhengHei","PingFang TC",sans-serif;
   color-scheme:light;
@@ -45,6 +46,7 @@ a.deck:hover .go{color:var(--acc)}
 .red{--acc:var(--red);--soft:var(--red-soft)}
 .blue{--acc:var(--blue);--soft:var(--blue-soft)}
 .teal{--acc:var(--teal);--soft:var(--teal-soft)}
+.amber{--acc:var(--amber);--soft:var(--amber-soft)}
 footer{margin-top:28px;font-size:13px;color:var(--muted);text-align:center}
 @media (prefers-reduced-motion:reduce){a.deck{transition:none}a.deck:hover{transform:none}}
 </style>
@@ -61,6 +63,7 @@ footer{margin-top:28px;font-size:13px;color:var(--muted);text-align:center}
   <li><a class="deck red" href="vent.html"><span class="no">6</span><span class="txt"><p class="topic">呼吸器警報處理</p><p class="meta">呼吸器又叫了<span>17 頁</span></p></span><span class="go" aria-hidden="true">→</span></a></li>
   <li><a class="deck blue" href="v60.html"><span class="no">7</span><span class="txt"><p class="topic">V60 插管後警報與調整</p><p class="meta">V60 插管後<span>21 頁</span></p></span><span class="go" aria-hidden="true">→</span></a></li>
   <li><a class="deck red" href="ekg12.html"><span class="no">8</span><span class="txt"><p class="topic">12 導程心電圖</p><p class="meta">胸痛十分鐘<span>17 頁</span></p></span><span class="go" aria-hidden="true">→</span></a></li>
+  <li><a class="deck amber" href="arrhy.html"><span class="no">9</span><span class="txt"><p class="topic">心律不整</p><p class="meta">這一拍怪怪的<span>17 頁</span></p></span><span class="go" aria-hidden="true">→</span></a></li>
 </ol>
 <footer>天晟醫院 急診科</footer>
 </main>

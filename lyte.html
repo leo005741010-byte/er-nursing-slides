@@ -1,0 +1,1125 @@
+<meta charset="utf-8">
+<title>電解質在搞鬼</title>
+<meta name="description" content="急診護理在職教育：高低血鉀、低血鈉、低血鈣鎂互動投影片">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Huninn&family=IBM+Plex+Mono:wght@500;600&family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
+<style>
+:root{
+  --paper:#F2F4F0; --paper-2:#E5EAE3; --frame:#CDD5CC; --ink:#172421; --muted:#5B6A64; --line:#C9D1C8;
+  --red:#D9412B; --red-soft:#F8DCD4;
+  --green:#2F9A5A; --green-soft:#D5ECDD;
+  --blue:#2E5BC9; --blue-soft:#D9E2F7;
+  --purple:#6A4BC4; --purple-soft:#E6DFF6;
+  --amber:#B06A08; --amber-soft:#F5E5C8;
+  --teal:#1F7A80; --teal-soft:#D3E9EA;
+  --slip:#FFFFFF; --screen:#0F1916;
+  --f-display:"Huninn","Chiron GoRound TC","Microsoft JhengHei","PingFang TC",sans-serif;
+  --f-body:"Noto Sans TC","Microsoft JhengHei","PingFang TC",sans-serif;
+  --f-mono:"IBM Plex Mono",Consolas,"Courier New",monospace;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--frame);color:var(--ink);font-family:var(--f-body);overflow:hidden;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;cursor:pointer}
+button:disabled{opacity:.4;cursor:default}
+input[type=number]{font:inherit}
+:focus-visible{outline:4px solid var(--blue);outline-offset:3px}
+
+#stage{position:absolute;left:50%;top:50%;width:1600px;height:900px;background:var(--paper);transform-origin:center;transform:translate(-50%,-50%);overflow:hidden;box-shadow:0 20px 60px -30px rgba(23,36,33,.45)}
+
+/* ---------- slide shell ---------- */
+.slide{position:absolute;inset:0 0 72px 0;padding:58px 96px 30px;display:flex;flex-direction:column;gap:28px;opacity:0;visibility:hidden;transform:translateX(30px);transition:opacity .35s ease,transform .35s ease,visibility 0s .35s}
+.slide.past{transform:translateX(-30px)}
+.slide.active{opacity:1;visibility:visible;transform:none;transition:opacity .35s ease,transform .35s ease}
+.head{display:flex;flex-direction:column;gap:6px}
+.eyebrow{margin:0;font-size:21px;font-weight:700;letter-spacing:.14em;color:var(--sec)}
+h2{margin:0;font-family:var(--f-display);font-weight:400;font-size:62px;line-height:1.12;text-wrap:balance;letter-spacing:.01em}
+h3{margin:0;font-family:var(--f-display);font-weight:400;font-size:36px;line-height:1.2}
+p{margin:0}
+.body{flex:1;min-height:0}
+.muted{color:var(--muted)}
+.notes{display:none}
+.c-red{color:var(--red)} .c-blue{color:var(--blue)} .c-green{color:var(--green)} .c-purple{color:var(--purple)} .c-amber{color:var(--amber)} .c-teal{color:var(--teal)}
+sub,sup{line-height:0}
+.mono{font-family:var(--f-mono)}
+
+/* ---------- bottom bar ---------- */
+.bar{position:absolute;left:0;right:0;bottom:0;height:72px;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 40px 0 96px;background:var(--paper)}
+.secs{display:flex;gap:34px;list-style:none;margin:0;padding:0}
+.secs button{background:none;border:0;padding:8px 0;font-size:20px;color:var(--muted);display:flex;align-items:center;gap:10px;border-bottom:3px solid transparent}
+.secs button i{width:10px;height:10px;border-radius:50%;background:var(--c)}
+.secs button.on{color:var(--ink);font-weight:700;border-bottom-color:var(--c)}
+.ctrl{display:flex;align-items:center;gap:10px}
+.count{font-family:var(--f-mono);font-size:19px;color:var(--muted);min-width:78px;text-align:right;margin-right:8px;font-variant-numeric:tabular-nums}
+.ibtn{height:44px;min-width:44px;padding:0 14px;border:1.5px solid var(--line);background:var(--paper);border-radius:8px;font-size:18px;color:var(--ink)}
+.ibtn:hover{background:var(--paper-2)}
+
+#notes{position:fixed;left:0;right:0;bottom:0;max-height:34vh;overflow:auto;background:var(--screen);color:#E8EEE9;font:16px/1.7 var(--f-body);padding:16px 28px 20px;z-index:10}
+#notes b{color:#F4C77A;font-weight:700;margin-right:10px}
+
+/* ---------- cover ---------- */
+.cover{justify-content:space-between;padding-top:76px}
+.cover-title{margin:14px 0 18px;font-family:var(--f-display);font-weight:400;font-size:150px;line-height:1;letter-spacing:.02em}
+.cover-title span{color:var(--accent)}
+.cover-sub{font-size:34px;color:var(--ink);max-width:32em}
+.byline{font-size:22px;color:var(--muted)}
+.mascot{display:block;width:100%;height:auto;overflow:visible}
+.m-label{font-family:var(--f-display);fill:#fff}
+.bubble{position:absolute;white-space:nowrap;background:var(--slip);border:2px solid var(--ink);border-radius:18px;padding:8px 16px;font-size:22px}
+@media (prefers-reduced-motion:no-preference){
+  .bob{animation:bob 2.6s ease-in-out infinite}
+  @keyframes bob{50%{transform:translateY(-8px)}}
+}
+
+/* ---------- chips ---------- */
+.chip{display:inline-flex;align-items:center;gap:10px;padding:8px 20px;border-radius:999px;font-size:28px;font-weight:700;background:var(--c-soft);color:var(--c);white-space:nowrap}
+.chip.red{--c:var(--red);--c-soft:var(--red-soft)} .chip.green{--c:var(--green);--c-soft:var(--green-soft)} .chip.blue{--c:var(--blue);--c-soft:var(--blue-soft)}
+.chip.amber{--c:var(--amber);--c-soft:var(--amber-soft)} .chip.purple{--c:var(--purple);--c-soft:var(--purple-soft)} .chip.teal{--c:var(--teal);--c-soft:var(--teal-soft)}
+.chip.sm{font-size:21px;padding:5px 14px}
+
+/* ---------- poll ---------- */
+.poll{display:grid;grid-template-columns:auto 1fr;gap:64px;align-items:center}
+.opts{display:flex;flex-direction:column;gap:16px}
+.vote{position:relative;display:grid;grid-template-columns:52px 1fr 70px;align-items:center;gap:18px;text-align:left;background:var(--slip);border:2px solid var(--line);border-radius:12px;padding:18px 22px;font-size:28px;overflow:hidden}
+.vote:hover{border-color:var(--ink)}
+.vote .k{font-family:var(--f-display);font-size:30px;width:52px;height:52px;border-radius:50%;display:grid;place-items:center;background:var(--paper-2)}
+.vote .fill{position:absolute;left:0;top:0;bottom:0;background:var(--green-soft);width:0;transition:width .3s ease;z-index:0}
+.vote>*:not(.fill){position:relative;z-index:1}
+.vote .n{font-family:var(--f-mono);font-size:30px;text-align:right;font-variant-numeric:tabular-nums}
+.vote .ghost{position:absolute;left:0;bottom:0;height:6px;background:var(--muted);opacity:.45;width:0;z-index:1;transition:width .3s}
+.tiny{background:none;border:0;padding:4px 0;color:var(--muted);font-size:18px;text-decoration:underline;text-underline-offset:4px;align-self:flex-start}
+
+/* ---------- ABG slip (thermal paper) ---------- */
+.slip-wrap{filter:drop-shadow(0 14px 18px rgba(23,36,33,.18));width:max-content}
+.slip{background:var(--slip);font-family:var(--f-mono);padding:22px 30px 34px;width:380px;
+  -webkit-mask:conic-gradient(from -45deg at bottom,#0000,#000 1deg 89deg,#0000 90deg) 50%/18px 100%;
+          mask:conic-gradient(from -45deg at bottom,#0000,#000 1deg 89deg,#0000 90deg) 50%/18px 100%}
+.slip-h{display:flex;justify-content:space-between;font-size:16px;color:var(--muted);letter-spacing:.08em;border-bottom:2px dashed var(--line);padding-bottom:10px;margin-bottom:8px}
+.slip-r{display:grid;grid-template-columns:110px 1fr 82px 30px;align-items:baseline;padding:5px 0;font-size:22px}
+.slip-r span{color:var(--muted);font-size:20px}
+.slip-r b{font-size:36px;font-weight:600;text-align:right;padding-right:12px;font-variant-numeric:tabular-nums}
+.slip-r i{font-style:normal;font-size:16px;color:var(--muted)}
+.slip-r em{font-style:normal;font-weight:600;font-size:20px;text-align:right}
+.slip-r em.L{color:var(--blue)} .slip-r em.H{color:var(--red)}
+.slip-f{margin-top:8px;font-size:14px;color:var(--muted);letter-spacing:.1em}
+
+/* ---------- monitor ---------- */
+.monitor{background:var(--screen);border-radius:16px;padding:18px 26px;color:#DDE6E1;font-family:var(--f-mono);box-shadow:inset 0 0 0 6px #25332E}
+.mrow{display:flex;justify-content:space-between;align-items:baseline;padding:9px 0;border-bottom:1px solid #26352F}
+.mrow:last-child{border:0}
+.mrow span{font-size:20px;letter-spacing:.06em}
+.mrow b{font-size:58px;font-weight:600;line-height:1;font-variant-numeric:tabular-nums;transition:color .3s}
+.m-o2{color:#5BE08A} .m-hr{color:#7FD3F0} .m-bp{color:#F28B82} .m-rr{color:#F2B84B} .m-w{color:#E8EEE9}
+
+/* ---------- definition strip ---------- */
+.def{display:flex;align-items:center;gap:22px;font-size:30px;flex-wrap:wrap}
+.def .tag{font-family:var(--f-mono);font-weight:600;font-size:28px;padding:6px 16px;border-radius:8px;background:var(--slip);border:2px solid var(--ink)}
+
+/* ---------- flip cards ---------- */
+.flips{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:6px}
+.flip{perspective:1400px;background:none;border:0;padding:0;height:372px;text-align:left;--fc:var(--sec)}
+.flip-in{position:relative;width:100%;height:100%;transition:transform .55s cubic-bezier(.3,.7,.2,1);transform-style:preserve-3d}
+.flip.on .flip-in{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;border-radius:14px;padding:26px;backface-visibility:hidden;-webkit-backface-visibility:hidden;display:flex;flex-direction:column;gap:12px}
+.front{background:var(--fs,var(--paper-2));border:2px solid transparent}
+.flip:hover .front{border-color:var(--fc)}
+.front small{font-size:19px;letter-spacing:.12em;color:var(--fc);font-weight:700}
+.front h3{font-size:44px;margin-top:auto}
+.front .hint{font-size:19px;color:var(--muted)}
+.back{background:var(--slip);border:2px solid var(--fc);transform:rotateY(180deg)}
+.back h4{margin:0;font-size:24px;color:var(--fc)}
+.back ul{margin:0;padding-left:1.1em;font-size:24px;line-height:1.55}
+.back p{font-size:23px;line-height:1.55}
+
+/* ---------- stepper ---------- */
+.track{position:relative;display:grid;grid-template-columns:repeat(var(--n,4),1fr);margin-top:12px}
+.track::before{content:"";position:absolute;left:0;right:calc(100% / var(--n,4) - 78px);top:34px;height:10px;border-radius:5px;background:var(--trackbg,linear-gradient(90deg,#D9A22A,#E0672C 45%,#B8322B))}
+.stop{position:relative;background:none;border:0;padding:0;display:flex;flex-direction:column;align-items:flex-start;gap:14px}
+.stop i{width:78px;height:78px;border-radius:50%;background:var(--paper);border:4px solid var(--ink);display:grid;place-items:center;font-style:normal;font-family:var(--f-mono);font-weight:600;font-size:24px;transition:background .2s,color .2s}
+.stop.on i{background:var(--ink);color:var(--paper)}
+.stop span{font-size:20px;color:var(--muted)}
+.state{margin-top:26px;padding:24px 30px;border-left:6px solid var(--sec);background:var(--slip);min-height:180px}
+.state h3{font-size:40px;margin-bottom:10px}
+.state p{font-size:26px;line-height:1.6}
+.fine{font-size:19px;color:var(--muted);margin-top:14px;line-height:1.5}
+
+/* ---------- checklist ---------- */
+.checks{display:grid;grid-template-columns:1fr 1fr;gap:18px 46px;margin-top:4px;align-content:start}
+.chk{display:grid;grid-template-columns:44px 1fr;gap:18px;align-items:start;text-align:left;background:none;border:0;padding:14px 0;border-bottom:1px solid var(--line)}
+.chk .box{width:40px;height:40px;border:3px solid var(--ink);border-radius:8px;margin-top:4px;display:grid;place-items:center;transition:background .15s}
+.chk .box svg{width:26px;height:26px;opacity:0;transform:scale(.4);transition:all .2s}
+.chk[aria-pressed="true"] .box{background:var(--sec);border-color:var(--sec)}
+.chk[aria-pressed="true"] .box svg{opacity:1;transform:none}
+.chk strong{display:block;font-size:31px;font-weight:700;line-height:1.3}
+.chk span{display:block;font-size:24px;color:var(--muted);line-height:1.5;margin-top:4px}
+
+/* ---------- case / quiz ---------- */
+.case{display:grid;grid-template-columns:460px 1fr;gap:60px;align-items:start}
+.story{font-size:27px;line-height:1.6;margin-bottom:24px}
+.story b{font-weight:700}
+.q{font-size:32px;font-weight:700;margin-bottom:18px;line-height:1.4}
+.qopts{display:flex;flex-direction:column;gap:12px}
+.qo{display:grid;grid-template-columns:48px 1fr;gap:16px;align-items:center;text-align:left;background:var(--slip);border:2px solid var(--line);border-radius:12px;padding:14px 20px;font-size:25px;line-height:1.4}
+.qo:hover{border-color:var(--ink)}
+.qo .k{font-family:var(--f-display);font-size:26px;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;background:var(--paper-2)}
+.qo.right{border-color:var(--green);background:var(--green-soft)} .qo.right .k{background:var(--green);color:#fff}
+.qo.wrong{border-color:var(--red);background:var(--red-soft)} .qo.wrong .k{background:var(--red);color:#fff}
+.explain{margin-top:18px;font-size:24px;line-height:1.6;padding:14px 22px;border-left:6px solid var(--green);background:var(--slip)}
+
+/* ---------- vitals card ---------- */
+.vitals{display:grid;grid-template-columns:1fr 1fr;gap:0;background:var(--screen);border-radius:14px;padding:10px 22px;font-family:var(--f-mono);box-shadow:inset 0 0 0 5px #25332E;width:440px}
+.vitals div{display:flex;flex-direction:column;padding:10px 4px;border-bottom:1px solid #26352F}
+.vitals div:nth-last-child(-n+2){border-bottom:0}
+.vitals span{font-size:17px;letter-spacing:.06em;color:#9FB0A8}
+.vitals b{font-size:44px;font-weight:600;line-height:1.1;font-variant-numeric:tabular-nums}
+
+/* ---------- tiles ---------- */
+.tiles{display:grid;grid-template-columns:repeat(var(--cols,4),1fr);gap:16px}
+.tile{background:var(--ts,var(--paper-2));border:2px solid transparent;border-radius:14px;padding:18px 20px;text-align:left;min-height:var(--th,260px);display:flex;flex-direction:column;gap:8px;--tc:var(--sec)}
+.tile:hover{border-color:var(--tc)}
+.tile .ch{font-family:var(--f-display);font-size:64px;line-height:1;color:var(--tc)}
+.tile .nm{font-size:27px;font-weight:700;line-height:1.3}
+.tile .dt{font-size:21px;line-height:1.5;color:var(--ink);opacity:0;transform:translateY(8px);transition:all .3s}
+.tile .tp{font-size:18px;color:var(--muted);margin-top:auto}
+.tile.on{background:var(--slip);border-color:var(--tc)}
+.tile.on .dt{opacity:1;transform:none}
+.tile.on .tp{display:none}
+
+/* ---------- reveal steps ---------- */
+.steps{display:grid;grid-template-columns:var(--lead,380px) repeat(3,1fr);gap:28px;align-items:stretch}
+.step{border-top:6px solid var(--stc,var(--ink));padding-top:18px;display:flex;flex-direction:column;gap:10px}
+.step .no{font-family:var(--f-mono);font-size:22px;color:var(--muted)}
+.step h3{font-size:38px}
+.step p{font-size:24px;line-height:1.55}
+.res{margin-top:auto;padding:14px 18px;border-radius:10px;background:var(--paper-2);font-size:23px;line-height:1.5;min-height:120px;color:transparent;transition:color .3s,background .3s}
+.res:not(.show),.res:not(.show) *{color:transparent!important}
+.res.show{background:var(--slip);color:var(--ink);box-shadow:inset 0 0 0 2px var(--ink)}
+
+/* ---------- game ---------- */
+.gtop{display:flex;justify-content:space-between;align-items:flex-end}
+.score{display:flex;gap:18px}
+.team{display:grid;grid-template-columns:auto auto auto auto;align-items:center;gap:10px;background:var(--slip);border:2px solid var(--line);border-radius:12px;padding:8px 14px}
+.team .tn{font-size:22px;font-weight:700;padding-right:6px}
+.team .ts{font-family:var(--f-mono);font-size:40px;font-weight:600;min-width:52px;text-align:center;font-variant-numeric:tabular-nums}
+.team button{width:40px;height:40px;border-radius:8px;border:1.5px solid var(--line);background:var(--paper);font-size:24px;line-height:1}
+.team.red .tn{color:var(--red)} .team.blue .tn{color:var(--blue)}
+.game{display:grid;grid-template-columns:var(--gl,470px) 1fr;gap:52px;align-items:start}
+.gno{font-family:var(--f-mono);font-size:22px;color:var(--muted);margin-bottom:10px}
+.gopts{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.gopts .qo{font-size:27px;padding:18px 20px}
+.gnav{display:flex;gap:12px;margin-top:18px;align-items:center}
+.gbtn{border:2px solid var(--ink);background:var(--slip);border-radius:10px;padding:10px 24px;font-size:22px}
+.gbtn.pri{background:var(--ink);color:var(--paper)}
+.gdots{display:flex;gap:8px;align-items:center;margin-left:auto}
+.gdots i{width:14px;height:14px;border-radius:50%;background:var(--line)}
+.gdots i.on{background:var(--ink)}
+
+/* ---------- true/false ---------- */
+.tf{display:grid;grid-template-columns:1fr 360px;gap:60px;align-items:center}
+.tf .ring{margin:0 auto}
+.tfbtns .gbtn{padding:10px 18px;white-space:nowrap}
+.tfq{font-family:var(--f-display);font-size:60px;line-height:1.3;text-wrap:balance;min-height:260px;display:flex;align-items:center}
+.tfa{display:flex;align-items:center;gap:26px;min-height:120px;font-size:28px;line-height:1.55}
+.tfa .mark{flex:none;width:110px;height:110px;border-radius:50%;display:grid;place-items:center;font-family:var(--f-display);font-size:78px;color:#fff}
+.tfa .mark.o{background:var(--green)} .tfa .mark.x{background:var(--red)}
+.ring{position:relative;width:260px;height:260px}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring .t{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--f-mono);font-weight:600;font-size:96px;font-variant-numeric:tabular-nums}
+.tfbtns{display:flex;gap:12px;margin-top:24px;justify-content:center}
+
+/* ---------- wrap ---------- */
+.wrapg{display:grid;grid-template-columns:1fr 520px;gap:70px;align-items:start}
+.take{display:flex;flex-direction:column;gap:0;border-top:2px solid var(--ink)}
+.take div{padding:20px 0;border-bottom:1px solid var(--line);display:grid;grid-template-columns:130px 1fr;gap:20px;align-items:baseline}
+.take b{font-family:var(--f-display);font-weight:400;font-size:32px;color:var(--c)}
+.take p{font-size:28px;line-height:1.5}
+.post h3{font-size:32px;margin-bottom:6px}
+.post .opts{gap:12px;margin-top:14px}
+.post .vote{font-size:23px;padding:14px 18px;grid-template-columns:44px 1fr 56px}
+.post .vote .k{width:44px;height:44px;font-size:24px}
+.legend{font-size:18px;color:var(--muted);display:flex;gap:18px;align-items:center}
+.legend i{display:inline-block;width:26px;height:6px;background:var(--muted);opacity:.45;vertical-align:middle;margin-right:6px}
+.thanks{font-family:var(--f-display);font-size:40px;margin-top:26px}
+
+/* ---------- sliders ---------- */
+.sl{display:flex;flex-direction:column;gap:6px;margin-top:18px}
+.sl label{display:flex;justify-content:space-between;align-items:baseline;font-size:24px}
+.sl label b{font-family:var(--f-mono);font-size:30px;font-variant-numeric:tabular-nums}
+.sl input{width:100%;accent-color:var(--ink);height:28px}
+.presets{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.pbtn{border:1.5px solid var(--line);background:var(--slip);border-radius:999px;padding:8px 18px;font-size:20px}
+.pbtn:hover{border-color:var(--ink)}
+.pbtn.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.seg{display:flex;gap:10px;flex-wrap:wrap}
+.sbtn{border:2px solid var(--line);background:var(--slip);border-radius:10px;padding:12px 20px;font-size:23px}
+.sbtn.on{border-color:var(--ink);background:var(--ink);color:var(--paper)}
+.big{font-family:var(--f-mono);font-weight:600;font-size:120px;line-height:1;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.note{font-size:19px;color:var(--muted);line-height:1.5}
+.warnbox{padding:14px 20px;border-radius:10px;background:var(--red-soft);color:var(--ink);font-size:23px;line-height:1.5;border-left:6px solid var(--red)}
+.keybox{padding:14px 20px;border-radius:10px;background:var(--slip);font-size:23px;line-height:1.5;border-left:6px solid var(--sec)}
+.bnum{font-family:var(--f-mono);font-weight:600;font-size:110px;line-height:1;font-variant-numeric:tabular-nums}
+.bnum.sm{font-size:72px}
+[hidden]{display:none!important}
+
+:root{--accent:var(--teal)}
+.ecg{position:relative;border-radius:12px;overflow:hidden;width:max-content;max-width:100%}
+.ecg .lead{position:absolute;left:14px;top:8px;font-family:var(--f-mono);font-size:18px;color:var(--muted)}
+/* cover */
+.crew{display:grid;grid-template-columns:repeat(4,1fr);gap:40px;align-items:end;position:relative}
+.crew .m{display:flex;flex-direction:column;align-items:center;gap:10px;position:relative}
+.crew .m-wrap{width:150px}
+.crew strong{font-size:28px}
+.crew span{font-size:21px;color:var(--muted)}
+.crew .bubble{left:120px;top:-26px}
+
+/* four numbers */
+.quad{display:grid;grid-template-columns:repeat(4,1fr);border-top:2px solid var(--ink)}
+.quad>div{padding:26px 30px 10px 0;display:flex;flex-direction:column;gap:8px}
+.quad>div+div{border-left:1px solid var(--line);padding-left:30px}
+.quad .lab{font-size:30px;font-weight:700}
+.quad .bigv{font-family:var(--f-mono);font-weight:600;font-size:104px;line-height:1;letter-spacing:-.03em}
+.quad .rng{font-family:var(--f-mono);font-size:23px;color:var(--muted)}
+.quad p{font-size:25px;line-height:1.5;margin-top:6px}
+.mnemo{margin-top:30px;font-size:30px;padding:20px 28px;background:var(--paper-2);border-radius:10px}
+.mnemo b{font-family:var(--f-mono)}
+
+/* K cell */
+.kgrid{display:grid;grid-template-columns:680px 1fr;gap:56px;align-items:start}
+.kcell{position:relative;width:680px;height:500px}
+.kcell .mem{position:absolute;left:140px;top:95px;width:400px;height:270px;border-radius:135px;border:6px solid var(--frame);background:var(--paper-2);transition:border-color .4s}
+.kcell .mem.broken{border-style:dashed;border-color:var(--red)}
+.kcell .lbl{position:absolute;font-size:20px;color:var(--muted)}
+.dot{position:absolute;left:0;top:0;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:700;font-size:17px;transition:transform .9s cubic-bezier(.4,.1,.2,1)}
+.dot.K{background:var(--teal)} .dot.H{background:var(--red)}
+.kmeter{margin-top:26px}
+.kmeter .top{display:flex;justify-content:space-between;align-items:baseline}
+.kmeter .top span{font-size:24px}
+.kmeter .top b{font-family:var(--f-mono);font-size:56px;font-weight:600;font-variant-numeric:tabular-nums}
+.kbar{position:relative;height:22px;border-radius:11px;background:var(--paper-2);margin-top:10px}
+.kbar .nb{position:absolute;top:0;bottom:0;left:30%;width:30%;background:var(--green-soft);border-left:2px solid var(--green);border-right:2px solid var(--green)}
+.kbar .mk{position:absolute;top:-9px;width:8px;height:40px;border-radius:4px;background:var(--ink);transform:translateX(-50%);transition:left .9s cubic-bezier(.4,.1,.2,1)}
+.kscale{display:flex;justify-content:space-between;font-family:var(--f-mono);font-size:17px;color:var(--muted);margin-top:8px}
+.kcap{margin-top:22px;font-size:26px;line-height:1.6;min-height:130px}
+
+/* K slider ECG */
+.kread{display:grid;grid-template-columns:auto 1fr 150px;gap:36px;align-items:center}
+.kread .kv{font-family:var(--f-mono);font-weight:600;font-size:110px;line-height:1;font-variant-numeric:tabular-nums;min-width:250px}
+.kread h3{font-size:36px;margin-bottom:6px}
+.kread p{font-size:25px;line-height:1.5}
+.range-strip{position:relative;margin-top:14px}
+.kstrip{height:52px;border-radius:6px;background:linear-gradient(90deg,#2E5BC9 0%,#6F97E0 20%,#2F9A5A 25%,#2F9A5A 43.75%,#D9A22A 50%,#E0672C 62%,#B8322B 78%,#7A1E18 100%)}
+.range-strip input{position:absolute;inset:-10px 0 auto 0;width:100%;height:72px;margin:0;background:transparent;-webkit-appearance:none;appearance:none;cursor:pointer}
+.range-strip input::-webkit-slider-runnable-track{height:72px;background:transparent}
+.range-strip input::-webkit-slider-thumb{-webkit-appearance:none;width:30px;height:72px;border-radius:8px;background:var(--slip);border:4px solid var(--ink);box-shadow:0 4px 10px rgba(0,0,0,.25)}
+.range-strip input::-moz-range-thumb{width:24px;height:64px;border-radius:8px;background:var(--slip);border:4px solid var(--ink)}
+.range-strip input::-moz-range-track{background:transparent}
+.ticks{position:relative;height:34px;font-family:var(--f-mono);font-size:19px;color:var(--muted)}
+.ticks span{position:absolute;top:8px;transform:translateX(-50%)}
+
+/* KCl checker */
+.kcl{display:grid;grid-template-columns:640px 1fr;gap:56px;align-items:start}
+.kcl .row{display:grid;grid-template-columns:120px 1fr;gap:16px;align-items:center;margin-top:16px}
+.kcl .row>span{font-size:23px;color:var(--muted)}
+.kcl .sbtn{padding:10px 16px;font-size:22px}
+.kout{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.kout div{background:var(--slip);border-radius:12px;padding:14px 20px}
+.kout span{font-size:20px;color:var(--muted)}
+.kout b{display:block;font-family:var(--f-mono);font-size:54px;font-weight:600;line-height:1.1}
+.kout b small{font-size:22px;color:var(--muted);margin-left:6px}
+.verdicts{display:flex;flex-direction:column;gap:10px;margin-top:18px}
+.verdicts div{font-size:24px;line-height:1.45;padding:10px 18px;border-radius:8px;border-left:6px solid var(--green);background:var(--green-soft)}
+.verdicts div.bad{border-color:var(--red);background:var(--red-soft)}
+.verdicts div.warn{border-color:var(--amber);background:var(--amber-soft)}
+.push-no{font-size:44px;font-family:var(--f-display);color:var(--red)}
+
+/* low K */
+.lowk{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start}
+.lst{display:flex;flex-direction:column;border-top:2px solid var(--ink)}
+.lst div{padding:13px 0;border-bottom:1px solid var(--line);font-size:26px;line-height:1.45}
+.lst small{display:block;font-size:21px;color:var(--muted)}
+
+/* sodium */
+.na{display:grid;grid-template-columns:1fr 400px;gap:56px;align-items:start}
+.track{--trackbg:linear-gradient(90deg,#9FB7E8,#2E5BC9 55%,#1B2F66)}
+.brain{width:100%;height:auto}
+.brain .bb{transition:transform .6s cubic-bezier(.4,.1,.2,1);transform-box:fill-box;transform-origin:center}
+.speed{display:grid;grid-template-columns:560px 1fr;gap:60px;align-items:start}
+.budget{position:relative;height:40px;border-radius:8px;background:var(--paper-2);margin:18px 0 6px;overflow:hidden}
+.budget .fillb{position:absolute;left:0;top:0;bottom:0;background:var(--blue);transition:width .3s,background .3s}
+.budget .l8{position:absolute;top:0;bottom:0;left:66.7%;border-left:3px dashed var(--amber)}
+.budget .l10{position:absolute;top:0;bottom:0;left:83.3%;border-left:3px solid var(--red)}
+.bscale{position:relative;height:26px;font-family:var(--f-mono);font-size:18px;color:var(--muted)}
+.bscale span{position:absolute;transform:translateX(-50%)}
+.npts{display:flex;flex-direction:column;gap:10px;margin-top:22px}
+.npts div{font-size:24px;line-height:1.5;padding-left:18px;border-left:5px solid var(--blue)}
+
+/* case / game slips */
+.case .slip,.game .slip{width:400px}
+</style>
+
+<div id="stage" role="region" aria-label="投影片">
+
+<!-- 1 封面 -->
+<section class="slide cover active" data-sec="0">
+  <div>
+    <p class="eyebrow">急診護理在職教育　約 20 分鐘</p>
+    <h1 class="cover-title">電解質<span>在搞鬼</span></h1>
+    <p class="cover-sub">電解質急症——高低血鉀、低血鈉、低血鈣與低血鎂</p>
+  </div>
+  <div class="crew">
+    <div class="m"><div class="m-wrap bob" data-mascot="worried" data-label="K⁺" data-color="#1F7A80"><div class="bubble">我 6.8 了……</div></div><strong>鉀</strong><span>管心跳、管肌肉</span></div>
+    <div class="m"><div class="m-wrap" data-mascot="happy" data-label="Na⁺" data-color="#2E5BC9"></div><strong>鈉</strong><span>管水、管腦</span></div>
+    <div class="m"><div class="m-wrap" data-mascot="happy" data-label="Ca²⁺" data-color="#B06A08"></div><strong>鈣</strong><span>管肌肉收縮、保護心肌</span></div>
+    <div class="m"><div class="m-wrap" data-mascot="happy" data-label="Mg²⁺" data-color="#6A4BC4"></div><strong>鎂</strong><span>鉀跟鈣的好幫手</span></div>
+  </div>
+  <p class="byline">天晟醫院 急診科　陳孝綱</p>
+  <aside class="notes"><b>0:30</b>開場。今天四個主角：鉀、鈉、鈣、鎂。數字差一點點，病人差很多——尤其是鉀，會直接讓心臟停。操作：← → 或翻頁器換頁，F 全螢幕，N 開關講稿。</aside>
+</section>
+
+<!-- 2 暖身 -->
+<section class="slide" data-sec="0">
+  <div class="head"><p class="eyebrow">暖身 · 舉手投票</p><h2>報告跳出血鉀 6.8，你第一步？</h2></div>
+  <div class="body poll">
+    <div>
+      <div class="slip-wrap" id="warmSlip"></div>
+      <p class="note" style="margin-top:18px">52 歲，腳踝扭傷，意識清楚，說自己沒有不舒服</p>
+    </div>
+    <div class="opts" data-poll="pre">
+      <button class="vote" data-i="0"><span class="fill"></span><span class="k">A</span><span>八成是溶血，請檢驗科重抽就好</span><span class="n">0</span></button>
+      <button class="vote" data-i="1"><span class="fill"></span><span class="k">B</span><span>接心電圖、通知醫師，同時安排重抽</span><span class="n">0</span></button>
+      <button class="vote" data-i="2"><span class="fill"></span><span class="k">C</span><span>等醫師自己看到報告再說</span><span class="n">0</span></button>
+      <button class="tiny" data-reset="pre">票數歸零</button>
+    </div>
+  </div>
+  <aside class="notes"><b>1:00</b>請大家舉手，每舉一隻手點一下計票。這題很真實：病人看起來很好，大家都想說是溶血。先不講答案，最後一頁再投一次。</aside>
+</section>
+
+<!-- 3 四個數字 -->
+<section class="slide" data-sec="0">
+  <div class="head"><p class="eyebrow">基礎 · 背起來就好</p><h2>四個正常值，四種工作</h2></div>
+  <div class="body">
+    <div class="quad">
+      <div><span class="lab c-blue">鈉 Na⁺</span><span class="bigv c-blue">140</span><span class="rng">135 – 145 mEq/L</span><p>管身體的水往哪裡跑，太低 → 腦水腫</p></div>
+      <div><span class="lab c-teal">鉀 K⁺</span><span class="bigv c-teal">4</span><span class="rng">3.5 – 5.0 mEq/L</span><p>管心臟跟肌肉的電，太高太低都會心律不整</p></div>
+      <div><span class="lab c-amber">鈣 Ca²⁺</span><span class="bigv c-amber">9</span><span class="rng">8.5 – 10.5 mg/dL</span><p>管肌肉收縮、凝血，太低 → 抽筋、發麻</p></div>
+      <div><span class="lab c-purple">鎂 Mg²⁺</span><span class="bigv c-purple">2</span><span class="rng">1.8 – 2.4 mg/dL</span><p>穩定心律，太低 → 鉀、鈣都補不上來</p></div>
+    </div>
+    <p class="mnemo">口訣：<b>鈉 140、鉀 4、鈣 9、鎂 2</b>　<span class="muted" style="font-size:22px">（實際參考值依本院檢驗科）</span></p>
+  </div>
+  <aside class="notes"><b>0:45</b>一起念一次「140、4、9、2」。注意鉀的正常範圍很窄：3.5 到 5，差 1 就要緊張。</aside>
+</section>
+
+<!-- 4 鉀住在哪 -->
+<section class="slide" data-sec="1">
+  <div class="head"><p class="eyebrow">鉀 · 鉀住在哪裡</p><h2>98% 的鉀住在細胞裡，血裡只有一點點</h2></div>
+  <div class="body kgrid">
+    <div class="kcell" id="kcell">
+      <div class="mem" id="mem"></div>
+      <span class="lbl" style="left:300px;top:100px">細胞內</span>
+      <span class="lbl" style="left:0;top:470px">圓圈外 = 血液（抽血驗的是這裡）</span>
+    </div>
+    <div>
+      <div class="seg" role="group" aria-label="切換情境">
+        <button class="sbtn on" data-k="base">平常</button>
+        <button class="sbtn" data-k="acid">酸中毒</button>
+        <button class="sbtn" data-k="insulin">打胰島素</button>
+        <button class="sbtn" data-k="lysis">細胞破掉</button>
+      </div>
+      <div class="kmeter">
+        <div class="top"><span>血中 K⁺（mEq/L）</span><b id="kVal">4.0</b></div>
+        <div class="kbar"><div class="nb"></div><div class="mk" id="kMk" style="left:40%"></div></div>
+        <div class="kscale"><span>2.0</span><span>3.5</span><span>5.0</span><span>7.0</span></div>
+      </div>
+      <p class="kcap" id="kCap"></p>
+    </div>
+  </div>
+  <aside class="notes"><b>1:00</b>依序點四個情境。重點：血鉀只是「血裡那一點點」，鉀在細胞內外搬家就能讓數字大起大落。「細胞破掉」同時說明兩件事：橫紋肌溶解是真的高血鉀；抽血溶血則是試管裡的假性高血鉀。</aside>
+</section>
+
+<!-- 5 鉀與心電圖 -->
+<section class="slide" data-sec="1">
+  <div class="head"><p class="eyebrow">鉀 · 拉拉看</p><h2>血鉀一變，心電圖馬上跟著變</h2></div>
+  <div class="body" style="display:flex;flex-direction:column;gap:14px">
+    <div class="kread">
+      <span class="kv" id="kv">4.0</span>
+      <div><h3 id="kT">正常</h3><p id="kP">T 波圓圓的，QRS 窄窄的。</p></div>
+      <div class="m-wrap" id="kMascot" data-mascot="happy" data-label="K⁺" data-color="#2F9A5A"></div>
+    </div>
+    <div class="ecg" id="kEcg" data-w="1408" data-h="250"></div>
+    <div class="range-strip">
+      <div class="kstrip"></div>
+      <input type="range" id="kR" min="1.5" max="9.5" step="0.1" value="4.0" aria-label="調整血鉀">
+      <div class="ticks"><span style="left:6.25%">2</span><span style="left:25%">3.5</span><span style="left:43.75%">5</span><span style="left:56.25%">6</span><span style="left:68.75%">7</span><span style="left:81.25%">8</span><span style="left:93.75%">9</span></div>
+    </div>
+  </div>
+  <aside class="notes"><b>1:30</b>慢慢把拉桿往右拉：T 波變尖 → P 波變小、PR 變長 → QRS 變寬 → 變成正弦波。再往左拉到 2.5：T 波平掉、U 波冒出來。提醒：心電圖變化不一定跟數字平行，數字高但心電圖正常，一樣要處理。</aside>
+</section>
+
+<!-- 6 高血鉀原因 -->
+<section class="slide" data-sec="1">
+  <div class="head"><p class="eyebrow">高血鉀 · 為什麼會發生</p><h2>腎、藥、破、酸，還有「假的」</h2></div>
+  <div class="body" style="display:flex;flex-direction:column;gap:18px">
+    <div class="tiles" style="--cols:5;--th:420px">
+      <button class="tile" style="--ts:var(--teal-soft);--tc:var(--teal)"><span class="ch">腎</span><span class="nm">排不出去</span><span class="dt">急慢性腎衰竭<br>洗腎病人錯過洗腎<br>（週一最常見：隔了一個週末）</span><span class="tp">點我</span></button>
+      <button class="tile" style="--ts:var(--teal-soft);--tc:var(--teal)"><span class="ch">藥</span><span class="nm">藥物</span><span class="dt">ACEI／ARB 降壓藥<br>Spironolactone<br>NSAID 止痛藥<br>口服或點滴補鉀過量</span><span class="tp">點我</span></button>
+      <button class="tile" style="--ts:var(--teal-soft);--tc:var(--teal)"><span class="ch">破</span><span class="nm">細胞破掉</span><span class="dt">橫紋肌溶解、擠壓傷<br>腫瘤溶解<br>大面積燒傷<br>大量輸血</span><span class="tp">點我</span></button>
+      <button class="tile" style="--ts:var(--teal-soft);--tc:var(--teal)"><span class="ch">酸</span><span class="nm">搬出細胞</span><span class="dt">酸中毒<br>DKA（缺胰島素）<br>鉀從細胞搬到血裡</span><span class="tp">點我</span></button>
+      <button class="tile" style="--ts:var(--red-soft);--tc:var(--red)"><span class="ch">假</span><span class="nm">假性高血鉀</span><span class="dt">抽血溶血<br>止血帶綁太久、反覆握拳拍打<br>從點滴同側抽血<br>檢體放太久才送</span><span class="tp">點我</span></button>
+    </div>
+    <p class="keybox">「假的」是護理端可以避免的：抽血順利、止血帶 1 分鐘內鬆開、盡快送檢。</p>
+  </div>
+  <aside class="notes"><b>1:00</b>先讓大家猜再翻卡。最後一張「假的」最重要——但就算懷疑是溶血，也要先接心電圖再重抽，不能直接當作沒事。</aside>
+</section>
+
+<!-- 7 穩推排 -->
+<section class="slide" data-sec="1">
+  <div class="head"><p class="eyebrow">高血鉀 · 處置三步驟</p><h2>穩、推、排</h2></div>
+  <div class="body" style="display:flex;flex-direction:column">
+    <div class="steps" style="--lead:400px">
+      <div style="display:flex;flex-direction:column;gap:18px">
+        <div class="slip-wrap" id="hkSlip"></div>
+        <button class="gbtn pri" data-reveal style="align-self:flex-start">下一步</button>
+      </div>
+      <div class="step" style="--stc:var(--amber)"><span class="no">第 1 步</span><h3>穩：保護心臟</h3><p>Calcium gluconate 10% 10 mL IV，數分鐘緩慢推注</p><div class="res">1–3 分鐘起效、撐 30–60 分鐘。<br><b>不會降鉀</b>，心電圖沒改善依醫囑可重複。</div></div>
+      <div class="step" style="--stc:var(--teal)"><span class="no">第 2 步</span><h3>推：趕回細胞</h3><p>Regular insulin 10 U IV ＋ 50% 葡萄糖 50 mL；可加 Salbutamol 吸入</p><div class="res">15–30 分鐘起效，約降 0.5–1 mEq/L。<br>只是暫時搬家，幾小時後會<b>反彈</b>。</div></div>
+      <div class="step" style="--stc:var(--blue)"><span class="no">第 3 步</span><h3>排：送出身體</h3><p>利尿劑、降鉀樹脂（如 Kalimate、Lokelma）、洗腎</p><div class="res">最慢但最根本。<br>腎衰竭病人最後常要靠<b>緊急洗腎</b>。</div></div>
+    </div>
+    <p class="note" style="margin-top:20px;font-size:22px">劑量為常見成人參考，實際依醫囑與本院流程。</p>
+  </div>
+  <aside class="notes"><b>1:30</b>按「下一步」逐步亮答案。記法：穩（鈣）→ 推（胰島素＋糖）→ 排（利尿、樹脂、洗腎）。最常考：鈣不會降鉀；胰島素之後會低血糖。</aside>
+</section>
+
+<!-- 8 護理重點 -->
+<section class="slide" data-sec="1">
+  <div class="head"><p class="eyebrow">高血鉀 · 護理重點</p><h2>血鉀高的病人，護理端的六件事</h2></div>
+  <div class="body checks">
+    <button class="chk"><span><strong>馬上接心電圖</strong><span>看 T 波、QRS 寬度，印節律條留存</span></span></button>
+    <button class="chk"><span><strong>抽血避免溶血</strong><span>止血帶 1 分鐘內鬆開、不拍打、不從點滴同側抽</span></span></button>
+    <button class="chk"><span><strong>鈣劑慢慢推</strong><span>確認管路通暢；不可和 NaHCO₃ 同管（會沉澱）</span></span></button>
+    <button class="chk"><span><strong>胰島素後盯血糖</strong><span>每小時測、持續數小時；洗腎病人更容易低血糖</span></span></button>
+    <button class="chk"><span><strong>1–2 小時追血鉀</strong><span>推回細胞只是暫時，會反彈</span></span></button>
+    <button class="chk"><span><strong>洗腎病人問上次洗腎</strong><span>聯絡洗腎室；瘻管手臂不量血壓、不抽血</span></span></button>
+  </div>
+  <aside class="notes"><b>1:00</b>每講一項打一個勾。第四點：胰島素打下去 1–3 小時最容易低血糖，病人如果沒吃東西更危險。</aside>
+</section>
+
+<!-- 9 情境 1 -->
+<section class="slide" data-sec="1">
+  <div class="head"><p class="eyebrow">情境劇場 1</p><h2>洗腎阿伯，週一早上全身沒力</h2></div>
+  <div class="body case">
+    <div>
+      <p class="story"><b>63 歲男性，</b>週五洗完腎後，這週一的洗腎沒去。四肢無力，心跳 48。血鉀 7.8。</p>
+      <div class="ecg" id="caseEcg" data-w="460" data-h="210" data-lead="II"></div>
+    </div>
+    <div class="quiz">
+      <p class="q">醫囑 Calcium gluconate 10% 10 mL，你會？</p>
+      <div class="qopts">
+        <button class="qo" data-ok><span class="k">A</span><span>IV 緩慢推注，推的時候持續看心電圖</span></button>
+        <button class="qo"><span class="k">B</span><span>先等重抽的血鉀出來，確定是真的再給</span></button>
+        <button class="qo"><span class="k">C</span><span>和 NaHCO₃ 接在同一條管路一起快推</span></button>
+        <button class="qo"><span class="k">D</span><span>改成肌肉注射比較安全</span></button>
+      </div>
+      <p class="explain" hidden>洗腎沒洗＋心跳慢＋QRS 變寬 → <b>危險的高血鉀</b>，不能等。鈣劑要 IV 慢推、邊推邊看心電圖；和 NaHCO₃ 同管會沉澱。接著「推」和「排」——這位最後要緊急洗腎。</p>
+    </div>
+  </div>
+  <aside class="notes"><b>1:30</b>先請大家看心電圖說出變化（T 波高尖、QRS 變寬、P 波不見）。再選處置。</aside>
+</section>
+
+<!-- 10 低血鉀 -->
+<section class="slide" data-sec="1">
+  <div class="head"><p class="eyebrow">低血鉀 · 另一個方向</p><h2>鉀太少，肌肉沒力、心臟也會亂</h2></div>
+  <div class="body lowk">
+    <div>
+      <h3 style="margin-bottom:10px">為什麼會低</h3>
+      <div class="lst">
+        <div>吐、拉<small>腸胃液裡有很多鉀</small></div>
+        <div>利尿劑<small>Furosemide、Thiazide 從尿排掉</small></div>
+        <div>搬進細胞<small>胰島素（DKA 治療中）、Salbutamol、鹼中毒</small></div>
+        <div>吃不下、酗酒<small>常常合併低血鎂</small></div>
+      </div>
+    </div>
+    <div>
+      <h3 style="margin-bottom:10px">病人會怎樣</h3>
+      <div class="lst">
+        <div>肌肉無力、抽筋<small>嚴重時連呼吸肌都沒力</small></div>
+        <div>腸子不動<small>腹脹、便秘、麻痺性腸阻塞</small></div>
+        <div>心律不整<small>吃毛地黃（Digoxin）的病人特別危險</small></div>
+      </div>
+      <div class="ecg" id="lowEcg" data-w="640" data-h="170" data-lead="K⁺ 2.3：T 波平、U 波明顯" style="margin-top:16px"></div>
+    </div>
+  </div>
+  <aside class="notes"><b>1:00</b>強調兩件事：低鎂沒補，鉀補不上來；補鉀前先看腎功能和尿量，沒尿的人補鉀要很小心。</aside>
+</section>
+
+<!-- 11 補鉀檢查 -->
+<section class="slide" data-sec="1">
+  <div class="head"><p class="eyebrow">低血鉀 · 補鉀安全檢查</p><h2>KCl 是高警訊藥物，掛之前算一下</h2></div>
+  <div class="body kcl">
+    <div>
+      <div class="row"><span>管路</span><div class="seg" id="kRoute"><button class="sbtn on" data-v="p">周邊靜脈</button><button class="sbtn" data-v="c">中心靜脈</button></div></div>
+      <div class="row"><span>KCl</span><div class="seg" id="kAmt"><button class="sbtn" data-v="10">10 mEq</button><button class="sbtn on" data-v="20">20 mEq</button><button class="sbtn" data-v="40">40 mEq</button></div></div>
+      <div class="row"><span>加入</span><div class="seg" id="kVol"><button class="sbtn" data-v="100">100 mL</button><button class="sbtn" data-v="250">250 mL</button><button class="sbtn on" data-v="500">500 mL</button><button class="sbtn" data-v="1000">1000 mL</button></div></div>
+      <div class="row"><span>給法</span><div class="seg" id="kHow"><button class="sbtn on" data-v="pump">輸液幫浦</button><button class="sbtn" data-v="push">IV push</button></div></div>
+      <div class="sl"><label for="kHr"><span>滴注時間（小時）</span><b id="vkHr">4</b></label><input type="range" id="kHr" min="0.5" max="8" step="0.5" value="4"></div>
+    </div>
+    <div>
+      <div class="kout" id="kOut"></div>
+      <div class="verdicts" id="kVer"></div>
+      <p class="note" style="margin-top:14px">本頁門檻為教學示範（周邊 ≤ 10 mEq/h、≤ 40 mEq/L；中心 ≤ 20 mEq/h 且接心電圖），實際依本院給藥規範。</p>
+    </div>
+  </div>
+  <aside class="notes"><b>1:30</b>先示範安全的組合（周邊、20 mEq、500 mL、4 小時），再改成 40 mEq 加 100 mL 跑 1 小時，看警示跳出來。最後按「IV push」——這個永遠是紅色。加完藥記得把袋子翻轉搖勻，KCl 比較重會沉在底部。</aside>
+</section>
+
+<!-- 12 低血鈉 -->
+<section class="slide" data-sec="2">
+  <div class="head"><p class="eyebrow">低血鈉 · 腦子在腫</p><h2>鈉越低，水越往腦細胞裡跑</h2></div>
+  <div class="body na">
+    <div>
+      <div class="track" role="tablist" aria-label="血鈉下降">
+        <button class="stop on" data-st="0"><i>130</i><span>輕微</span></button>
+        <button class="stop" data-st="1"><i>125</i><span>中度</span></button>
+        <button class="stop" data-st="2"><i>120</i><span>嚴重</span></button>
+        <button class="stop" data-st="3"><i>115</i><span>危急</span></button>
+      </div>
+      <div class="state" id="naState"></div>
+      <p class="fine">症狀看「掉多快」比看數字準：48 小時內掉下來的急性低血鈉更容易抽搐；慢性的病人 118 可能還在走路，但很容易跌倒。</p>
+    </div>
+    <svg class="brain" viewBox="0 0 400 420" aria-label="腦水腫示意">
+      <ellipse cx="200" cy="200" rx="170" ry="180" fill="#fff" stroke="#172421" stroke-width="10"/>
+      <g class="bb" id="brainG">
+        <path d="M200 70 C110 70 60 130 62 200 C64 280 120 320 200 322 C280 320 336 280 338 200 C340 130 290 70 200 70Z" fill="#F5C9C0"/>
+        <path d="M200 80 V312 M120 130 Q150 160 120 190 Q95 220 130 250 M280 130 Q250 160 280 190 Q305 220 270 250 M160 110 Q175 140 160 170 M240 110 Q225 140 240 170 M150 280 Q180 260 200 285 Q220 260 250 280" fill="none" stroke="#D98E82" stroke-width="7" stroke-linecap="round"/>
+      </g>
+      <g id="drops" opacity="0"><path d="M60 360 q10 18 0 26 q-10 -8 0 -26z M340 360 q10 18 0 26 q-10 -8 0 -26z" fill="#6F97E0"/></g>
+      <text x="200" y="408" text-anchor="middle" font-size="22" fill="#5B6A64" id="brainTxt" font-family="Noto Sans TC,Microsoft JhengHei,sans-serif"></text>
+    </svg>
+  </div>
+  <aside class="notes"><b>1:00</b>依序點 130 → 115，右邊腦子越腫越大，但頭骨不會變大——所以會頭痛、嘔吐、抽搐。常見族群：吃 Thiazide 的老人、喝太多水（啤酒、茶、運動後）、SIADH。</aside>
+</section>
+
+<!-- 13 矯正速度 -->
+<section class="slide" data-sec="2">
+  <div class="head"><p class="eyebrow">低血鈉 · 慢慢來</p><h2>鈉要拉，但一天不能拉超過 8–10</h2></div>
+  <div class="body speed">
+    <div>
+      <div class="sl"><label for="n0"><span>一開始的鈉</span><b id="vn0">114</b></label><input type="range" id="n0" min="100" max="134" value="114"></div>
+      <div class="sl"><label for="n1"><span>現在的鈉</span><b id="vn1">119</b></label><input type="range" id="n1" min="100" max="145" value="119"></div>
+      <div class="sl"><label for="nh"><span>經過幾小時</span><b id="vnh">6</b></label><input type="range" id="nh" min="1" max="24" value="6"></div>
+      <div class="presets" id="naPre">
+        <button class="pbtn" data-p="114,119,6">3% 救急後</button>
+        <button class="pbtn" data-p="114,122,12">12 小時</button>
+        <button class="pbtn" data-p="112,125,20">尿突然變很多</button>
+      </div>
+    </div>
+    <div>
+      <div style="display:flex;align-items:baseline;gap:22px"><span class="bnum" id="naRise">+5</span><span style="font-size:26px">mEq/L　/ 24 小時額度</span><span class="chip green" id="naChip">安全</span></div>
+      <div class="budget"><div class="fillb" id="naFill"></div><div class="l8"></div><div class="l10"></div></div>
+      <div class="bscale"><span style="left:0;transform:none">0</span><span style="left:66.7%">8</span><span style="left:83.3%">10</span><span style="left:100%;transform:translateX(-100%)">12</span></div>
+      <div class="npts">
+        <div>有抽搐、昏迷：依醫囑 3% NaCl 快速給，先拉 4–6 讓症狀緩解</div>
+        <div>每 2–4 小時追一次鈉；記錄輸出入量</div>
+        <div><b>尿量突然變很多</b> → 鈉可能衝太快，立即回報</div>
+        <div>太快 → 滲透性脫髓鞘（ODS）：幾天後講話不清、吞嚥困難，難以恢復</div>
+      </div>
+    </div>
+  </div>
+  <aside class="notes"><b>1:30</b>點三個預設：救急後 +5 沒問題；12 小時 +8 已經碰到高風險病人的上限；「尿突然變很多」20 小時 +13，太快了，要回報醫師（可能要給水或 DDAVP 拉回來）。酗酒、營養不良、低血鉀、肝病的人上限抓 8。</aside>
+</section>
+
+<!-- 14 情境 2 -->
+<section class="slide" data-sec="2">
+  <div class="head"><p class="eyebrow">情境劇場 2</p><h2>天氣熱，阿嬤水喝很多</h2></div>
+  <div class="body case">
+    <div>
+      <p class="story"><b>78 歲女性，</b>高血壓吃 Thiazide 利尿劑。最近天熱每天灌好幾瓶水，今天在家抽搐一次，現在嗜睡。</p>
+      <div class="slip-wrap" id="naSlip"></div>
+    </div>
+    <div class="quiz">
+      <p class="q">下列哪一個處置最適當？</p>
+      <div class="qopts">
+        <button class="qo"><span class="k">A</span><span>快速灌 2000 mL 生理食鹽水把鈉拉上來</span></button>
+        <button class="qo" data-ok><span class="k">B</span><span>依醫囑 3% NaCl、抽搐與跌倒預防，每 2–4 小時追鈉</span></button>
+        <button class="qo"><span class="k">C</span><span>限水就好，慢慢會好</span></button>
+        <button class="qo"><span class="k">D</span><span>讓她多喝運動飲料補電解質</span></button>
+      </div>
+      <p class="explain" hidden>鈉 114 又抽搐 → <b>有嚴重症狀的低血鈉</b>，要用 3% NaCl 先拉 4–6；之後 24 小時總上升不超過 8–10。停 Thiazide。補鉀也會讓鈉上升，要一起算進去。</p>
+    </div>
+  </div>
+  <aside class="notes"><b>1:30</b>延伸：為什麼 C 不夠？——有抽搐就不能只限水。為什麼要注意鉀？——補鉀也會讓鈉往上跑，常常是鈉衝太快的原因之一。</aside>
+</section>
+
+<!-- 15 鈣鎂 -->
+<section class="slide" data-sec="3">
+  <div class="head"><p class="eyebrow">低血鈣・低血鎂 · 神經肌肉太興奮</p><h2>嘴角抽、手抽筋，想到鈣和鎂</h2></div>
+  <div class="body" style="display:flex;flex-direction:column">
+    <div class="flips">
+      <button class="flip" aria-pressed="false" style="--fs:var(--amber-soft);--fc:var(--amber)"><div class="flip-in">
+        <div class="face front"><small>低血鈣</small><h3>Chvostek<br>徵象</h3><span class="hint">點我翻面</span></div>
+        <div class="face back"><h4>Chvostek 徵象</h4><p>輕敲耳朵前方（顏面神經）→ <b>同側嘴角、臉部抽動</b>。</p><p class="muted" style="font-size:20px">正常人也有少數會陽性，要配合症狀判斷。</p></div>
+      </div></button>
+      <button class="flip" aria-pressed="false" style="--fs:var(--amber-soft);--fc:var(--amber)"><div class="flip-in">
+        <div class="face front"><small>低血鈣</small><h3>Trousseau<br>徵象</h3><span class="hint">點我翻面</span></div>
+        <div class="face back"><h4>Trousseau 徵象</h4><p>血壓計袖帶打到高於收縮壓、維持約 3 分鐘 → <b>手腕彎曲、手指併攏抽筋</b>。</p><p class="muted" style="font-size:20px">比 Chvostek 更有意義。</p></div>
+      </div></button>
+      <button class="flip" aria-pressed="false" style="--fs:var(--amber-soft);--fc:var(--amber)"><div class="flip-in">
+        <div class="face front"><small>低血鈣 常見情境</small><h3>誰會<br>低血鈣</h3><span class="hint">點我翻面</span></div>
+        <div class="face back"><h4>常見情境</h4><ul><li>甲狀腺／副甲狀腺手術後</li><li>大量輸血（抗凝劑綁走鈣）</li><li>急性胰臟炎</li></ul><p><b>處置：</b>依醫囑 Calcium gluconate IV</p></div>
+      </div></button>
+      <button class="flip" aria-pressed="false" style="--fs:var(--purple-soft);--fc:var(--purple)"><div class="flip-in">
+        <div class="face front"><small>低血鎂</small><h3>QT 延長<br>→ Torsades</h3><span class="hint">點我翻面</span></div>
+        <div class="face back"><h4>低血鎂</h4><ul><li>酗酒、腹瀉、利尿劑、長期吃胃藥（PPI）</li><li>QT 延長 → 多形性 VT（Torsades）</li></ul><p><b>處置：</b>依醫囑 MgSO₄ 2 g IV；低鉀一起補</p></div>
+      </div></button>
+    </div>
+    <p class="note" style="margin-top:22px;font-size:23px">共同表現：嘴唇、手指發麻，肌肉抽筋，嚴重時喉頭痙攣、抽搐、心律不整。</p>
+  </div>
+  <aside class="notes"><b>1:00</b>可以請一位同仁上台示範 Trousseau（袖帶打起來就好，不用真的等 3 分鐘）。低鎂最常見於酗酒和長期吃胃藥的病人。</aside>
+</section>
+
+<!-- 16 電解質偵探 -->
+<section class="slide" data-sec="4">
+  <div class="gtop">
+    <div class="head"><p class="eyebrow">實戰 · 分組搶答</p><h2>電解質偵探</h2></div>
+    <div class="score">
+      <div class="team red"><span class="tn">紅隊</span><button data-t="0" data-d="-1" aria-label="紅隊減一分">−</button><span class="ts" id="ts0">0</span><button data-t="0" data-d="1" aria-label="紅隊加一分">+</button></div>
+      <div class="team blue"><span class="tn">藍隊</span><button data-t="1" data-d="-1" aria-label="藍隊減一分">−</button><span class="ts" id="ts1">0</span><button data-t="1" data-d="1" aria-label="藍隊加一分">+</button></div>
+    </div>
+  </div>
+  <div class="body game">
+    <div><p class="gno" id="gNo">第 1 / 6 題</p><p class="story" id="gStory" style="min-height:120px"></p><div id="gVis"></div></div>
+    <div>
+      <p class="q">主要問題是？</p>
+      <div class="gopts" id="gOpts"></div>
+      <p class="explain" id="gWhy" hidden></p>
+      <div class="gnav"><button class="gbtn" id="gPrev">上一題</button><button class="gbtn pri" id="gNext">下一題</button><span class="gdots" id="gDots"></span></div>
+    </div>
+  </div>
+  <aside class="notes"><b>2:30</b>分兩隊搶答，答對按「+」。答完追問「第一步做什麼」再加一分。</aside>
+</section>
+
+<!-- 17 是非 -->
+<section class="slide" data-sec="4">
+  <div class="head"><p class="eyebrow">實戰 · 快問快答 ○ ✕</p><h2 id="tfNo">第 1 / 5 題</h2></div>
+  <div class="body tf">
+    <div><p class="tfq" id="tfQ"></p><div class="tfa" id="tfA"></div></div>
+    <div>
+      <div class="ring"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="52" fill="none" stroke="#E5EAE3" stroke-width="12"/><circle id="tfArc" cx="60" cy="60" r="52" fill="none" stroke="#172421" stroke-width="12" stroke-linecap="round" stroke-dasharray="326.7" stroke-dashoffset="0"/></svg><span class="t" id="tfT">10</span></div>
+      <div class="tfbtns"><button class="gbtn" id="tfGo">倒數</button><button class="gbtn pri" id="tfShow">揭曉</button><button class="gbtn" id="tfNext">下一題</button></div>
+    </div>
+  </div>
+  <aside class="notes"><b>1:00</b>唸題目 → 按「倒數」給 10 秒 → 按「揭曉」。</aside>
+</section>
+
+<!-- 18 總結 -->
+<section class="slide" data-sec="5">
+  <div class="head"><p class="eyebrow">總結 · 帶走三句話</p><h2>下次電解質報告跳紅字，你會？</h2></div>
+  <div class="body wrapg">
+    <div>
+      <div class="take">
+        <div style="--c:var(--teal)"><b>高血鉀</b><p>先接心電圖，再穩（鈣）、推（胰島素＋糖）、排（利尿、樹脂、洗腎）</p></div>
+        <div style="--c:var(--red)"><b>補鉀</b><p>KCl 絕不 IV push：幫浦、搖勻、速度與濃度照規範</p></div>
+        <div style="--c:var(--blue)"><b>低血鈉</b><p>有症狀才急，矯正要慢：24 小時不超過 8–10</p></div>
+      </div>
+      <p class="thanks">謝謝大家，有問題現在問</p>
+    </div>
+    <div class="post">
+      <h3>再投一次：血鉀 6.8、病人看起來很好？</h3>
+      <p class="legend"><span><i></i>課前票數</span><span>底色：課後票數</span></p>
+      <div class="opts" data-poll="post">
+        <button class="vote" data-i="0"><span class="fill"></span><span class="ghost"></span><span class="k">A</span><span>八成是溶血，請檢驗科重抽就好</span><span class="n">0</span></button>
+        <button class="vote" data-i="1"><span class="fill"></span><span class="ghost"></span><span class="k">B</span><span>接心電圖、通知醫師，同時安排重抽</span><span class="n">0</span></button>
+        <button class="vote" data-i="2"><span class="fill"></span><span class="ghost"></span><span class="k">C</span><span>等醫師自己看到報告再說</span><span class="n">0</span></button>
+        <button class="tiny" data-reset="post">票數歸零</button>
+      </div>
+    </div>
+  </div>
+  <aside class="notes"><b>0:45</b>三句話跟著念。右邊再投一次，細灰線是課前票數。</aside>
+</section>
+
+<nav class="bar" aria-label="投影片導覽">
+  <ul class="secs" id="secs"></ul>
+  <div class="ctrl">
+    <span class="count" id="count">1 / 1</span>
+    <button class="ibtn" id="prev" aria-label="上一張">←</button>
+    <button class="ibtn" id="next" aria-label="下一張">→</button>
+    <button class="ibtn" id="noteBtn" title="講稿（N）">講稿</button>
+    <button class="ibtn" id="fsBtn" title="全螢幕（F）">全螢幕</button>
+  </div>
+</nav>
+</div>
+<div id="notes" hidden></div>
+
+<script>
+window.DECK={key:'lyte',secs:[['基礎','var(--ink)'],['鉀','var(--teal)'],['鈉','var(--blue)'],['鈣鎂','var(--amber)'],['實戰','var(--red)'],['總結','var(--green)']],
+  gameOpts:['高血鉀','低血鉀','低血鈉','低血鈣']};
+window.TF=[
+  {q:'KCl 可以直接 IV push，補得比較快。',a:false,w:'絕對禁止！KCl 快速推注會直接讓心跳停止。一定要稀釋、用輸液幫浦。'},
+  {q:'給鈣劑可以把血鉀降下來。',a:false,w:'鈣是「穩定心肌」，血鉀數字不會變。降鉀要靠胰島素＋葡萄糖、利尿劑、樹脂、洗腎。'},
+  {q:'抽血時止血帶綁太久、一直握拳，血鉀可能假性偏高。',a:true,w:'肌肉收縮和溶血都會讓鉀跑出來。止血帶 1 分鐘內鬆開、不要拍打。'},
+  {q:'低血鈉的病人，矯正得越快越好。',a:false,w:'24 小時上升不超過 8–10 mEq/L，太快會造成滲透性脫髓鞘，傷害難以恢復。'},
+  {q:'低血鎂沒有補，低血鉀常常補不上來。',a:true,w:'鎂不夠時腎臟會一直漏鉀。頑固的低血鉀要記得驗鎂、補鎂。'}
+];
+const L=(na,k,ca)=>[['Na⁺',na,'mEq/L',135,145,0],['K⁺',k,'mEq/L',3.5,5.0,1],['Ca',ca,'mg/dL',8.5,10.5,1]];
+window.GAME=[
+  {s:'<b>58 歲洗腎病人</b>，週一沒去洗腎，四肢無力、心跳 50，心電圖 T 波高尖。',lab:L(137,7.1,8.6),ok:0,w:'<b>高血鉀</b>。接心電圖 → 鈣劑穩定心肌 → 胰島素＋糖 → 聯絡緊急洗腎。'},
+  {s:'<b>74 歲女性</b>，腹瀉一週，還在吃利尿劑。腳沒力、肚子脹、便秘，心電圖有 U 波。',lab:L(136,2.6,8.9),ok:1,w:'<b>低血鉀</b>。依醫囑補鉀（口服優先，靜脈要用幫浦、控制速度），順便驗鎂。'},
+  {s:'<b>45 歲女性</b>，甲狀腺全切除手術後第二天，嘴唇和手指發麻、手抽筋。',lab:L(139,4.0,6.8),ok:3,w:'<b>低血鈣</b>（副甲狀腺受影響）。檢查 Trousseau 徵象，依醫囑 Calcium gluconate IV，接心電圖。'},
+  {s:'<b>28 歲男性</b>，跑完全馬後一直狂喝水，頭痛、嘔吐、意識開始混亂。',lab:L(121,3.8,9.0),ok:2,w:'<b>急性低血鈉</b>（喝太多水）。急性＋有神經症狀 → 依醫囑 3% NaCl，抽搐預防。'},
+  {s:'<b>40 歲工人</b>，腿被倒下的鐵架壓住 6 小時才救出，尿是可樂色。',lab:L(138,6.9,7.9),ok:0,w:'擠壓傷、橫紋肌溶解 → 肌肉細胞破掉 → <b>高血鉀</b>。接心電圖、大量輸液、監測尿量。'},
+  {s:'<b>19 歲 DKA 病人</b>，胰島素點滴跑了 3 小時，開始說肌肉沒力、監視器出現早期收縮。',lab:L(134,2.9,8.7),ok:1,w:'胰島素把鉀推回細胞 → <b>低血鉀</b>。DKA 治療中每 1–2 小時追鉀，K⁺ 低於 3.3 時先補鉀、暫停胰島素（依醫囑）。'}
+];
+GAME.forEach(g=>g.v=()=>`<div class="slip-wrap">${slip(g.lab,'CHEMISTRY','ER · STAT')}</div>`);
+</script>
+<script>
+(function(){
+const $=s=>document.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const D=window.DECK;
+const stage=$('#stage'), slides=$$('.slide');
+let cur=0;
+window.$=$;window.$$=$$;
+window.reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---------- mascot ---------- */
+const MOUTH={happy:'M-20 18 Q0 38 20 18',worried:'M-20 30 Q0 14 20 30',dizzy:'M-24 24 q6 -8 12 0 t12 0 t12 0 t12 0',flat:'M-18 24 L18 24'};
+window.MOUTH=MOUTH;
+window.mascot=function(label,mood,color){
+  const fs=label.length>2?24:30;
+  return `<svg class="mascot" viewBox="-75 -75 150 150" aria-hidden="true">
+  <ellipse cx="0" cy="68" rx="42" ry="6" fill="rgba(23,36,33,.14)"/>
+  <circle class="m-body" r="58" fill="${color}"/>
+  <text class="m-label" x="0" y="-22" text-anchor="middle" font-size="${fs}">${label}</text>
+  <circle cx="-20" cy="2" r="7.5" fill="#172421"/><circle cx="20" cy="2" r="7.5" fill="#172421"/>
+  <circle cx="-17.5" cy="-.5" r="2.5" fill="#fff"/><circle cx="22.5" cy="-.5" r="2.5" fill="#fff"/>
+  <path class="m-mouth" d="${MOUTH[mood]}" fill="none" stroke="#172421" stroke-width="6" stroke-linecap="round"/>
+  <path class="m-sweat" d="M50 -36 q9 15 0 22 q-9 -7 0 -22z" fill="#9CCBEB" opacity="${mood==='worried'?1:0}"/></svg>`;
+};
+window.setMascot=function(el,mood,color){
+  if(color)el.querySelector('.m-body').setAttribute('fill',color);
+  el.querySelector('.m-mouth').setAttribute('d',MOUTH[mood]);
+  el.querySelector('.m-sweat').setAttribute('opacity',mood==='worried'?1:0);
+};
+$$('[data-mascot]').forEach(el=>el.insertAdjacentHTML('afterbegin',mascot(el.dataset.label||'',el.dataset.mascot,el.dataset.color)));
+
+/* ---------- lab slip ---------- */
+// rows: [[name,value,unit,lo,hi,decimals]]
+window.slip=function(rows,head,foot){
+  const f=(v,lo,hi)=>lo==null?'<em></em>':v<lo?'<em class="L">L</em>':v>hi?'<em class="H">H</em>':'<em></em>';
+  return `<div class="slip"><div class="slip-h"><span>${head||'LAB'}</span><span>STAT</span></div>
+  ${rows.map(([n,v,u,lo,hi,dp])=>`<div class="slip-r"><span>${n}</span><b>${typeof v==='number'?v.toFixed(dp||0):v}</b><i>${u||''}</i>${f(v,lo,hi)}</div>`).join('')}
+  <div class="slip-f">${foot||''}</div></div>`;
+};
+window.vitals=function(v){return `<div class="vitals">${v.map(([n,val,cls])=>`<div><span>${n}</span><b class="${cls||'m-w'}">${val}</b></div>`).join('')}</div>`};
+
+/* ---------- navigation ---------- */
+const secs=$('#secs');
+D.secs.forEach(([n,c],i)=>{const li=document.createElement('li');li.innerHTML=`<button style="--c:${c}"><i></i>${n}</button>`;
+  li.firstChild.onclick=()=>go(slides.findIndex(s=>+s.dataset.sec===i));secs.appendChild(li)});
+slides.forEach(s=>s.style.setProperty('--sec',D.secs[+s.dataset.sec][1]));
+const notes=$('#notes');
+const hooks=[];window.onSlide=fn=>hooks.push(fn);
+function go(i){
+  i=Math.max(0,Math.min(slides.length-1,i));
+  slides.forEach((s,k)=>{s.classList.toggle('active',k===i);s.classList.toggle('past',k<i);s.toggleAttribute('inert',k!==i)});
+  cur=i;
+  $('#count').textContent=`${i+1} / ${slides.length}`;
+  $$('#secs button').forEach((b,k)=>b.classList.toggle('on',k===+slides[i].dataset.sec));
+  const n=slides[i].querySelector('.notes');notes.innerHTML=n?n.innerHTML:'';
+  try{history.replaceState(null,'','#'+(i+1))}catch(e){}
+  if(slides[i].querySelector('[data-poll="post"]'))renderPoll('post');
+  hooks.forEach(fn=>fn(slides[i],i));
+}
+window.go=go;
+function fit(){const s=Math.min(innerWidth/1600,innerHeight/900);stage.style.transform=`translate(-50%,-50%) scale(${s})`}
+addEventListener('resize',fit);fit();
+$('#prev').onclick=()=>go(cur-1);$('#next').onclick=()=>go(cur+1);
+function toggleNotes(){notes.hidden=!notes.hidden}
+function toggleFS(){if(!document.fullscreenElement)document.documentElement.requestFullscreen?.().catch(()=>{});else document.exitFullscreen?.()}
+$('#noteBtn').onclick=toggleNotes;$('#fsBtn').onclick=toggleFS;
+addEventListener('keydown',e=>{
+  const t=e.target, isField=t.type==='range'||t.type==='number'||t.tagName==='SELECT';
+  if(e.key==='PageDown'){e.preventDefault();t.blur?.();go(cur+1);return}
+  if(e.key==='PageUp'){e.preventDefault();t.blur?.();go(cur-1);return}
+  if(isField)return;
+  if(e.key==='ArrowRight'){go(cur+1)}
+  else if(e.key==='ArrowLeft'){go(cur-1)}
+  else if(e.key===' '&&t.tagName!=='BUTTON'){e.preventDefault();go(cur+1)}
+  else if(e.key==='Home')go(0); else if(e.key==='End')go(slides.length-1);
+  else if(e.key==='f'||e.key==='F')toggleFS();
+  else if(e.key==='n'||e.key==='N')toggleNotes();
+});
+let tx=null;
+stage.addEventListener('touchstart',e=>{tx=e.target.closest('input,button')?null:e.touches[0].clientX},{passive:true});
+stage.addEventListener('touchend',e=>{if(tx==null)return;const d=e.changedTouches[0].clientX-tx;if(Math.abs(d)>60)go(cur+(d<0?1:-1));tx=null});
+
+/* ---------- polls ---------- */
+const store={get(k,d){try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const nOpt=$$('[data-poll="pre"] .vote').length||3;
+const polls={pre:store.get(D.key+'-poll-pre',Array(nOpt).fill(0)),post:store.get(D.key+'-poll-post',Array(nOpt).fill(0))};
+function renderPoll(k){
+  const box=document.querySelector(`[data-poll="${k}"]`);if(!box)return;const v=polls[k];const max=Math.max(1,...v,...(k==='post'?polls.pre:[]));
+  $$('.vote',box).forEach((b,i)=>{b.querySelector('.n').textContent=v[i];b.querySelector('.fill').style.width=(v[i]/max*100)+'%';
+    const g=b.querySelector('.ghost');if(g)g.style.width=(polls.pre[i]/max*100)+'%'});
+}
+$$('[data-poll]').forEach(box=>{const k=box.dataset.poll;
+  $$('.vote',box).forEach(b=>b.onclick=()=>{polls[k][+b.dataset.i]++;store.set(D.key+'-poll-'+k,polls[k]);renderPoll(k)});
+  renderPoll(k)});
+$$('[data-reset]').forEach(b=>b.onclick=()=>{const k=b.dataset.reset;polls[k]=Array(nOpt).fill(0);store.set(D.key+'-poll-'+k,polls[k]);renderPoll(k)});
+
+/* ---------- flips / tiles / checklist ---------- */
+$$('.flip').forEach(b=>b.onclick=()=>{b.classList.toggle('on');b.setAttribute('aria-pressed',b.classList.contains('on'))});
+$$('.tile').forEach(b=>b.onclick=()=>b.classList.toggle('on'));
+const CHECK='<svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+$$('.chk').forEach(b=>{b.setAttribute('aria-pressed','false');b.insertAdjacentHTML('afterbegin',`<span class="box">${CHECK}</span>`);
+  b.onclick=()=>b.setAttribute('aria-pressed',b.getAttribute('aria-pressed')!=='true')});
+
+/* ---------- case quizzes ---------- */
+$$('.quiz').forEach(qz=>{const ex=qz.querySelector('.explain');
+  $$('.qo',qz).forEach(o=>o.onclick=()=>{
+    $$('.qo',qz).forEach(x=>x.classList.remove('right','wrong'));
+    if(o.hasAttribute('data-ok'))o.classList.add('right');else{o.classList.add('wrong');qz.querySelector('[data-ok]').classList.add('right')}
+    ex.hidden=false})});
+
+/* ---------- reveal steps ---------- */
+$$('[data-reveal]').forEach(btn=>{
+  const scope=btn.closest('.slide');let n=0;const label=btn.textContent;
+  btn.onclick=()=>{const r=$$('.res',scope);
+    if(n>=r.length){r.forEach(x=>x.classList.remove('show'));n=0;btn.textContent=label;return}
+    r[n++].classList.add('show');if(n>=r.length)btn.textContent='重來一次'}});
+
+/* ---------- game ---------- */
+function initExtras(){
+if(window.GAME&&$('#gOpts')){
+  let gi=0;const gOpts=$('#gOpts'),gWhy=$('#gWhy');
+  function renderGame(){
+    const g=GAME[gi],opts=g.o||D.gameOpts;$('#gNo').textContent=`第 ${gi+1} / ${GAME.length} 題`;$('#gStory').innerHTML=g.s;
+    $('#gVis').innerHTML=g.v?g.v(gi):'';
+    gOpts.innerHTML=opts.map((o,i)=>`<button class="qo" data-i="${i}"><span class="k">${'ABCD'[i]}</span><span>${o}</span></button>`).join('');
+    gWhy.hidden=true;gWhy.innerHTML=g.w;
+    $$('.qo',gOpts).forEach(b=>b.onclick=()=>{$$('.qo',gOpts).forEach(x=>x.classList.remove('right','wrong'));
+      const i=+b.dataset.i;if(i===g.ok)b.classList.add('right');else{b.classList.add('wrong');gOpts.children[g.ok].classList.add('right')}gWhy.hidden=false});
+    $('#gDots').innerHTML=GAME.map((_,i)=>`<i class="${i===gi?'on':''}"></i>`).join('');
+    $('#gPrev').disabled=gi===0;$('#gNext').textContent=gi===GAME.length-1?'回第 1 題':'下一題';
+    if(D.afterGame)D.afterGame(gi);
+  }
+  $('#gPrev').onclick=()=>{if(gi>0){gi--;renderGame()}};$('#gNext').onclick=()=>{gi=(gi+1)%GAME.length;renderGame()};renderGame();
+  const scores=[0,0];
+  $$('.team button').forEach(b=>b.onclick=()=>{const t=+b.dataset.t;scores[t]=Math.max(0,scores[t]+ +b.dataset.d);$('#ts'+t).textContent=scores[t]});
+}
+
+/* ---------- true / false ---------- */
+if(window.TF&&$('#tfQ')){
+  let ti=0,timer=null;const arc=$('#tfArc'),C=326.7;
+  const stopT=()=>{clearInterval(timer);timer=null};
+  function renderTF(){stopT();const t=TF[ti];$('#tfNo').textContent=`第 ${ti+1} / ${TF.length} 題`;$('#tfQ').textContent=t.q;$('#tfA').innerHTML='';
+    $('#tfT').textContent='10';arc.style.transition='none';arc.setAttribute('stroke-dashoffset',0);arc.setAttribute('stroke','#172421')}
+  $('#tfGo').onclick=()=>{stopT();let s=10;$('#tfT').textContent=s;arc.style.transition='stroke-dashoffset 1s linear';arc.setAttribute('stroke-dashoffset',0);
+    timer=setInterval(()=>{s--;$('#tfT').textContent=s;arc.setAttribute('stroke-dashoffset',C*(10-s)/10);if(s<=3)arc.setAttribute('stroke','#D9412B');if(s<=0)stopT()},1000)};
+  $('#tfShow').onclick=()=>{stopT();const t=TF[ti];$('#tfA').innerHTML=`<span class="mark ${t.a?'o':'x'}">${t.a?'○':'✕'}</span><span>${t.w}</span>`};
+  $('#tfNext').onclick=()=>{ti=(ti+1)%TF.length;renderTF()};renderTF();
+}
+
+}
+/* ---------- start ---------- */
+window.startDeck=function(){initExtras();const h=parseInt(location.hash.slice(1),10);go(h>0?h-1:0)};
+})();
+
+</script>
+<script>
+/* ---------- ECG waveform generator ---------- */
+const ECG=(()=>{
+  const g=(t,mu,sd)=>Math.exp(-((t-mu)*(t-mu))/(2*sd*sd));
+  const TAU=Math.PI*2;
+  function rnd(seed){let s=seed>>>0||1;return()=>((s=(Math.imul(s,1664525)+1013904223)>>>0)/4294967296)}
+  // one QRS-T complex, t relative to R peak
+  function cx(t,b){
+    if(b.wide){const a=b.a||1,w=b.qw||1;return a*(.95*g(t,0,.036*w)-.6*g(t,.095*w,.04*w))-.38*a*g(t,.34,.08)+(b.u||0)*g(t,.55,.05)}
+    const w=b.qw||1;
+    let y=-.1*g(t,-.028*w,.009*w)+(b.rA??1)*g(t,0,.012*w)-(b.sA??.28)*g(t,.03*w,.011*w)+(b.tA??.3)*g(t,b.tOff??.3,b.tSd??.06);
+    if(b.u)y+=b.u*g(t,(b.tOff??.3)+.2,.05);
+    if(b.st)y+=b.st*g(t,(b.tOff??.3)*.55,.06);
+    return y;
+  }
+  function Y(rh,t){
+    const D=rh.D;let y=rh.cont?rh.cont(((t%D)+D)%D):0;
+    const ks=rh.noWrap?[0]:[-1,0,1,2];
+    for(const k of ks)for(const e of rh.ev){const d=t-(e.t+k*D);if(d<-.25||d>.8)continue;
+      y+=e.k==='P'?(e.a??.12)*g(d,0,.024):cx(d,e.b||{})}
+    if(rh.sine){const m=rh.sine;y=y*(1-m)+m*.75*Math.sin(TAU*Math.round(2*D)*t/D)}
+    return y;
+  }
+  function regular(rate,D,o={}){
+    const n=Math.max(1,Math.round(D*rate/60)),RR=D/n,ev=[],ph=o.ph??RR*.55;
+    const b=Object.assign({tOff:Math.min(.3,RR*.55),tSd:RR<.45?.045:.06},o.b||{});
+    for(let i=0;i<n;i++){const tq=ph+i*RR;if(o.p!==false)ev.push({k:'P',t:tq-(o.pr??.16),a:o.pA});ev.push({k:'Q',t:tq,b})}
+    return {D,ev};
+  }
+  function strict(rate,D,seed){ // non-looping strip with random phase (for counting)
+    const RR=60/rate,r=rnd(seed),ev=[];let tq=.1+r()*RR;
+    const b={tOff:Math.min(.3,RR*.55),tSd:RR<.45?.045:.06};
+    while(tq<D+.5){ev.push({k:'P',t:tq-.16});ev.push({k:'Q',t:tq,b});tq+=RR}
+    return {D,ev,noWrap:true};
+  }
+  function afib(D,seed=7){
+    const r=rnd(seed);let ts=[],t=0;while(t<D-.3){t+=.38+r()*.55;ts.push(t)}
+    const sc=D/t;ts=ts.map(x=>x*sc);ts.pop();ts.unshift(0);
+    const b={tA:.16,tOff:.26,tSd:.05};
+    const k1=Math.round(6.2*D),k2=Math.round(4.4*D),k3=Math.round(8.3*D);
+    return {D,ev:ts.map(x=>({k:'Q',t:x+.2,b})),cont:t=>.05*Math.sin(TAU*k1*t/D)+.035*Math.sin(TAU*k2*t/D+1.3)+.025*Math.sin(TAU*k3*t/D+.4)};
+  }
+  function vf(D,amp=.55,seed=3){
+    const r=rnd(seed),comps=[];for(let i=0;i<9;i++)comps.push([Math.round((2.6+r()*4.6)*D),r()*TAU,.35+r()*.65]);
+    const m1=Math.max(1,Math.round(.35*D)),m2=Math.max(1,Math.round(.9*D)),m3=Math.max(1,Math.round(1.7*D));
+    const f=t=>{let s=0;for(const[k,ph,a]of comps)s+=a*Math.sin(TAU*k*t/D+ph);return amp*(.55+.22*Math.sin(TAU*m1*t/D)+.15*Math.sin(TAU*m2*t/D+2)+.08*Math.sin(TAU*m3*t/D+.7))*s/3.4};
+    return {D,ev:[],cont:f};
+  }
+  function asystole(D){const k=Math.max(1,Math.round(.3*D)),k2=Math.round(2.3*D);return {D,ev:[],cont:t=>.02*Math.sin(TAU*k*t/D)+.008*Math.sin(TAU*k2*t/D)}}
+  function wenck(){const D=6,ev=[],PR=[.18,.28,.38,null];for(let i=0;i<8;i++){const tp=.2+i*.75;ev.push({k:'P',t:tp});const pr=PR[i%4];if(pr)ev.push({k:'Q',t:tp+pr,b:{}})}return {D,ev}}
+  function mobitz2(){const D=6.3,ev=[];for(let i=0;i<9;i++){const tp=.2+i*.7;ev.push({k:'P',t:tp});if(i%3!==2)ev.push({k:'Q',t:tp+.18,b:{qw:1.5,tOff:.32}})}return {D,ev}}
+  function avb3(){const D=7,ev=[];for(let i=0;i<10;i++)ev.push({k:'P',t:.25+i*.7});for(let i=0;i<4;i++)ev.push({k:'Q',t:.9+i*1.75,b:{wide:true,a:.85,qw:.9}});return {D,ev}}
+
+  let uid=0;
+  function svg(rh,o={}){
+    const w=o.w||1400,h=o.h||240,D=rh.D,pps=w/D,mv=pps*.4*(o.gain||1)*(o.scale||1),y0=h*(o.base||(o.style==='monitor'?.56:.62));
+    const span=o.anim?2*D:D,step=D/w*2;let d='';
+    for(let t=0;t<=span+1e-9;t+=step){const x=t*pps,yy=y0-Y(rh,t)*mv;d+=(t?'L':'M')+x.toFixed(1)+' '+Math.max(-50,Math.min(h+50,yy)).toFixed(1)}
+    const id='e'+(++uid),sm=pps*.04,bg=pps*.2,mon=o.style==='monitor';
+    const grid=mon
+      ?`<pattern id="${id}b" width="${bg}" height="${bg}" patternUnits="userSpaceOnUse"><path d="M${bg} 0V${bg}M0 ${bg}H${bg}" stroke="#1B2A25" stroke-width="1.2" fill="none"/></pattern>`
+      :`<pattern id="${id}s" width="${sm}" height="${sm}" patternUnits="userSpaceOnUse"><path d="M${sm} 0V${sm}M0 ${sm}H${sm}" stroke="#F3C9C4" stroke-width="1" fill="none"/></pattern>
+        <pattern id="${id}b" width="${bg}" height="${bg}" patternUnits="userSpaceOnUse"><path d="M${bg} 0V${bg}M0 ${bg}H${bg}" stroke="#E59C94" stroke-width="1.6" fill="none"/></pattern>`;
+    let marks='';
+    if(o.marksP)rh.ev.filter(e=>e.k==='P'&&e.t>=0&&e.t<D).forEach(e=>{const x=e.t*pps;marks+=`<path d="M${(x-9).toFixed(1)} 14h18l-9 14z" fill="#2E5BC9"/>`});
+    if(o.dots){let n=0;rh.ev.filter(e=>e.k==='Q'&&e.t>=0&&e.t<D).forEach(e=>{n++;const x=e.t*pps;marks+=`<circle cx="${x.toFixed(1)}" cy="24" r="17" fill="#D9412B"/><text x="${x.toFixed(1)}" y="31" text-anchor="middle" fill="#fff" font-size="20" font-weight="700" font-family="IBM Plex Mono,Consolas,monospace">${n}</text>`})}
+    if(o.ticks)o.ticks.forEach(s=>{const x=Math.min(w-2,Math.max(2,s*pps));marks+=`<line x1="${x}" y1="${h-26}" x2="${x}" y2="${h}" stroke="#172421" stroke-width="3"/><text x="${Math.min(w-8,Math.max(8,x+6))}" y="${h-8}" font-size="18" fill="#172421" text-anchor="${s===0?'start':s>=D?'end':'start'}" font-family="IBM Plex Mono,Consolas,monospace">${s} 秒</text>`});
+    const stroke=mon?(o.color||'#5BE08A'):'#172421';
+    const path=`<path d="${d}" fill="none" stroke="${stroke}" stroke-width="${mon?3:2.6}" stroke-linejoin="round" stroke-linecap="round"/>`;
+    return `<svg viewBox="0 0 ${w} ${h}" width="${w}" height="${h}" style="display:block;max-width:100%;height:auto" role="img" aria-label="心電圖波形">
+      <defs>${grid}</defs><rect width="${w}" height="${h}" fill="${mon?'#0F1916':'#FFF7F5'}"/>${mon?'':`<rect width="${w}" height="${h}" fill="url(#${id}s)"/>`}<rect width="${w}" height="${h}" fill="url(#${id}b)"/>
+      ${o.anim?`<g class="sweep" style="--w:${w};--d:${D}s">${path}</g>`:path}${marks}</svg>`;
+  }
+  return {g,cx,Y,regular,strict,afib,vf,asystole,wenck,mobitz2,avb3,svg,rnd};
+})();
+function drawECG(el,rh,extra){
+  const o=Object.assign({w:+el.dataset.w||1400,h:+el.dataset.h||240,style:el.dataset.style||'paper',anim:el.hasAttribute('data-anim')},extra||{});
+  el.innerHTML=ECG.svg(rh,o)+(el.dataset.lead?`<span class="lead">${el.dataset.lead}</span>`:'');
+}
+
+(function(){
+$('#warmSlip').innerHTML=slip([['Na⁺',136,'mEq/L',135,145],['K⁺',6.8,'mEq/L',3.5,5.0,1],['Cr',1.1,'mg/dL',.6,1.3,1]],'CHEMISTRY','ER · BED 12');
+$('#hkSlip').innerHTML=slip([['K⁺',7.2,'mEq/L',3.5,5.0,1],['Glu',132,'mg/dL',70,140],['BUN',96,'mg/dL',7,20]],'CHEMISTRY','洗腎病人 · STAT');
+$('#naSlip').innerHTML=slip([['Na⁺',114,'mEq/L',135,145],['K⁺',3.2,'mEq/L',3.5,5.0,1],['Glu',118,'mg/dL',70,140]],'CHEMISTRY','ER · STAT');
+
+/* potassium-driven ECG */
+function kRhythm(k,D){
+  const cl=(x,a,b)=>Math.max(a,Math.min(b,x));
+  const rate=k>=7.5?58:72;
+  const b={};
+  b.tA=k<3.5?.3*cl((k-1.5)/2,.1,1):k>5.3?Math.min(1,.3+(k-5.3)*.3):.3;
+  b.tSd=k>5.3?Math.max(.028,.06-(k-5.3)*.014):.06;
+  b.u=k<3.5?.17*cl((3.5-k)/1.4,0,1):0;
+  b.st=k<3.2?-.09*cl((3.2-k)/1.2,0,1):0;
+  b.qw=k>7.1?1+(k-7.1)*1.5:1;
+  b.rA=1-(b.qw-1)*.12;
+  const pA=k>6.3?.12*cl(1-(k-6.3)/1.2,0,1):.12;
+  const pr=k>6.3?Math.min(.3,.16+(k-6.3)*.1):.16;
+  const rh=ECG.regular(rate,D,{pr,pA,b});
+  if(k>8.5)rh.sine=cl((k-8.5)/.8,0,1);
+  return rh;
+}
+const KB=[
+  [2.5,'嚴重低血鉀','blue','T 波幾乎平掉、U 波明顯、ST 下降，隨時心律不整；肌肉無力到可能影響呼吸。','worried','#2E5BC9'],
+  [3.5,'低血鉀','blue','T 波變平，T 波後面冒出一個小小的 U 波。','worried','#6F97E0'],
+  [5.05,'正常','green','T 波圓圓的，QRS 窄窄的。','happy','#2F9A5A'],
+  [6.0,'輕度高血鉀','amber','T 波開始變高、變尖（像帳篷）。','worried','#D9A22A'],
+  [7.0,'中度高血鉀','red','T 波高尖，P 波變小、PR 間期拉長。','worried','#E0672C'],
+  [8.0,'嚴重高血鉀','red','P 波快不見了，QRS 開始變寬。','worried','#B8322B'],
+  [99,'危急','red','QRS 寬到和 T 波連在一起，變成正弦波 → 隨時 VF 或心跳停止。','dizzy','#7A1E18']
+];
+const kR=$('#kR');
+function updK(){const k=+kR.value;const band=KB.find(x=>k<x[0]);
+  $('#kv').textContent=k.toFixed(1);$('#kv').style.color=`var(--${band[2]})`;
+  $('#kT').innerHTML=`${band[1]}`;$('#kT').style.color=`var(--${band[2]})`;$('#kP').textContent=band[3];
+  setMascot($('#kMascot'),band[4],band[5]);
+  drawECG($('#kEcg'),kRhythm(k,4.2));}
+kR.addEventListener('input',updK);updK();
+drawECG($('#caseEcg'),kRhythm(7.9,3.4),{style:'paper'});
+drawECG($('#lowEcg'),kRhythm(2.3,3.2),{scale:.8});
+
+/* K cell */
+const IN=[];for(const y of [140,205,270])for(const x of [210,265,320,375,430,485])IN.push([x,y]);
+const OUT=[[40,40],[140,40],[240,40],[340,40],[440,40],[540,40],[640,40],[40,430],[140,430],[240,430],[340,430],[440,430],[540,430],[640,430],[40,230],[640,230],[90,330],[600,140]];
+const kc=$('#kcell'),Kd=[],Hd=[];
+for(let i=0;i<12;i++){const d=document.createElement('span');d.className='dot K';d.textContent='K⁺';kc.appendChild(d);Kd.push(d)}
+for(let i=0;i<6;i++){const d=document.createElement('span');d.className='dot H';d.textContent='H⁺';kc.appendChild(d);Hd.push(d)}
+const KIN=[0,2,4,7,9,11,12,14,16,1,6,13],HIN=[3,5,8,10,15,17],KOUT=[0,9,4,13,2,11,6,15,1,10,5,16],HOUT=[3,7,12,8,14,17];
+const KST={
+  base:{out:2,h:0,v:4.0,cap:'平常：鉀幾乎都住在細胞裡，血中只有一點點（3.5–5.0）。'},
+  acid:{out:6,h:5,v:5.8,cap:'酸中毒：H⁺ 衝進細胞，把 K⁺ 換出來 → <b class="c-red">血鉀升高</b>。'},
+  insulin:{out:0,h:0,v:3.0,cap:'打胰島素（或 Salbutamol）：K⁺ 被推回細胞 → <b class="c-blue">血鉀下降</b>。治療高血鉀用的就是這招，但會反彈。'},
+  lysis:{out:10,h:0,v:6.9,broken:true,cap:'細胞破掉：橫紋肌溶解、擠壓傷 → <b class="c-red">真的高血鉀</b>；抽血溶血則是試管裡的紅血球破掉 → <b class="c-red">假性高血鉀</b>。'}
+};
+const pos=(d,[x,y])=>d.style.transform=`translate(${x-22}px,${y-22}px)`;
+function setK(s){const st=KST[s];
+  Kd.forEach((d,i)=>pos(d,i<st.out?OUT[KOUT[i]]:IN[KIN[i]]));
+  Hd.forEach((d,i)=>pos(d,i<st.h?IN[HIN[i]]:OUT[HOUT[i]]));
+  $('#mem').classList.toggle('broken',!!st.broken);
+  $('#kVal').textContent=st.v.toFixed(1);$('#kMk').style.left=((st.v-2)/5*100)+'%';$('#kCap').innerHTML=st.cap;
+  $$('[data-k]').forEach(b=>b.classList.toggle('on',b.dataset.k===s));}
+$$('[data-k]').forEach(b=>b.onclick=()=>setK(b.dataset.k));setK('base');
+
+/* KCl checker */
+const kst={route:'p',amt:20,vol:500,how:'pump'};
+function segBind(id,key,num){$$('#'+id+' .sbtn').forEach(b=>b.onclick=()=>{kst[key]=num?+b.dataset.v:b.dataset.v;$$('#'+id+' .sbtn').forEach(x=>x.classList.toggle('on',x===b));updKCl()})}
+segBind('kRoute','route');segBind('kAmt','amt',1);segBind('kVol','vol',1);segBind('kHow','how');
+$('#kHr').addEventListener('input',updKCl);
+function updKCl(){
+  const h=+$('#kHr').value;$('#vkHr').textContent=h;
+  $('#kHr').disabled=kst.how==='push';
+  if(kst.how==='push'){$('#kOut').innerHTML='<div style="grid-column:1/-1"><span>判定</span><b class="push-no">禁止！KCl 絕不可 IV push</b></div>';
+    $('#kVer').innerHTML='<div class="bad">快速推注高濃度鉀 → 心臟立即停止。KCl 一定要稀釋後用輸液幫浦滴注。</div>';return}
+  const conc=kst.amt/kst.vol*1000,rate=kst.amt/h,mlh=kst.vol/h;
+  $('#kOut').innerHTML=`<div><span>濃度</span><b>${+conc.toFixed(0)}<small>mEq/L</small></b></div><div><span>給鉀速度</span><b>${+rate.toFixed(1)}<small>mEq/h</small></b></div><div style="grid-column:1/-1"><span>幫浦設定</span><b>${+mlh.toFixed(1)}<small>mL/h</small></b></div>`;
+  const v=[];
+  if(kst.route==='p'){
+    v.push(conc>40?['bad',`周邊濃度 ${+conc.toFixed(0)} mEq/L 太高：血管會痛、容易發炎`]:['ok','周邊濃度在示範上限內']);
+    v.push(rate>10?['bad',`周邊每小時 ${+rate.toFixed(1)} mEq 太快：延長時間或改中心靜脈`]:['ok','給鉀速度在示範上限內']);
+  }else{
+    v.push(rate>20?['bad',`每小時 ${+rate.toFixed(1)} mEq 太快`]:rate>10?['warn','超過每小時 10 mEq：要接心電圖監測、依醫囑追血鉀']:['ok','給鉀速度在示範上限內']);
+  }
+  v.push(['ok','加藥後把袋子翻轉搖勻，貼上高警訊標示']);
+  $('#kVer').innerHTML=v.map(([c,t])=>`<div class="${c==='ok'?'':c}">${c==='ok'?'✓ ':c==='warn'?'△ ':'✕ '}${t}</div>`).join('');
+}
+updKCl();
+
+/* sodium stepper */
+const NA=[
+  ['輕微：不太舒服','噁心、食慾差、頭痛、疲倦。很容易被當成「感冒、吃壞肚子」。',1.0,'腦細胞開始吸水'],
+  ['中度：走路不穩','嘔吐、頭暈、步態不穩、反應變慢。<b>老人家很容易跌倒</b>。',1.06,'腦開始腫'],
+  ['嚴重：意識混亂','意識混亂、嗜睡或躁動，講話答非所問。',1.12,'腦明顯水腫'],
+  ['危急：抽搐昏迷','抽搐、昏迷，嚴重腦水腫可能腦疝脫、呼吸停止。要立即處理。',1.18,'腦被頭骨擠壓']
+];
+function setNa(i){$$('.stop').forEach((b,k)=>b.classList.toggle('on',k===i));
+  $('#naState').innerHTML=`<h3>${NA[i][0]}</h3><p>${NA[i][1]}</p>`;
+  $('#brainG').style.transform=`scale(${NA[i][2]})`;$('#drops').setAttribute('opacity',i>0?1:0);$('#brainTxt').textContent=NA[i][3]}
+$$('.stop').forEach(b=>b.onclick=()=>setNa(+b.dataset.st));setNa(0);
+
+/* sodium speed */
+const n0=$('#n0'),n1=$('#n1'),nh=$('#nh');
+function updNa(){const a=+n0.value,b=+n1.value,h=+nh.value,r=b-a;
+  $('#vn0').textContent=a;$('#vn1').textContent=b;$('#vnh').textContent=h;
+  $('#naRise').textContent=(r>0?'+':'')+r;
+  const f=$('#naFill');f.style.width=Math.max(0,Math.min(100,r/12*100))+'%';
+  const c=$('#naChip');let cl,t,col;
+  if(r<0){cl='amber';t='還在往下掉';col='var(--amber)'}
+  else if(r>10){cl='red';t='太快，立即回報';col='var(--red)'}
+  else if(r>8){cl='amber';t='接近上限';col='var(--amber)'}
+  else{cl='green';t='在安全範圍';col='var(--blue)'}
+  c.className='chip '+cl;c.textContent=t;f.style.background=col;}
+[n0,n1,nh].forEach(x=>x.addEventListener('input',updNa));
+$$('#naPre .pbtn').forEach(b=>b.onclick=()=>{const[a,c,h]=b.dataset.p.split(',');n0.value=a;n1.value=c;nh.value=h;updNa()});
+updNa();
+startDeck();
+})();
+</script>

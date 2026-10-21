@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script>/* iPhone 防放大（全 App 統一，主任 2026-10-17）：iPhone／iPad 點輸入框不自動放大，兩指放大照常；Android 不加 maximum-scale（會連兩指放大都鎖掉） */
+(function(){var m=document.querySelector('meta[name=viewport]');if(m&&(/iP(hone|ad|od)/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))&&m.content.indexOf('maximum-scale')<0)m.content+=',maximum-scale=1';})();</script>
+<style>html,body,*{touch-action:manipulation}/* 連點兩下不放大，兩指放大照常 */</style>
+<title>急診護理互動投影片</title>
+<meta name="description" content="急診護理在職教育互動投影片：酸中毒、致命心律、休克與升壓劑、電解質、氧氣與BiPAP、呼吸器警報、V60、12導程心電圖">
+<meta property="og:title" content="急診護理互動投影片">
+<meta property="og:description" content="酸中毒・致命心律・休克與升壓劑・電解質・氧氣與BiPAP・呼吸器警報・V60・12導程心電圖">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#F2F4F0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Huninn&family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
+<style>
+:root{
+  --paper:#F2F4F0; --card:#FFFFFF; --frame:#CDD5CC; --ink:#172421; --muted:#5B6A64; --line:#DCE2DA;
+  --red:#D9412B; --red-soft:#F8DCD4;
+  --blue:#2E5BC9; --blue-soft:#D9E2F7;
+  --teal:#1F7A80; --teal-soft:#D3E9EA;
+  --f-display:"Huninn","Chiron GoRound TC","Microsoft JhengHei","PingFang TC",sans-serif;
+  --f-body:"Noto Sans TC","Microsoft JhengHei","PingFang TC",sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);-webkit-font-smoothing:antialiased;
+  padding:max(28px,env(safe-area-inset-top)) max(16px,env(safe-area-inset-right)) max(28px,env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left))}
+main{max-width:760px;margin:0 auto}
+h1{font-family:var(--f-display);font-weight:400;font-size:clamp(28px,6vw,40px);line-height:1.2;margin:8px 0 24px;letter-spacing:.02em}
+ol{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+a.deck{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:16px;padding:16px 18px;background:var(--card);border:1px solid var(--line);border-radius:16px;
+  color:inherit;text-decoration:none;transition:transform .15s ease,box-shadow .15s ease,border-color .15s ease}
+a.deck:hover{transform:translateY(-2px);box-shadow:0 10px 24px -16px rgba(23,36,33,.45);border-color:var(--frame)}
+a.deck:focus-visible{outline:4px solid var(--blue);outline-offset:3px}
+.no{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-family:var(--f-display);font-size:22px;background:var(--soft);color:var(--acc)}
+.txt{min-width:0}
+.topic{margin:0;font-size:19px;font-weight:700;line-height:1.35}
+.meta{margin:4px 0 0;font-size:14px;color:var(--muted);display:flex;flex-wrap:wrap;gap:4px 10px;align-items:center}
+.tag{font-size:12px;font-weight:700;padding:2px 8px;border-radius:999px;background:var(--soft);color:var(--acc)}
+.go{font-size:22px;color:var(--muted)}
+a.deck:hover .go{color:var(--acc)}
+.red{--acc:var(--red);--soft:var(--red-soft)}
+.blue{--acc:var(--blue);--soft:var(--blue-soft)}
+.teal{--acc:var(--teal);--soft:var(--teal-soft)}
+footer{margin-top:28px;font-size:13px;color:var(--muted);text-align:center}
+@media (prefers-reduced-motion:reduce){a.deck{transition:none}a.deck:hover{transform:none}}
+</style>
+</head>
+<body>
+<main>
+<h1>急診護理互動投影片</h1>
+<ol>
+  <li><a class="deck red" href="acid.html"><span class="no">1</span><span class="txt"><p class="topic">酸中毒入門</p><p class="meta">身體變酸了<span>18 頁</span></p></span><span class="go" aria-hidden="true">→</span></a></li>
+  <li><a class="deck red" href="ecg.html"><span class="no">2</span><span class="txt"><p class="topic">致命心律辨識</p><p class="meta">監視器在叫了<span>17 頁</span></p></span><span class="go" aria-hidden="true">→</span></a></li>
+  <li><a class="deck red" href="shock.html"><span class="no">3</span><span class="txt"><p class="topic">休克與升壓劑</p><p class="meta">血壓撐不住了<span>17 頁</span></p></span><span class="go" aria-hidden="true">→</span></a></li>
+  <li><a class="deck teal" href="lyte.html"><span class="no">4</span><span class="txt"><p class="topic">電解質急症</p><p class="meta">電解質在搞鬼<span>18 頁</span></p></span><span class="go" aria-hidden="true">→</span></a></li>
+  <li><a class="deck blue" href="o2.html"><span class="no">5</span><span class="txt"><p class="topic">氧氣治療與 BiPAP</p><p class="meta">氧氣給對了嗎<span>17 頁</span></p></span><span class="go" aria-hidden="true">→</span></a></li>
+  <li><a class="deck red" href="vent.html"><span class="no">6</span><span class="txt"><p class="topic">呼吸器警報處理</p><p class="meta">呼吸器又叫了<span>17 頁</span></p></span><span class="go" aria-hidden="true">→</span></a></li>
+  <li><a class="deck blue" href="v60.html"><span class="no">7</span><span class="txt"><p class="topic">V60 插管後警報與調整</p><p class="meta">V60 插管後<span>21 頁</span><span class="tag">手機版</span></p></span><span class="go" aria-hidden="true">→</span></a></li>
+  <li><a class="deck red" href="ekg12.html"><span class="no">8</span><span class="txt"><p class="topic">12 導程心電圖</p><p class="meta">胸痛十分鐘<span>17 頁</span><span class="tag">手機版</span></p></span><span class="go" aria-hidden="true">→</span></a></li>
+</ol>
+<footer>天晟醫院 急診科</footer>
+</main>
+</body>
+</html>

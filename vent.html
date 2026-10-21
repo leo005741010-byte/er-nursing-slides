@@ -1,0 +1,1065 @@
+<meta charset="utf-8">
+<title>呼吸器又叫了</title>
+<meta name="description" content="急診護理在職教育：插管後呼吸器照護與警報處理互動投影片">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Huninn&family=IBM+Plex+Mono:wght@500;600&family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
+<style>
+:root{
+  --paper:#F2F4F0; --paper-2:#E5EAE3; --frame:#CDD5CC; --ink:#172421; --muted:#5B6A64; --line:#C9D1C8;
+  --red:#D9412B; --red-soft:#F8DCD4;
+  --green:#2F9A5A; --green-soft:#D5ECDD;
+  --blue:#2E5BC9; --blue-soft:#D9E2F7;
+  --purple:#6A4BC4; --purple-soft:#E6DFF6;
+  --amber:#B06A08; --amber-soft:#F5E5C8;
+  --teal:#1F7A80; --teal-soft:#D3E9EA;
+  --slip:#FFFFFF; --screen:#0F1916;
+  --f-display:"Huninn","Chiron GoRound TC","Microsoft JhengHei","PingFang TC",sans-serif;
+  --f-body:"Noto Sans TC","Microsoft JhengHei","PingFang TC",sans-serif;
+  --f-mono:"IBM Plex Mono",Consolas,"Courier New",monospace;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--frame);color:var(--ink);font-family:var(--f-body);overflow:hidden;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;cursor:pointer}
+button:disabled{opacity:.4;cursor:default}
+input[type=number]{font:inherit}
+:focus-visible{outline:4px solid var(--blue);outline-offset:3px}
+
+#stage{position:absolute;left:50%;top:50%;width:1600px;height:900px;background:var(--paper);transform-origin:center;transform:translate(-50%,-50%);overflow:hidden;box-shadow:0 20px 60px -30px rgba(23,36,33,.45)}
+
+/* ---------- slide shell ---------- */
+.slide{position:absolute;inset:0 0 72px 0;padding:58px 96px 30px;display:flex;flex-direction:column;gap:28px;opacity:0;visibility:hidden;transform:translateX(30px);transition:opacity .35s ease,transform .35s ease,visibility 0s .35s}
+.slide.past{transform:translateX(-30px)}
+.slide.active{opacity:1;visibility:visible;transform:none;transition:opacity .35s ease,transform .35s ease}
+.head{display:flex;flex-direction:column;gap:6px}
+.eyebrow{margin:0;font-size:21px;font-weight:700;letter-spacing:.14em;color:var(--sec)}
+h2{margin:0;font-family:var(--f-display);font-weight:400;font-size:62px;line-height:1.12;text-wrap:balance;letter-spacing:.01em}
+h3{margin:0;font-family:var(--f-display);font-weight:400;font-size:36px;line-height:1.2}
+p{margin:0}
+.body{flex:1;min-height:0}
+.muted{color:var(--muted)}
+.notes{display:none}
+.c-red{color:var(--red)} .c-blue{color:var(--blue)} .c-green{color:var(--green)} .c-purple{color:var(--purple)} .c-amber{color:var(--amber)} .c-teal{color:var(--teal)}
+sub,sup{line-height:0}
+.mono{font-family:var(--f-mono)}
+
+/* ---------- bottom bar ---------- */
+.bar{position:absolute;left:0;right:0;bottom:0;height:72px;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 40px 0 96px;background:var(--paper)}
+.secs{display:flex;gap:34px;list-style:none;margin:0;padding:0}
+.secs button{background:none;border:0;padding:8px 0;font-size:20px;color:var(--muted);display:flex;align-items:center;gap:10px;border-bottom:3px solid transparent}
+.secs button i{width:10px;height:10px;border-radius:50%;background:var(--c)}
+.secs button.on{color:var(--ink);font-weight:700;border-bottom-color:var(--c)}
+.ctrl{display:flex;align-items:center;gap:10px}
+.count{font-family:var(--f-mono);font-size:19px;color:var(--muted);min-width:78px;text-align:right;margin-right:8px;font-variant-numeric:tabular-nums}
+.ibtn{height:44px;min-width:44px;padding:0 14px;border:1.5px solid var(--line);background:var(--paper);border-radius:8px;font-size:18px;color:var(--ink)}
+.ibtn:hover{background:var(--paper-2)}
+
+#notes{position:fixed;left:0;right:0;bottom:0;max-height:34vh;overflow:auto;background:var(--screen);color:#E8EEE9;font:16px/1.7 var(--f-body);padding:16px 28px 20px;z-index:10}
+#notes b{color:#F4C77A;font-weight:700;margin-right:10px}
+
+/* ---------- cover ---------- */
+.cover{justify-content:space-between;padding-top:76px}
+.cover-title{margin:14px 0 18px;font-family:var(--f-display);font-weight:400;font-size:150px;line-height:1;letter-spacing:.02em}
+.cover-title span{color:var(--accent)}
+.cover-sub{font-size:34px;color:var(--ink);max-width:32em}
+.byline{font-size:22px;color:var(--muted)}
+.mascot{display:block;width:100%;height:auto;overflow:visible}
+.m-label{font-family:var(--f-display);fill:#fff}
+.bubble{position:absolute;white-space:nowrap;background:var(--slip);border:2px solid var(--ink);border-radius:18px;padding:8px 16px;font-size:22px}
+@media (prefers-reduced-motion:no-preference){
+  .bob{animation:bob 2.6s ease-in-out infinite}
+  @keyframes bob{50%{transform:translateY(-8px)}}
+}
+
+/* ---------- chips ---------- */
+.chip{display:inline-flex;align-items:center;gap:10px;padding:8px 20px;border-radius:999px;font-size:28px;font-weight:700;background:var(--c-soft);color:var(--c);white-space:nowrap}
+.chip.red{--c:var(--red);--c-soft:var(--red-soft)} .chip.green{--c:var(--green);--c-soft:var(--green-soft)} .chip.blue{--c:var(--blue);--c-soft:var(--blue-soft)}
+.chip.amber{--c:var(--amber);--c-soft:var(--amber-soft)} .chip.purple{--c:var(--purple);--c-soft:var(--purple-soft)} .chip.teal{--c:var(--teal);--c-soft:var(--teal-soft)}
+.chip.sm{font-size:21px;padding:5px 14px}
+
+/* ---------- poll ---------- */
+.poll{display:grid;grid-template-columns:auto 1fr;gap:64px;align-items:center}
+.opts{display:flex;flex-direction:column;gap:16px}
+.vote{position:relative;display:grid;grid-template-columns:52px 1fr 70px;align-items:center;gap:18px;text-align:left;background:var(--slip);border:2px solid var(--line);border-radius:12px;padding:18px 22px;font-size:28px;overflow:hidden}
+.vote:hover{border-color:var(--ink)}
+.vote .k{font-family:var(--f-display);font-size:30px;width:52px;height:52px;border-radius:50%;display:grid;place-items:center;background:var(--paper-2)}
+.vote .fill{position:absolute;left:0;top:0;bottom:0;background:var(--green-soft);width:0;transition:width .3s ease;z-index:0}
+.vote>*:not(.fill){position:relative;z-index:1}
+.vote .n{font-family:var(--f-mono);font-size:30px;text-align:right;font-variant-numeric:tabular-nums}
+.vote .ghost{position:absolute;left:0;bottom:0;height:6px;background:var(--muted);opacity:.45;width:0;z-index:1;transition:width .3s}
+.tiny{background:none;border:0;padding:4px 0;color:var(--muted);font-size:18px;text-decoration:underline;text-underline-offset:4px;align-self:flex-start}
+
+/* ---------- ABG slip (thermal paper) ---------- */
+.slip-wrap{filter:drop-shadow(0 14px 18px rgba(23,36,33,.18));width:max-content}
+.slip{background:var(--slip);font-family:var(--f-mono);padding:22px 30px 34px;width:380px;
+  -webkit-mask:conic-gradient(from -45deg at bottom,#0000,#000 1deg 89deg,#0000 90deg) 50%/18px 100%;
+          mask:conic-gradient(from -45deg at bottom,#0000,#000 1deg 89deg,#0000 90deg) 50%/18px 100%}
+.slip-h{display:flex;justify-content:space-between;font-size:16px;color:var(--muted);letter-spacing:.08em;border-bottom:2px dashed var(--line);padding-bottom:10px;margin-bottom:8px}
+.slip-r{display:grid;grid-template-columns:110px 1fr 82px 30px;align-items:baseline;padding:5px 0;font-size:22px}
+.slip-r span{color:var(--muted);font-size:20px}
+.slip-r b{font-size:36px;font-weight:600;text-align:right;padding-right:12px;font-variant-numeric:tabular-nums}
+.slip-r i{font-style:normal;font-size:16px;color:var(--muted)}
+.slip-r em{font-style:normal;font-weight:600;font-size:20px;text-align:right}
+.slip-r em.L{color:var(--blue)} .slip-r em.H{color:var(--red)}
+.slip-f{margin-top:8px;font-size:14px;color:var(--muted);letter-spacing:.1em}
+
+/* ---------- monitor ---------- */
+.monitor{background:var(--screen);border-radius:16px;padding:18px 26px;color:#DDE6E1;font-family:var(--f-mono);box-shadow:inset 0 0 0 6px #25332E}
+.mrow{display:flex;justify-content:space-between;align-items:baseline;padding:9px 0;border-bottom:1px solid #26352F}
+.mrow:last-child{border:0}
+.mrow span{font-size:20px;letter-spacing:.06em}
+.mrow b{font-size:58px;font-weight:600;line-height:1;font-variant-numeric:tabular-nums;transition:color .3s}
+.m-o2{color:#5BE08A} .m-hr{color:#7FD3F0} .m-bp{color:#F28B82} .m-rr{color:#F2B84B} .m-w{color:#E8EEE9}
+
+/* ---------- definition strip ---------- */
+.def{display:flex;align-items:center;gap:22px;font-size:30px;flex-wrap:wrap}
+.def .tag{font-family:var(--f-mono);font-weight:600;font-size:28px;padding:6px 16px;border-radius:8px;background:var(--slip);border:2px solid var(--ink)}
+
+/* ---------- flip cards ---------- */
+.flips{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:6px}
+.flip{perspective:1400px;background:none;border:0;padding:0;height:372px;text-align:left;--fc:var(--sec)}
+.flip-in{position:relative;width:100%;height:100%;transition:transform .55s cubic-bezier(.3,.7,.2,1);transform-style:preserve-3d}
+.flip.on .flip-in{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;border-radius:14px;padding:26px;backface-visibility:hidden;-webkit-backface-visibility:hidden;display:flex;flex-direction:column;gap:12px}
+.front{background:var(--fs,var(--paper-2));border:2px solid transparent}
+.flip:hover .front{border-color:var(--fc)}
+.front small{font-size:19px;letter-spacing:.12em;color:var(--fc);font-weight:700}
+.front h3{font-size:44px;margin-top:auto}
+.front .hint{font-size:19px;color:var(--muted)}
+.back{background:var(--slip);border:2px solid var(--fc);transform:rotateY(180deg)}
+.back h4{margin:0;font-size:24px;color:var(--fc)}
+.back ul{margin:0;padding-left:1.1em;font-size:24px;line-height:1.55}
+.back p{font-size:23px;line-height:1.55}
+
+/* ---------- stepper ---------- */
+.track{position:relative;display:grid;grid-template-columns:repeat(var(--n,4),1fr);margin-top:12px}
+.track::before{content:"";position:absolute;left:0;right:calc(100% / var(--n,4) - 78px);top:34px;height:10px;border-radius:5px;background:var(--trackbg,linear-gradient(90deg,#D9A22A,#E0672C 45%,#B8322B))}
+.stop{position:relative;background:none;border:0;padding:0;display:flex;flex-direction:column;align-items:flex-start;gap:14px}
+.stop i{width:78px;height:78px;border-radius:50%;background:var(--paper);border:4px solid var(--ink);display:grid;place-items:center;font-style:normal;font-family:var(--f-mono);font-weight:600;font-size:24px;transition:background .2s,color .2s}
+.stop.on i{background:var(--ink);color:var(--paper)}
+.stop span{font-size:20px;color:var(--muted)}
+.state{margin-top:26px;padding:24px 30px;border-left:6px solid var(--sec);background:var(--slip);min-height:180px}
+.state h3{font-size:40px;margin-bottom:10px}
+.state p{font-size:26px;line-height:1.6}
+.fine{font-size:19px;color:var(--muted);margin-top:14px;line-height:1.5}
+
+/* ---------- checklist ---------- */
+.checks{display:grid;grid-template-columns:1fr 1fr;gap:18px 46px;margin-top:4px;align-content:start}
+.chk{display:grid;grid-template-columns:44px 1fr;gap:18px;align-items:start;text-align:left;background:none;border:0;padding:14px 0;border-bottom:1px solid var(--line)}
+.chk .box{width:40px;height:40px;border:3px solid var(--ink);border-radius:8px;margin-top:4px;display:grid;place-items:center;transition:background .15s}
+.chk .box svg{width:26px;height:26px;opacity:0;transform:scale(.4);transition:all .2s}
+.chk[aria-pressed="true"] .box{background:var(--sec);border-color:var(--sec)}
+.chk[aria-pressed="true"] .box svg{opacity:1;transform:none}
+.chk strong{display:block;font-size:31px;font-weight:700;line-height:1.3}
+.chk span{display:block;font-size:24px;color:var(--muted);line-height:1.5;margin-top:4px}
+
+/* ---------- case / quiz ---------- */
+.case{display:grid;grid-template-columns:460px 1fr;gap:60px;align-items:start}
+.story{font-size:27px;line-height:1.6;margin-bottom:24px}
+.story b{font-weight:700}
+.q{font-size:32px;font-weight:700;margin-bottom:18px;line-height:1.4}
+.qopts{display:flex;flex-direction:column;gap:12px}
+.qo{display:grid;grid-template-columns:48px 1fr;gap:16px;align-items:center;text-align:left;background:var(--slip);border:2px solid var(--line);border-radius:12px;padding:14px 20px;font-size:25px;line-height:1.4}
+.qo:hover{border-color:var(--ink)}
+.qo .k{font-family:var(--f-display);font-size:26px;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;background:var(--paper-2)}
+.qo.right{border-color:var(--green);background:var(--green-soft)} .qo.right .k{background:var(--green);color:#fff}
+.qo.wrong{border-color:var(--red);background:var(--red-soft)} .qo.wrong .k{background:var(--red);color:#fff}
+.explain{margin-top:18px;font-size:24px;line-height:1.6;padding:14px 22px;border-left:6px solid var(--green);background:var(--slip)}
+
+/* ---------- vitals card ---------- */
+.vitals{display:grid;grid-template-columns:1fr 1fr;gap:0;background:var(--screen);border-radius:14px;padding:10px 22px;font-family:var(--f-mono);box-shadow:inset 0 0 0 5px #25332E;width:440px}
+.vitals div{display:flex;flex-direction:column;padding:10px 4px;border-bottom:1px solid #26352F}
+.vitals div:nth-last-child(-n+2){border-bottom:0}
+.vitals span{font-size:17px;letter-spacing:.06em;color:#9FB0A8}
+.vitals b{font-size:44px;font-weight:600;line-height:1.1;font-variant-numeric:tabular-nums}
+
+/* ---------- tiles ---------- */
+.tiles{display:grid;grid-template-columns:repeat(var(--cols,4),1fr);gap:16px}
+.tile{background:var(--ts,var(--paper-2));border:2px solid transparent;border-radius:14px;padding:18px 20px;text-align:left;min-height:var(--th,260px);display:flex;flex-direction:column;gap:8px;--tc:var(--sec)}
+.tile:hover{border-color:var(--tc)}
+.tile .ch{font-family:var(--f-display);font-size:64px;line-height:1;color:var(--tc)}
+.tile .nm{font-size:27px;font-weight:700;line-height:1.3}
+.tile .dt{font-size:21px;line-height:1.5;color:var(--ink);opacity:0;transform:translateY(8px);transition:all .3s}
+.tile .tp{font-size:18px;color:var(--muted);margin-top:auto}
+.tile.on{background:var(--slip);border-color:var(--tc)}
+.tile.on .dt{opacity:1;transform:none}
+.tile.on .tp{display:none}
+
+/* ---------- reveal steps ---------- */
+.steps{display:grid;grid-template-columns:var(--lead,380px) repeat(3,1fr);gap:28px;align-items:stretch}
+.step{border-top:6px solid var(--stc,var(--ink));padding-top:18px;display:flex;flex-direction:column;gap:10px}
+.step .no{font-family:var(--f-mono);font-size:22px;color:var(--muted)}
+.step h3{font-size:38px}
+.step p{font-size:24px;line-height:1.55}
+.res{margin-top:auto;padding:14px 18px;border-radius:10px;background:var(--paper-2);font-size:23px;line-height:1.5;min-height:120px;color:transparent;transition:color .3s,background .3s}
+.res:not(.show),.res:not(.show) *{color:transparent!important}
+.res.show{background:var(--slip);color:var(--ink);box-shadow:inset 0 0 0 2px var(--ink)}
+
+/* ---------- game ---------- */
+.gtop{display:flex;justify-content:space-between;align-items:flex-end}
+.score{display:flex;gap:18px}
+.team{display:grid;grid-template-columns:auto auto auto auto;align-items:center;gap:10px;background:var(--slip);border:2px solid var(--line);border-radius:12px;padding:8px 14px}
+.team .tn{font-size:22px;font-weight:700;padding-right:6px}
+.team .ts{font-family:var(--f-mono);font-size:40px;font-weight:600;min-width:52px;text-align:center;font-variant-numeric:tabular-nums}
+.team button{width:40px;height:40px;border-radius:8px;border:1.5px solid var(--line);background:var(--paper);font-size:24px;line-height:1}
+.team.red .tn{color:var(--red)} .team.blue .tn{color:var(--blue)}
+.game{display:grid;grid-template-columns:var(--gl,470px) 1fr;gap:52px;align-items:start}
+.gno{font-family:var(--f-mono);font-size:22px;color:var(--muted);margin-bottom:10px}
+.gopts{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.gopts .qo{font-size:27px;padding:18px 20px}
+.gnav{display:flex;gap:12px;margin-top:18px;align-items:center}
+.gbtn{border:2px solid var(--ink);background:var(--slip);border-radius:10px;padding:10px 24px;font-size:22px}
+.gbtn.pri{background:var(--ink);color:var(--paper)}
+.gdots{display:flex;gap:8px;align-items:center;margin-left:auto}
+.gdots i{width:14px;height:14px;border-radius:50%;background:var(--line)}
+.gdots i.on{background:var(--ink)}
+
+/* ---------- true/false ---------- */
+.tf{display:grid;grid-template-columns:1fr 360px;gap:60px;align-items:center}
+.tf .ring{margin:0 auto}
+.tfbtns .gbtn{padding:10px 18px;white-space:nowrap}
+.tfq{font-family:var(--f-display);font-size:60px;line-height:1.3;text-wrap:balance;min-height:260px;display:flex;align-items:center}
+.tfa{display:flex;align-items:center;gap:26px;min-height:120px;font-size:28px;line-height:1.55}
+.tfa .mark{flex:none;width:110px;height:110px;border-radius:50%;display:grid;place-items:center;font-family:var(--f-display);font-size:78px;color:#fff}
+.tfa .mark.o{background:var(--green)} .tfa .mark.x{background:var(--red)}
+.ring{position:relative;width:260px;height:260px}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring .t{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--f-mono);font-weight:600;font-size:96px;font-variant-numeric:tabular-nums}
+.tfbtns{display:flex;gap:12px;margin-top:24px;justify-content:center}
+
+/* ---------- wrap ---------- */
+.wrapg{display:grid;grid-template-columns:1fr 520px;gap:70px;align-items:start}
+.take{display:flex;flex-direction:column;gap:0;border-top:2px solid var(--ink)}
+.take div{padding:20px 0;border-bottom:1px solid var(--line);display:grid;grid-template-columns:130px 1fr;gap:20px;align-items:baseline}
+.take b{font-family:var(--f-display);font-weight:400;font-size:32px;color:var(--c)}
+.take p{font-size:28px;line-height:1.5}
+.post h3{font-size:32px;margin-bottom:6px}
+.post .opts{gap:12px;margin-top:14px}
+.post .vote{font-size:23px;padding:14px 18px;grid-template-columns:44px 1fr 56px}
+.post .vote .k{width:44px;height:44px;font-size:24px}
+.legend{font-size:18px;color:var(--muted);display:flex;gap:18px;align-items:center}
+.legend i{display:inline-block;width:26px;height:6px;background:var(--muted);opacity:.45;vertical-align:middle;margin-right:6px}
+.thanks{font-family:var(--f-display);font-size:40px;margin-top:26px}
+
+/* ---------- sliders ---------- */
+.sl{display:flex;flex-direction:column;gap:6px;margin-top:18px}
+.sl label{display:flex;justify-content:space-between;align-items:baseline;font-size:24px}
+.sl label b{font-family:var(--f-mono);font-size:30px;font-variant-numeric:tabular-nums}
+.sl input{width:100%;accent-color:var(--ink);height:28px}
+.presets{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.pbtn{border:1.5px solid var(--line);background:var(--slip);border-radius:999px;padding:8px 18px;font-size:20px}
+.pbtn:hover{border-color:var(--ink)}
+.pbtn.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.seg{display:flex;gap:10px;flex-wrap:wrap}
+.sbtn{border:2px solid var(--line);background:var(--slip);border-radius:10px;padding:12px 20px;font-size:23px}
+.sbtn.on{border-color:var(--ink);background:var(--ink);color:var(--paper)}
+.big{font-family:var(--f-mono);font-weight:600;font-size:120px;line-height:1;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.note{font-size:19px;color:var(--muted);line-height:1.5}
+.warnbox{padding:14px 20px;border-radius:10px;background:var(--red-soft);color:var(--ink);font-size:23px;line-height:1.5;border-left:6px solid var(--red)}
+.keybox{padding:14px 20px;border-radius:10px;background:var(--slip);font-size:23px;line-height:1.5;border-left:6px solid var(--sec)}
+.bnum{font-family:var(--f-mono);font-weight:600;font-size:110px;line-height:1;font-variant-numeric:tabular-nums}
+.bnum.sm{font-size:72px}
+[hidden]{display:none!important}
+
+:root{--accent:var(--red)}
+/* cover */
+.vscreen{position:relative;background:var(--screen);border-radius:16px;box-shadow:inset 0 0 0 6px #25332E;overflow:hidden}
+.alarmbar{display:flex;align-items:center;gap:16px;background:#C8332A;color:#fff;font-family:var(--f-mono);font-weight:600;font-size:26px;padding:10px 22px;letter-spacing:.04em}
+@media (prefers-reduced-motion:no-preference){.alarmbar.blink{animation:blink 1s steps(2,start) infinite}@keyframes blink{50%{background:#6E1C17}}}
+.cov-v{display:grid;grid-template-columns:1fr 250px}
+.cov-v svg{display:block;width:100%;height:auto}
+.cov-nums{font-family:var(--f-mono);color:#E8EEE9;padding:14px 22px;border-left:1px solid #26352F;display:flex;flex-direction:column;gap:6px}
+.cov-nums span{font-size:16px;color:#9FB0A8;letter-spacing:.06em}
+.cov-nums b{font-size:40px;font-weight:600;line-height:1}
+.cov-wrap{position:relative}
+.cov-wrap .m-wrap{position:absolute;right:40px;top:-160px;width:130px}
+.cov-wrap .bubble{right:140px;top:8px}
+
+/* capno */
+.cap{display:grid;grid-template-columns:780px 1fr;gap:52px;align-items:start}
+.capbox{background:var(--screen);border-radius:14px;box-shadow:inset 0 0 0 5px #25332E;padding:12px 16px 6px}
+.capbox .top{display:flex;justify-content:space-between;align-items:baseline;font-family:var(--f-mono);color:#9FB0A8;font-size:18px;padding:0 6px}
+.capbox .top b{color:#F2D34B;font-size:44px;font-weight:600}
+.capbox svg{display:block;width:100%;height:auto}
+.capcap{font-size:25px;line-height:1.55;margin-top:14px;min-height:118px}
+.plist{display:flex;flex-direction:column;border-top:2px solid var(--ink)}
+.plist div{display:grid;grid-template-columns:40px 1fr;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);font-size:25px;line-height:1.45;align-items:baseline}
+.plist i{font-style:normal;font-family:var(--f-mono);font-weight:600;color:var(--sec)}
+.plist small{display:block;font-size:20px;color:var(--muted)}
+
+/* drug timeline */
+.tl{display:grid;grid-template-columns:1fr 380px;gap:50px;align-items:start}
+.bars{position:relative;margin-top:18px;padding-bottom:34px}
+.brow{display:grid;grid-template-columns:230px 1fr;gap:16px;align-items:center;margin-bottom:16px}
+.brow span{font-size:24px;font-weight:700}
+.brow span small{display:block;font-size:18px;font-weight:400;color:var(--muted)}
+.btrack{position:relative;height:44px;background:var(--paper-2);border-radius:8px}
+.btrack i{position:absolute;left:0;top:0;bottom:0;border-radius:8px}
+.cursor{position:absolute;top:-8px;bottom:26px;width:4px;background:var(--ink);border-radius:2px;margin-left:244px;transition:left .15s}
+.tscale{position:absolute;left:246px;right:0;bottom:0;height:24px;font-family:var(--f-mono);font-size:17px;color:var(--muted)}
+.tscale span{position:absolute;transform:translateX(-50%)}
+.tstat{padding:20px 24px;border-radius:12px;font-size:26px;line-height:1.55;min-height:150px}
+.tstat.ok{background:var(--green-soft);border-left:6px solid var(--green)}
+.tstat.bad{background:var(--red-soft);border-left:6px solid var(--red)}
+.tstat.warn{background:var(--amber-soft);border-left:6px solid var(--amber)}
+.tstat b{font-size:30px}
+
+/* PBW */
+.pbw{display:grid;grid-template-columns:560px 1fr;gap:64px;align-items:start}
+.vtbars{display:flex;flex-direction:column;gap:14px;margin-top:22px}
+.vtb{display:grid;grid-template-columns:210px 1fr 120px;gap:14px;align-items:center;font-size:23px}
+.vtb .tr{height:34px;background:var(--paper-2);border-radius:8px;overflow:hidden}
+.vtb .tr i{display:block;height:100%;border-radius:8px;transition:width .3s}
+.vtb b{font-family:var(--f-mono);font-size:30px;text-align:right}
+
+/* vent screen tiles */
+.vs{background:var(--screen);border-radius:16px;box-shadow:inset 0 0 0 6px #25332E;padding:16px 22px;color:#E8EEE9;font-family:var(--f-mono)}
+.vs .row{display:grid;grid-template-columns:120px repeat(5,1fr);gap:12px;align-items:stretch;margin-top:10px}
+.vs .row>em{font-style:normal;font-family:var(--f-body);font-size:20px;color:#9FB0A8;align-self:center}
+.vt{background:#17241F;border:2px solid #26352F;border-radius:10px;padding:10px 14px;text-align:left;color:#E8EEE9;display:flex;flex-direction:column;gap:2px}
+.vt span{font-size:16px;color:#9FB0A8;letter-spacing:.04em}
+.vt b{font-size:40px;font-weight:600;line-height:1.05}
+.vt small{font-size:15px;color:#9FB0A8}
+.vt.set b{color:#7FD3F0} .vt.mea b{color:#F2D34B}
+.vt.on{border-color:#fff}
+.vt.watch{box-shadow:0 0 0 3px #F2B84B}
+.vshead{display:flex;justify-content:space-between;align-items:center}
+.vshead .seg .sbtn{background:#17241F;color:#E8EEE9;border-color:#26352F;font-size:20px;padding:8px 16px}
+.vshead .seg .sbtn.on{background:#E8EEE9;color:var(--ink)}
+.vexp{margin-top:16px;padding:14px 22px;background:var(--slip);border-radius:12px;border-left:6px solid var(--sec);min-height:112px}
+.vexp h3{font-size:30px;margin-bottom:4px}
+.vexp p{font-size:24px;line-height:1.5}
+
+/* pressure waveform */
+.pp{display:grid;grid-template-columns:1fr 440px;gap:44px;align-items:start}
+.pwv{width:100%;height:auto;background:var(--slip);border-radius:12px}
+.pwv text{font-family:var(--f-body)}
+.ppread{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:16px}
+.ppread div{background:var(--slip);border-radius:10px;padding:8px 14px}
+.ppread span{font-size:18px;color:var(--muted)}
+.ppread b{display:block;font-family:var(--f-mono);font-size:40px;font-weight:600;line-height:1.1}
+.ppdx{margin-top:14px;padding:16px 20px;border-radius:12px;background:var(--slip);border-left:6px solid var(--pc,var(--ink));font-size:24px;line-height:1.55;min-height:150px}
+.ppdx h3{font-size:30px;color:var(--pc,var(--ink));margin-bottom:4px}
+
+/* decision tree */
+.dt{display:grid;grid-template-columns:470px 1fr;gap:48px;align-items:start}
+.path{display:flex;flex-direction:column;gap:10px}
+.path div{font-size:21px;line-height:1.45;padding:10px 16px;background:var(--slip);border-radius:10px;border-left:5px solid var(--line)}
+.path div b{display:block;font-size:19px;color:var(--muted);font-weight:500}
+.node{background:var(--slip);border-radius:16px;padding:26px 30px;border-top:8px solid var(--nc,var(--ink));min-height:380px;display:flex;flex-direction:column;gap:18px}
+.node .tag{align-self:flex-start;font-family:var(--f-mono);font-weight:600;font-size:22px;padding:4px 14px;border-radius:999px;background:var(--nc);color:#fff}
+.node h3{font-size:40px;line-height:1.3}
+.node p{font-size:26px;line-height:1.6}
+.node .btns{display:flex;flex-wrap:wrap;gap:12px;margin-top:auto}
+.node .btns button{border:2px solid var(--ink);background:var(--paper);border-radius:12px;padding:14px 22px;font-size:25px;text-align:left}
+.node .btns button:hover{background:var(--paper-2)}
+.node .btns button.pri{background:var(--ink);color:var(--paper)}
+
+/* DOPE flips */
+.dope .front .big{font-family:var(--f-display);font-size:140px;line-height:1;color:var(--fc);margin-top:6px}
+
+/* alarm table */
+.al{display:grid;grid-template-columns:360px 1fr;gap:40px;align-items:start}
+.alist{display:flex;flex-direction:column;gap:10px}
+.alist button{display:flex;align-items:center;gap:14px;text-align:left;border:2px solid var(--line);background:var(--slip);border-radius:12px;padding:12px 18px;font-size:25px;font-weight:700}
+.alist button i{width:14px;height:14px;border-radius:50%;background:var(--ac);flex:none}
+.alist button small{display:block;font-size:17px;font-weight:500;color:var(--muted);font-family:var(--f-mono)}
+.alist button.on{border-color:var(--ink);box-shadow:inset 6px 0 0 var(--ac)}
+.apanel{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.apanel>div{background:var(--slip);border-radius:12px;padding:14px 20px}
+.apanel>div.full{grid-column:1/-1}
+.apanel h4{margin:0 0 6px;font-size:21px;color:var(--muted);font-weight:700;letter-spacing:.06em}
+.apanel p,.apanel li{font-size:23px;line-height:1.55}
+.apanel ol{margin:0;padding-left:1.3em}
+.apanel .dont{background:var(--red-soft)}
+
+/* auto-PEEP */
+.ap{display:grid;grid-template-columns:1fr 420px;gap:44px;align-items:start}
+.fwv{width:100%;height:auto;background:var(--screen);border-radius:12px}
+.fwv text{font-family:var(--f-body)}
+.aplung{display:grid;grid-template-columns:150px 1fr;gap:18px;align-items:center;margin-top:10px}
+.aplung svg{width:150px;height:auto}
+.aptxt{font-size:24px;line-height:1.55}
+.aptxt b{font-family:var(--f-mono)}
+</style>
+
+<div id="stage" role="region" aria-label="投影片">
+
+<!-- 1 封面 -->
+<section class="slide cover active" data-sec="0">
+  <div>
+    <p class="eyebrow">急診護理在職教育　約 20 分鐘</p>
+    <h1 class="cover-title">呼吸器<span>又叫</span>了</h1>
+    <p class="cover-sub">插管後的呼吸器照護——看懂設定、聽懂警報</p>
+  </div>
+  <div class="cov-wrap">
+    <div class="m-wrap bob" data-mascot="worried" data-label="肺" data-color="#D9412B"><div class="bubble">它又在叫了……怎麼辦</div></div>
+    <div class="vscreen">
+      <div class="alarmbar blink">⚠ 高壓 HIGH Paw<span style="margin-left:auto;font-size:20px">!!!</span></div>
+      <div class="cov-v"><svg id="covWave" viewBox="0 0 1150 200" aria-hidden="true"></svg>
+        <div class="cov-nums"><span>Ppeak cmH₂O</span><b style="color:#FF6B5E">48</b><span>VTe mL</span><b style="color:#F2D34B">210</b></div></div>
+    </div>
+  </div>
+  <p class="byline">天晟醫院 急診科　陳孝綱</p>
+  <aside class="notes"><b>0:30</b>開場。插完管、接上呼吸器，大家最怕的就是它一直叫、又不知道叫什麼。今天 20 分鐘只教一件事：警報響了，先救人，再修機器。操作：← → 或翻頁器換頁，F 全螢幕，N 開關講稿。</aside>
+</section>
+
+<!-- 2 暖身 -->
+<section class="slide" data-sec="0">
+  <div class="head"><p class="eyebrow">暖身 · 舉手投票</p><h2>高壓警報一直叫，你的第一步？</h2></div>
+  <div class="body poll">
+    <div>
+      <div class="vitals"><div><span>警報</span><b class="m-bp" style="font-size:36px">高壓</b></div><div><span>Ppeak</span><b class="m-rr">46</b></div><div><span>SpO₂</span><b class="m-o2">91%</b></div><div><span>HR</span><b class="m-hr">128</b></div></div>
+      <p class="note" style="margin-top:14px">肺炎插管後 30 分鐘，還在急診等床</p>
+    </div>
+    <div class="opts" data-poll="pre">
+      <button class="vote" data-i="0"><span class="fill"></span><span class="k">A</span><span>先按消音，等呼吸治療師來</span><span class="n">0</span></button>
+      <button class="vote" data-i="1"><span class="fill"></span><span class="k">B</span><span>先看病人：SpO₂、胸部起伏、有沒有咬管</span><span class="n">0</span></button>
+      <button class="vote" data-i="2"><span class="fill"></span><span class="k">C</span><span>把高壓警報的上限調高</span><span class="n">0</span></button>
+      <button class="tiny" data-reset="pre">票數歸零</button>
+    </div>
+  </div>
+  <aside class="notes"><b>1:00</b>請大家舉手，每舉一隻手點一下計票。這題很多人會選 A——不怪大家，因為沒人教過。最後一頁再投一次。</aside>
+</section>
+
+<!-- 3 管子在哪 -->
+<section class="slide" data-sec="0">
+  <div class="head"><p class="eyebrow">插管後 · 第一件事</p><h2>先確定管子真的在氣管裡</h2></div>
+  <div class="body cap">
+    <div>
+      <div class="seg" id="capSeg" style="margin-bottom:14px">
+        <button class="sbtn on" data-c="ok">在氣管內</button>
+        <button class="sbtn" data-c="eso">插到食道</button>
+        <button class="sbtn" data-c="out">管子滑出來</button>
+      </div>
+      <div class="capbox"><div class="top"><span>EtCO₂ mmHg</span><b id="capV">38</b></div><svg id="capSvg" viewBox="0 0 760 250"></svg></div>
+      <p class="capcap" id="capCap"></p>
+    </div>
+    <div class="plist">
+      <div><i>1</i><span>EtCO₂ 波形持續出現<small>最可靠；每一口都有方方的波</small></span></div>
+      <div><i>2</i><span>兩側呼吸音對稱<small>胃部聽不到咕嚕聲</small></span></div>
+      <div><i>3</i><span>胸部起伏對稱</span></div>
+      <div><i>4</i><span>記下刻度<small>門齒處：男約 23、女約 21 cm</small></span></div>
+      <div><i>5</i><span>固定好，照胸部 X 光<small>確認深度</small></span></div>
+    </div>
+  </div>
+  <aside class="notes"><b>1:00</b>切換三種波形。插到食道：一開始可能有幾口小波（胃裡的氣），很快就變一直線。管子滑出：原本好好的，突然變小、變平。EtCO₂ 是「管子在不在」最快的警報，轉送病人也要接著。</aside>
+</section>
+
+<!-- 4 鎮靜 -->
+<section class="slide" data-sec="0">
+  <div class="head"><p class="eyebrow">插管後 · 別忘了這件</p><h2>不會動，不代表睡著了</h2></div>
+  <div class="body tl">
+    <div>
+      <div class="seg" id="rsiSeg">
+        <button class="sbtn on" data-r="0">Etomidate ＋ Rocuronium</button>
+        <button class="sbtn" data-r="1">Ketamine ＋ Rocuronium</button>
+        <button class="sbtn" data-r="2">Etomidate ＋ Succinylcholine</button>
+      </div>
+      <div class="bars" id="bars">
+        <div class="brow"><span id="bS">鎮靜藥<small></small></span><div class="btrack"><i id="barSed" style="background:var(--blue)"></i></div></div>
+        <div class="brow"><span id="bP">肌肉鬆弛劑<small></small></span><div class="btrack"><i id="barPar" style="background:var(--purple)"></i></div></div>
+        <div class="cursor" id="cur"></div>
+        <div class="tscale"><span style="left:0">0</span><span style="left:25%">15</span><span style="left:50%">30</span><span style="left:75%">45</span><span style="left:100%">60</span></div>
+      </div>
+      <div class="sl"><label for="tMin"><span>插管後經過（分鐘）</span><b id="vMin">5</b></label><input type="range" id="tMin" min="0" max="60" value="5"></div>
+      <p class="note">藥效時間為約略值，依劑量、年齡與肝腎功能而不同。</p>
+    </div>
+    <div>
+      <div class="tstat" id="tStat"></div>
+      <div class="keybox" style="margin-top:16px">插管後就要開始<b>止痛＋鎮靜</b>（依醫囑），先止痛、再鎮靜。肌鬆作用中看不出躁動：看<b>心跳、血壓突然上升、流淚</b>。</div>
+    </div>
+  </div>
+  <aside class="notes"><b>1:30</b>拉時間軸：10 分鐘時鎮靜藥已經退了，Rocuronium 還有將近一小時——病人醒了、會痛、會怕，但動不了。Succinylcholine 那組反過來：很快就會動，容易咬管、嗆咳、自拔。兩種都要及早開始止痛鎮靜。</aside>
+</section>
+
+<!-- 5 理想體重 -->
+<section class="slide" data-sec="1">
+  <div class="head"><p class="eyebrow">看懂設定 · 潮氣量</p><h2>潮氣量看「身高」，不是看體重</h2></div>
+  <div class="body pbw">
+    <div>
+      <div class="seg" id="sexSeg"><button class="sbtn" data-s="m">男性</button><button class="sbtn on" data-s="f">女性</button></div>
+      <div class="sl"><label for="hCm"><span>身高 cm</span><b id="vH">160</b></label><input type="range" id="hCm" min="140" max="195" value="160"></div>
+      <div class="sl"><label for="wKg"><span>實際體重 kg</span><b id="vW">85</b></label><input type="range" id="wKg" min="35" max="150" value="85"></div>
+      <p class="fx" style="margin-top:22px;font-family:var(--f-mono);font-size:21px;background:var(--slip);border-radius:10px;padding:12px 16px" id="pbwFx"></p>
+    </div>
+    <div>
+      <p style="font-size:26px;font-weight:700">理想體重</p>
+      <div style="display:flex;align-items:baseline;gap:14px"><span class="bnum" id="pbwV">52</span><span style="font-size:30px">kg</span></div>
+      <div class="vtbars">
+        <div class="vtb"><span>6 mL/kg 理想體重</span><div class="tr"><i id="b6" style="background:var(--green)"></i></div><b id="v6">314</b></div>
+        <div class="vtb"><span>8 mL/kg 理想體重</span><div class="tr"><i id="b8" style="background:var(--green)"></i></div><b id="v8">419</b></div>
+        <div class="vtb"><span>8 mL/kg 實際體重 ✕</span><div class="tr"><i id="bA" style="background:var(--red)"></i></div><b id="vA">680</b></div>
+      </div>
+      <p class="keybox" style="margin-top:18px" id="pbwNote"></p>
+    </div>
+  </div>
+  <aside class="notes"><b>1:00</b>肺的大小跟身高有關，跟胖瘦無關。示範：160 公分、85 公斤的女性，用實際體重算會多灌 200 多 mL，肺會被撐壞。急診常見起始設定（依醫囑）：AC/VC、潮氣量 6–8 mL/kg 理想體重、RR 14–18、PEEP 5、FiO₂ 先 100% 再往下調。</aside>
+</section>
+
+<!-- 6 螢幕上的數字 -->
+<section class="slide" data-sec="1">
+  <div class="head"><p class="eyebrow">看懂設定 · 點點看</p><h2>呼吸器螢幕上，上面是設定、下面是結果</h2></div>
+  <div class="body">
+    <div class="vs">
+      <div class="vshead"><span style="font-size:20px;color:#9FB0A8">BED 3 · 模式</span><div class="seg" id="modeSeg"><button class="sbtn on" data-m="vc">容積控制 AC/VC</button><button class="sbtn" data-m="pc">壓力控制 AC/PC</button></div></div>
+      <div class="row" id="setRow"><em>設定<br>（我們給的）</em></div>
+      <div class="row" id="meaRow"><em>監測<br>（病人的結果）</em></div>
+    </div>
+    <div class="vexp" id="vExp"></div>
+  </div>
+  <aside class="notes"><b>1:30</b>點每個數字看說明。切換 VC／PC：VC 是「量固定、壓力會變」→ 盯壓力；PC 是「壓力固定、量會變」→ 盯潮氣量。黃色外框就是這個模式最該盯的數字。</aside>
+</section>
+
+<!-- 7 Ppeak vs Pplat -->
+<section class="slide" data-sec="1">
+  <div class="head"><p class="eyebrow">看懂設定 · 兩個壓力</p><h2>尖峰壓和平台壓，告訴你問題在哪裡</h2></div>
+  <div class="body pp">
+    <div>
+      <svg class="pwv" id="ppSvg" viewBox="0 0 860 400" aria-label="呼吸器壓力波形"></svg>
+      <div class="seg" id="ppSeg" style="margin-top:14px">
+        <button class="sbtn on" data-p="n">正常</button>
+        <button class="sbtn" data-p="r">咬管、痰、氣管痙攣</button>
+        <button class="sbtn" data-p="c">氣胸、插太深、肺水腫</button>
+      </div>
+    </div>
+    <div>
+      <div class="ppread"><div><span>Ppeak 尖峰壓</span><b id="pk">22</b></div><div><span>Pplat 平台壓</span><b id="pl">16</b></div><div><span>差距</span><b id="pd">6</b></div></div>
+      <div class="ppdx" id="ppDx"></div>
+      <p class="note" style="margin-top:10px">Pplat 要按呼吸器的「吸氣暫停（Insp. hold）」才量得到；目標 ≤ 30。</p>
+    </div>
+  </div>
+  <aside class="notes"><b>1:30</b>先看正常。點「咬管、痰」：只有尖峰壓衝上去，平台壓不變 → 卡在管子或氣管。點「氣胸、插太深」：兩個一起升高 → 肺或胸腔變硬。一句話：差距大看管子，兩個都高看肺。</aside>
+</section>
+
+<!-- 8 流程 -->
+<section class="slide" data-sec="2">
+  <div class="head"><p class="eyebrow">警報處理 · 跟著走</p><h2>警報響了：先救人，再修機器</h2></div>
+  <div class="body dt">
+    <div><p class="note" style="margin-bottom:10px">走過的步驟</p><div class="path" id="dtPath"></div></div>
+    <div class="node" id="dtNode"></div>
+  </div>
+  <aside class="notes"><b>2:00</b>請台下幫忙選路線，走兩三遍不同的分支。最重要的是第二步：病人不穩就先拔掉呼吸器、接甦醒球手壓——手壓起來好擠、病人變好，就是機器的問題；很難擠，就是病人或管子的問題。</aside>
+</section>
+
+<!-- 9 DOPE -->
+<section class="slide dope" data-sec="2">
+  <div class="head"><p class="eyebrow">警報處理 · 口訣</p><h2>插管病人突然變差：DOPE</h2></div>
+  <div class="body" style="display:flex;flex-direction:column">
+    <div class="flips">
+      <button class="flip" aria-pressed="false" style="--fs:var(--red-soft);--fc:var(--red)"><div class="flip-in">
+        <div class="face front"><small>DISPLACEMENT</small><span class="big">D</span><h3>管子移位</h3><span class="hint">點我翻面</span></div>
+        <div class="face back"><h4>移位</h4><ul><li>滑出：刻度變淺、會出聲、EtCO₂ 消失</li><li>太深：單側呼吸音變小（多為右側主支氣管）</li></ul><p><b>做：</b>看刻度、聽兩側、看 EtCO₂</p></div>
+      </div></button>
+      <button class="flip" aria-pressed="false" style="--fs:var(--amber-soft);--fc:var(--amber)"><div class="flip-in">
+        <div class="face front"><small>OBSTRUCTION</small><span class="big">O</span><h3>管子阻塞</h3><span class="hint">點我翻面</span></div>
+        <div class="face back"><h4>阻塞</h4><ul><li>痰塊、血塊</li><li>病人咬管</li><li>管路折到</li></ul><p><b>做：</b>放抽痰管、抽痰、放牙墊、順管路</p></div>
+      </div></button>
+      <button class="flip" aria-pressed="false" style="--fs:var(--purple-soft);--fc:var(--purple)"><div class="flip-in">
+        <div class="face front"><small>PNEUMOTHORAX</small><span class="big">P</span><h3>氣胸</h3><span class="hint">點我翻面</span></div>
+        <div class="face back"><h4>氣胸</h4><ul><li>單側呼吸音消失</li><li>血壓掉、氣管偏移</li><li>正壓會讓它越來越大</li></ul><p><b>做：</b>通知醫師，備針刺減壓、胸管</p></div>
+      </div></button>
+      <button class="flip" aria-pressed="false" style="--fs:var(--blue-soft);--fc:var(--blue)"><div class="flip-in">
+        <div class="face front"><small>EQUIPMENT</small><span class="big">E</span><h3>機器故障</h3><span class="hint">點我翻面</span></div>
+        <div class="face back"><h4>機器／管路</h4><ul><li>接頭鬆脫、管路破</li><li>氧氣、電源沒接好</li><li>呼吸器故障</li></ul><p><b>做：</b>先手壓，再請呼吸治療師換機</p></div>
+      </div></button>
+    </div>
+    <p class="keybox" style="margin-top:22px">再加一個 <b>S：Stacked breaths（氣吐不完、auto-PEEP）</b>——氣喘、COPD 最常見，後面專門講。</p>
+  </div>
+  <aside class="notes"><b>1:00</b>先讓大家猜四個字母，再翻卡。DOPE 是插管病人突然惡化時的檢查順序，也是呼吸器警報背後最常見的原因。</aside>
+</section>
+
+<!-- 10 警報表 -->
+<section class="slide" data-sec="2">
+  <div class="head"><p class="eyebrow">警報處理 · 對照表</p><h2>六種最常見的警報</h2></div>
+  <div class="body al">
+    <div class="alist" id="aList"></div>
+    <div class="apanel" id="aPanel"></div>
+  </div>
+  <aside class="notes"><b>2:00</b>一個一個點。高壓和低壓是急診最常響的兩個：高壓多半是「東西卡住或肺變硬」，低壓多半是「氣漏掉了」。原則一樣：看病人 → 找原因 → 處理完再消音；絕對不要只把警報上限調掉。警報名稱依本院呼吸器機型可能略有不同。</aside>
+</section>
+
+<!-- 11 auto-PEEP -->
+<section class="slide" data-sec="2">
+  <div class="head"><p class="eyebrow">警報處理 · 氣吐不完</p><h2>氣喘和 COPD：氣還沒吐完，下一口又來了</h2></div>
+  <div class="body ap">
+    <div>
+      <svg class="fwv" id="fwSvg" viewBox="0 0 880 360" aria-label="呼吸器流量波形"></svg>
+      <div style="display:flex;gap:24px;align-items:center;margin-top:12px;flex-wrap:wrap">
+        <div class="seg" id="lungSeg"><button class="sbtn" data-t="0.25">一般的肺</button><button class="sbtn on" data-t="0.9">氣喘／COPD</button></div>
+        <div class="sl" style="margin:0;flex:1;min-width:300px"><label for="apRR"><span>呼吸次數 RR</span><b id="vRR">22</b></label><input type="range" id="apRR" min="8" max="30" value="22"></div>
+      </div>
+    </div>
+    <div>
+      <div style="display:flex;align-items:center;gap:16px"><span class="chip red" id="apChip">氣吐不完</span></div>
+      <div class="aplung">
+        <svg viewBox="0 0 150 150" aria-hidden="true"><circle id="apLung" cx="75" cy="75" r="46" fill="#F5C9C0" stroke="#D98E82" stroke-width="5"/><text x="75" y="84" text-anchor="middle" font-size="26" fill="#9C5D4F" font-family="Noto Sans TC,sans-serif">肺</text></svg>
+        <p class="aptxt" id="apTxt"></p>
+      </div>
+      <div class="warnbox" style="margin-top:12px;font-size:22px"><b>高壓＋血壓掉＋氣喘/COPD</b> → 通知醫師；常見做法是先把呼吸器接頭拔開 20–30 秒讓氣吐完，再依醫囑降 RR、延長吐氣。</div>
+    </div>
+  </div>
+  <aside class="notes"><b>1:30</b>看下方的吐氣流量：一般的肺很快回到 0。切到「氣喘/COPD」並把 RR 拉高：吐氣還沒回到 0，下一口就來了——氣一口一口卡在肺裡，壓力越來越高、壓到心臟回流，血壓就掉，嚴重會 PEA。把 RR 拉低看它恢復。</aside>
+</section>
+
+<!-- 12 情境 1 -->
+<section class="slide" data-sec="2">
+  <div class="head"><p class="eyebrow">情境劇場 1</p><h2>剛插完管，高壓警報叫不停</h2></div>
+  <div class="body case">
+    <div>
+      <p class="story"><b>45 歲男性，肺炎插管後 30 分鐘，</b>止痛鎮靜還沒開始。病人扭來扭去、咬住管子，SpO₂ 從 97% 掉到 89%。</p>
+      <div class="vitals"><div><span>警報</span><b class="m-bp" style="font-size:36px">高壓</b></div><div><span>Ppeak</span><b class="m-rr">48</b></div><div><span>SpO₂</span><b class="m-o2">89%</b></div><div><span>BP</span><b class="m-w">168/96</b></div></div>
+    </div>
+    <div class="quiz">
+      <p class="q">最適當的處置是？</p>
+      <div class="qopts">
+        <button class="qo"><span class="k">A</span><span>把高壓警報上限調到 60，讓它不要叫</span></button>
+        <button class="qo" data-ok><span class="k">B</span><span>放牙墊、抽痰；SpO₂ 還在掉就接甦醒球手壓，同時通知醫師開止痛鎮靜</span></button>
+        <button class="qo"><span class="k">C</span><span>按消音，等呼吸治療師來看</span></button>
+        <button class="qo"><span class="k">D</span><span>自行把潮氣量調小</span></button>
+      </div>
+      <p class="explain" hidden>咬管＋躁動（止痛鎮靜不足）→ <b>O：阻塞</b>，氣送不進去。處理原因：牙墊、抽痰、依醫囑止痛鎮靜。調高上限只會讓壓力更高，呼吸器設定由醫師或呼吸治療師調整。</p>
+    </div>
+  </div>
+  <aside class="notes"><b>1:30</b>回扣第 4 頁：插完管沒開始鎮靜，鎮靜藥一退就會這樣。再回扣第 7 頁：這時 Ppeak 高、Pplat 正常。</aside>
+</section>
+
+<!-- 13 日常照護 -->
+<section class="slide" data-sec="3">
+  <div class="head"><p class="eyebrow">日常照護 · 每一班</p><h2>插管病人在急診，每班要顧的六件事</h2></div>
+  <div class="body checks">
+    <button class="chk"><span><strong>核對刻度與固定</strong><span>記錄門齒刻度；翻身、轉送前後都再看一次</span></span></button>
+    <button class="chk"><span><strong>氣囊壓 20–30 cmH₂O</strong><span>用氣囊壓力計量，不要用手捏估計</span></span></button>
+    <button class="chk"><span><strong>床頭抬高 30–45°＋口腔護理</strong><span>預防吸入與呼吸器相關肺炎</span></span></button>
+    <button class="chk"><span><strong>抽痰有技巧</strong><span>抽前給氧、每次 10–15 秒內、有需要才抽</span></span></button>
+    <button class="chk"><span><strong>先止痛、再鎮靜</strong><span>依醫囑給藥，定時評估疼痛與鎮靜程度（RASS）</span></span></button>
+    <button class="chk"><span><strong>床邊一定要有</strong><span>甦醒球＋面罩、抽吸設備；預防自拔（依約束規範）</span></span></button>
+  </div>
+  <aside class="notes"><b>1:00</b>每講一項打一個勾。第一項最常出事：推去 CT、換床之後管子滑出來，回來才發現。</aside>
+</section>
+
+<!-- 14 情境 2 -->
+<section class="slide" data-sec="3">
+  <div class="head"><p class="eyebrow">情境劇場 2</p><h2>從 CT 回來，警報聲不一樣了</h2></div>
+  <div class="body case">
+    <div>
+      <p class="story"><b>70 歲女性，腦出血插管。</b>從 CT 回來後低潮氣量警報一直響，喉嚨發出咕嚕聲，EtCO₂ 波形變得很小。管子刻度從 22 cm 變成 18 cm。</p>
+      <div class="vitals"><div><span>警報</span><b class="m-bp" style="font-size:34px">低潮氣量</b></div><div><span>SpO₂</span><b class="m-o2">84%</b></div><div><span>EtCO₂</span><b class="m-rr">8</b></div><div><span>刻度</span><b class="m-w">18 cm</b></div></div>
+    </div>
+    <div class="quiz">
+      <p class="q">最可能的問題與處置是？</p>
+      <div class="qopts">
+        <button class="qo"><span class="k">A</span><span>氣囊漏氣，把氣囊打到很飽就好</span></button>
+        <button class="qo" data-ok><span class="k">B</span><span>D：管子滑出。持續給氧（必要時改面罩甦醒球），通知醫師準備重新插管</span></button>
+        <button class="qo"><span class="k">C</span><span>O：痰太多，抽痰就好</span></button>
+        <button class="qo"><span class="k">D</span><span>E：呼吸器壞了，換一台</span></button>
+      </div>
+      <p class="explain" hidden>刻度變淺＋會出聲＋EtCO₂ 變小 → <b>D：管子往外滑</b>，氣囊卡在聲門上。把氣囊打更飽沒有用，還會傷聲帶；不要自己把管子往內推。預防：轉送前後都核對刻度。</p>
+    </div>
+  </div>
+  <aside class="notes"><b>1:30</b>請大家從刻度、聲音、EtCO₂ 三個線索推理。追問：轉送插管病人，床邊一定要帶什麼？（甦醒球、面罩、EtCO₂、抽吸。）</aside>
+</section>
+
+<!-- 15 偵探 -->
+<section class="slide" data-sec="4">
+  <div class="gtop">
+    <div class="head"><p class="eyebrow">實戰 · 分組搶答</p><h2>警報偵探：DOPE 哪一個？</h2></div>
+    <div class="score">
+      <div class="team red"><span class="tn">紅隊</span><button data-t="0" data-d="-1" aria-label="紅隊減一分">−</button><span class="ts" id="ts0">0</span><button data-t="0" data-d="1" aria-label="紅隊加一分">+</button></div>
+      <div class="team blue"><span class="tn">藍隊</span><button data-t="1" data-d="-1" aria-label="藍隊減一分">−</button><span class="ts" id="ts1">0</span><button data-t="1" data-d="1" aria-label="藍隊加一分">+</button></div>
+    </div>
+  </div>
+  <div class="body game">
+    <div><p class="gno" id="gNo">第 1 / 6 題</p><p class="story" id="gStory" style="min-height:150px"></p><div id="gVis"></div></div>
+    <div>
+      <p class="q">最可能是？</p>
+      <div class="gopts" id="gOpts"></div>
+      <p class="explain" id="gWhy" hidden></p>
+      <div class="gnav"><button class="gbtn" id="gPrev">上一題</button><button class="gbtn pri" id="gNext">下一題</button><span class="gdots" id="gDots"></span></div>
+    </div>
+  </div>
+  <aside class="notes"><b>2:30</b>分兩隊搶答，答對按「+」。答完追問「第一步做什麼」再加一分。</aside>
+</section>
+
+<!-- 16 是非 -->
+<section class="slide" data-sec="4">
+  <div class="head"><p class="eyebrow">實戰 · 快問快答 ○ ✕</p><h2 id="tfNo">第 1 / 5 題</h2></div>
+  <div class="body tf">
+    <div><p class="tfq" id="tfQ"></p><div class="tfa" id="tfA"></div></div>
+    <div>
+      <div class="ring"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="52" fill="none" stroke="#E5EAE3" stroke-width="12"/><circle id="tfArc" cx="60" cy="60" r="52" fill="none" stroke="#172421" stroke-width="12" stroke-linecap="round" stroke-dasharray="326.7" stroke-dashoffset="0"/></svg><span class="t" id="tfT">10</span></div>
+      <div class="tfbtns"><button class="gbtn" id="tfGo">倒數</button><button class="gbtn pri" id="tfShow">揭曉</button><button class="gbtn" id="tfNext">下一題</button></div>
+    </div>
+  </div>
+  <aside class="notes"><b>1:00</b>唸題目 → 按「倒數」給 10 秒 → 按「揭曉」。</aside>
+</section>
+
+<!-- 17 總結 -->
+<section class="slide" data-sec="5">
+  <div class="head"><p class="eyebrow">總結 · 帶走三句話</p><h2>下次呼吸器叫，你會怎麼做？</h2></div>
+  <div class="body wrapg">
+    <div>
+      <div class="take">
+        <div style="--c:var(--red)"><b>先救人</b><p>病人不穩 → 拔開呼吸器、接甦醒球 100% 氧氣，再找原因</p></div>
+        <div style="--c:var(--amber)"><b>DOPE</b><p>移位、阻塞、氣胸、機器，再加 S：氣吐不完</p></div>
+        <div style="--c:var(--blue)"><b>看壓力</b><p>尖峰壓高、平台壓正常 → 管子或痰；兩個都高 → 肺或胸腔</p></div>
+      </div>
+      <p class="thanks">謝謝大家，有問題現在問</p>
+    </div>
+    <div class="post">
+      <h3>再投一次：高壓警報一直叫？</h3>
+      <p class="legend"><span><i></i>課前票數</span><span>底色：課後票數</span></p>
+      <div class="opts" data-poll="post">
+        <button class="vote" data-i="0"><span class="fill"></span><span class="ghost"></span><span class="k">A</span><span>先按消音，等呼吸治療師來</span><span class="n">0</span></button>
+        <button class="vote" data-i="1"><span class="fill"></span><span class="ghost"></span><span class="k">B</span><span>先看病人：SpO₂、胸部起伏、有沒有咬管</span><span class="n">0</span></button>
+        <button class="vote" data-i="2"><span class="fill"></span><span class="ghost"></span><span class="k">C</span><span>把高壓警報的上限調高</span><span class="n">0</span></button>
+        <button class="tiny" data-reset="post">票數歸零</button>
+      </div>
+    </div>
+  </div>
+  <aside class="notes"><b>0:45</b>三句話跟著念。右邊再投一次，細灰線是課前票數。</aside>
+</section>
+
+<nav class="bar" aria-label="投影片導覽">
+  <ul class="secs" id="secs"></ul>
+  <div class="ctrl">
+    <span class="count" id="count">1 / 1</span>
+    <button class="ibtn" id="prev" aria-label="上一張">←</button>
+    <button class="ibtn" id="next" aria-label="下一張">→</button>
+    <button class="ibtn" id="noteBtn" title="講稿（N）">講稿</button>
+    <button class="ibtn" id="fsBtn" title="全螢幕（F）">全螢幕</button>
+  </div>
+</nav>
+</div>
+<div id="notes" hidden></div>
+
+<script>
+window.DECK={key:'vent',secs:[['基礎','var(--ink)'],['看懂設定','var(--blue)'],['警報處理','var(--red)'],['日常照護','var(--teal)'],['實戰','var(--amber)'],['總結','var(--green)']],
+  gameOpts:['D 管子移位','O 管子阻塞','P 氣胸','E 機器／管路']};
+window.TF=[
+  {q:'高壓警報一直響，把警報上限調高就解決了。',a:false,w:'警報是在告訴你「氣送不進去」。上限調高只會讓壓力更高，原因還在。'},
+  {q:'病人突然變差時，先拔開呼吸器改用甦醒球，可以分辨是病人還是機器的問題。',a:true,w:'手壓好擠又變好 → 機器；很難擠、還是差 → 病人或管子（DOPE）。'},
+  {q:'潮氣量要用病人的實際體重來算。',a:false,w:'用理想體重（看身高與性別）。肺的大小不會因為變胖而變大。'},
+  {q:'插管病人發出聲音，可能是管子滑出或氣囊漏氣。',a:true,w:'正常情況下氣囊封住氣管，病人發不出聲音。會出聲 → 看刻度、量氣囊壓。'},
+  {q:'打了 Rocuronium 的病人不會動，所以不需要鎮靜。',a:false,w:'肌鬆藥只讓人不能動，不會讓人睡著或不痛。要依醫囑給止痛鎮靜。'}
+];
+window.GAME=[
+  {s:'高壓警報。放入抽痰管抽出一大坨黏稠痰，抽完壓力就降下來了。',vt:[['警報','高壓','m-bp'],['Ppeak','42','m-rr'],['SpO₂','92%','m-o2'],['抽痰管','放得進去','m-w']],ok:1,w:'<b>O：阻塞</b>（痰塊）。抽痰後壓力下降就是最好的證據。'},
+  {s:'翻身之後，管子刻度從 22 cm 變成 26 cm，左側呼吸音變小。',vt:[['警報','高壓','m-bp'],['Ppeak','38','m-rr'],['SpO₂','90%','m-o2'],['刻度','26 cm','m-w']],ok:0,w:'<b>D：插太深</b>，跑進右側主支氣管，只有右肺在通氣。通知醫師，依醫囑退回原刻度、照 X 光。'},
+  {s:'車禍胸部外傷插管，突然高壓警報，右側呼吸音消失，氣管往左偏。',vt:[['警報','高壓','m-bp'],['BP','70/40','m-w'],['SpO₂','82%','m-o2'],['Pplat','36','m-rr']],ok:2,w:'<b>P：張力性氣胸</b>。正壓讓它越來越大。立即通知醫師，備針刺減壓、胸管。'},
+  {s:'低壓警報，分鐘通氣量掉到 0，胸部沒有起伏。一接上甦醒球就很好擠，SpO₂ 馬上回升。',vt:[['警報','低壓','m-bp'],['MVe','0.0','m-rr'],['SpO₂','86%','m-o2'],['手壓','很好擠','m-w']],ok:3,w:'手壓好擠又變好 → <b>E：機器或管路</b>（接頭鬆脫）。先手壓，從病人端一路檢查到機器。'},
+  {s:'病人一直咬牙，高壓警報響。Ppeak 46，平台壓只有 18。',vt:[['警報','高壓','m-bp'],['Ppeak','46','m-rr'],['Pplat','18','m-rr'],['SpO₂','93%','m-o2']],ok:1,w:'尖峰壓高、平台壓正常 → 卡在管子：<b>O：咬管</b>。放牙墊、依醫囑止痛鎮靜。'},
+  {s:'EtCO₂ 波形突然變一直線，病人喉嚨發出聲音，低潮氣量警報。',vt:[['警報','低潮氣量','m-bp'],['EtCO₂','0','m-rr'],['SpO₂','85%','m-o2'],['聲音','有','m-w']],ok:0,w:'EtCO₂ 消失＋會出聲 → <b>D：管子滑出</b>。給氧（必要時改面罩甦醒球），通知醫師重新插管。'}
+];
+GAME.forEach(g=>g.v=()=>vitals(g.vt));
+</script>
+<script>
+(function(){
+const $=s=>document.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const D=window.DECK;
+const stage=$('#stage'), slides=$$('.slide');
+let cur=0;
+window.$=$;window.$$=$$;
+window.reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---------- mascot ---------- */
+const MOUTH={happy:'M-20 18 Q0 38 20 18',worried:'M-20 30 Q0 14 20 30',dizzy:'M-24 24 q6 -8 12 0 t12 0 t12 0 t12 0',flat:'M-18 24 L18 24'};
+window.MOUTH=MOUTH;
+window.mascot=function(label,mood,color){
+  const fs=label.length>2?24:30;
+  return `<svg class="mascot" viewBox="-75 -75 150 150" aria-hidden="true">
+  <ellipse cx="0" cy="68" rx="42" ry="6" fill="rgba(23,36,33,.14)"/>
+  <circle class="m-body" r="58" fill="${color}"/>
+  <text class="m-label" x="0" y="-22" text-anchor="middle" font-size="${fs}">${label}</text>
+  <circle cx="-20" cy="2" r="7.5" fill="#172421"/><circle cx="20" cy="2" r="7.5" fill="#172421"/>
+  <circle cx="-17.5" cy="-.5" r="2.5" fill="#fff"/><circle cx="22.5" cy="-.5" r="2.5" fill="#fff"/>
+  <path class="m-mouth" d="${MOUTH[mood]}" fill="none" stroke="#172421" stroke-width="6" stroke-linecap="round"/>
+  <path class="m-sweat" d="M50 -36 q9 15 0 22 q-9 -7 0 -22z" fill="#9CCBEB" opacity="${mood==='worried'?1:0}"/></svg>`;
+};
+window.setMascot=function(el,mood,color){
+  if(color)el.querySelector('.m-body').setAttribute('fill',color);
+  el.querySelector('.m-mouth').setAttribute('d',MOUTH[mood]);
+  el.querySelector('.m-sweat').setAttribute('opacity',mood==='worried'?1:0);
+};
+$$('[data-mascot]').forEach(el=>el.insertAdjacentHTML('afterbegin',mascot(el.dataset.label||'',el.dataset.mascot,el.dataset.color)));
+
+/* ---------- lab slip ---------- */
+// rows: [[name,value,unit,lo,hi,decimals]]
+window.slip=function(rows,head,foot){
+  const f=(v,lo,hi)=>lo==null?'<em></em>':v<lo?'<em class="L">L</em>':v>hi?'<em class="H">H</em>':'<em></em>';
+  return `<div class="slip"><div class="slip-h"><span>${head||'LAB'}</span><span>STAT</span></div>
+  ${rows.map(([n,v,u,lo,hi,dp])=>`<div class="slip-r"><span>${n}</span><b>${typeof v==='number'?v.toFixed(dp||0):v}</b><i>${u||''}</i>${f(v,lo,hi)}</div>`).join('')}
+  <div class="slip-f">${foot||''}</div></div>`;
+};
+window.vitals=function(v){return `<div class="vitals">${v.map(([n,val,cls])=>`<div><span>${n}</span><b class="${cls||'m-w'}">${val}</b></div>`).join('')}</div>`};
+
+/* ---------- navigation ---------- */
+const secs=$('#secs');
+D.secs.forEach(([n,c],i)=>{const li=document.createElement('li');li.innerHTML=`<button style="--c:${c}"><i></i>${n}</button>`;
+  li.firstChild.onclick=()=>go(slides.findIndex(s=>+s.dataset.sec===i));secs.appendChild(li)});
+slides.forEach(s=>s.style.setProperty('--sec',D.secs[+s.dataset.sec][1]));
+const notes=$('#notes');
+const hooks=[];window.onSlide=fn=>hooks.push(fn);
+function go(i){
+  i=Math.max(0,Math.min(slides.length-1,i));
+  slides.forEach((s,k)=>{s.classList.toggle('active',k===i);s.classList.toggle('past',k<i);s.toggleAttribute('inert',k!==i)});
+  cur=i;
+  $('#count').textContent=`${i+1} / ${slides.length}`;
+  $$('#secs button').forEach((b,k)=>b.classList.toggle('on',k===+slides[i].dataset.sec));
+  const n=slides[i].querySelector('.notes');notes.innerHTML=n?n.innerHTML:'';
+  try{history.replaceState(null,'','#'+(i+1))}catch(e){}
+  if(slides[i].querySelector('[data-poll="post"]'))renderPoll('post');
+  hooks.forEach(fn=>fn(slides[i],i));
+}
+window.go=go;
+function fit(){const s=Math.min(innerWidth/1600,innerHeight/900);stage.style.transform=`translate(-50%,-50%) scale(${s})`}
+addEventListener('resize',fit);fit();
+$('#prev').onclick=()=>go(cur-1);$('#next').onclick=()=>go(cur+1);
+function toggleNotes(){notes.hidden=!notes.hidden}
+function toggleFS(){if(!document.fullscreenElement)document.documentElement.requestFullscreen?.().catch(()=>{});else document.exitFullscreen?.()}
+$('#noteBtn').onclick=toggleNotes;$('#fsBtn').onclick=toggleFS;
+addEventListener('keydown',e=>{
+  const t=e.target, isField=t.type==='range'||t.type==='number'||t.tagName==='SELECT';
+  if(e.key==='PageDown'){e.preventDefault();t.blur?.();go(cur+1);return}
+  if(e.key==='PageUp'){e.preventDefault();t.blur?.();go(cur-1);return}
+  if(isField)return;
+  if(e.key==='ArrowRight'){go(cur+1)}
+  else if(e.key==='ArrowLeft'){go(cur-1)}
+  else if(e.key===' '&&t.tagName!=='BUTTON'){e.preventDefault();go(cur+1)}
+  else if(e.key==='Home')go(0); else if(e.key==='End')go(slides.length-1);
+  else if(e.key==='f'||e.key==='F')toggleFS();
+  else if(e.key==='n'||e.key==='N')toggleNotes();
+});
+let tx=null;
+stage.addEventListener('touchstart',e=>{tx=e.target.closest('input,button')?null:e.touches[0].clientX},{passive:true});
+stage.addEventListener('touchend',e=>{if(tx==null)return;const d=e.changedTouches[0].clientX-tx;if(Math.abs(d)>60)go(cur+(d<0?1:-1));tx=null});
+
+/* ---------- polls ---------- */
+const store={get(k,d){try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const nOpt=$$('[data-poll="pre"] .vote').length||3;
+const polls={pre:store.get(D.key+'-poll-pre',Array(nOpt).fill(0)),post:store.get(D.key+'-poll-post',Array(nOpt).fill(0))};
+function renderPoll(k){
+  const box=document.querySelector(`[data-poll="${k}"]`);if(!box)return;const v=polls[k];const max=Math.max(1,...v,...(k==='post'?polls.pre:[]));
+  $$('.vote',box).forEach((b,i)=>{b.querySelector('.n').textContent=v[i];b.querySelector('.fill').style.width=(v[i]/max*100)+'%';
+    const g=b.querySelector('.ghost');if(g)g.style.width=(polls.pre[i]/max*100)+'%'});
+}
+$$('[data-poll]').forEach(box=>{const k=box.dataset.poll;
+  $$('.vote',box).forEach(b=>b.onclick=()=>{polls[k][+b.dataset.i]++;store.set(D.key+'-poll-'+k,polls[k]);renderPoll(k)});
+  renderPoll(k)});
+$$('[data-reset]').forEach(b=>b.onclick=()=>{const k=b.dataset.reset;polls[k]=Array(nOpt).fill(0);store.set(D.key+'-poll-'+k,polls[k]);renderPoll(k)});
+
+/* ---------- flips / tiles / checklist ---------- */
+$$('.flip').forEach(b=>b.onclick=()=>{b.classList.toggle('on');b.setAttribute('aria-pressed',b.classList.contains('on'))});
+$$('.tile').forEach(b=>b.onclick=()=>b.classList.toggle('on'));
+const CHECK='<svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+$$('.chk').forEach(b=>{b.setAttribute('aria-pressed','false');b.insertAdjacentHTML('afterbegin',`<span class="box">${CHECK}</span>`);
+  b.onclick=()=>b.setAttribute('aria-pressed',b.getAttribute('aria-pressed')!=='true')});
+
+/* ---------- case quizzes ---------- */
+$$('.quiz').forEach(qz=>{const ex=qz.querySelector('.explain');
+  $$('.qo',qz).forEach(o=>o.onclick=()=>{
+    $$('.qo',qz).forEach(x=>x.classList.remove('right','wrong'));
+    if(o.hasAttribute('data-ok'))o.classList.add('right');else{o.classList.add('wrong');qz.querySelector('[data-ok]').classList.add('right')}
+    ex.hidden=false})});
+
+/* ---------- reveal steps ---------- */
+$$('[data-reveal]').forEach(btn=>{
+  const scope=btn.closest('.slide');let n=0;const label=btn.textContent;
+  btn.onclick=()=>{const r=$$('.res',scope);
+    if(n>=r.length){r.forEach(x=>x.classList.remove('show'));n=0;btn.textContent=label;return}
+    r[n++].classList.add('show');if(n>=r.length)btn.textContent='重來一次'}});
+
+/* ---------- game ---------- */
+function initExtras(){
+if(window.GAME&&$('#gOpts')){
+  let gi=0;const gOpts=$('#gOpts'),gWhy=$('#gWhy');
+  function renderGame(){
+    const g=GAME[gi],opts=g.o||D.gameOpts;$('#gNo').textContent=`第 ${gi+1} / ${GAME.length} 題`;$('#gStory').innerHTML=g.s;
+    $('#gVis').innerHTML=g.v?g.v(gi):'';
+    gOpts.innerHTML=opts.map((o,i)=>`<button class="qo" data-i="${i}"><span class="k">${'ABCD'[i]}</span><span>${o}</span></button>`).join('');
+    gWhy.hidden=true;gWhy.innerHTML=g.w;
+    $$('.qo',gOpts).forEach(b=>b.onclick=()=>{$$('.qo',gOpts).forEach(x=>x.classList.remove('right','wrong'));
+      const i=+b.dataset.i;if(i===g.ok)b.classList.add('right');else{b.classList.add('wrong');gOpts.children[g.ok].classList.add('right')}gWhy.hidden=false});
+    $('#gDots').innerHTML=GAME.map((_,i)=>`<i class="${i===gi?'on':''}"></i>`).join('');
+    $('#gPrev').disabled=gi===0;$('#gNext').textContent=gi===GAME.length-1?'回第 1 題':'下一題';
+    if(D.afterGame)D.afterGame(gi);
+  }
+  $('#gPrev').onclick=()=>{if(gi>0){gi--;renderGame()}};$('#gNext').onclick=()=>{gi=(gi+1)%GAME.length;renderGame()};renderGame();
+  const scores=[0,0];
+  $$('.team button').forEach(b=>b.onclick=()=>{const t=+b.dataset.t;scores[t]=Math.max(0,scores[t]+ +b.dataset.d);$('#ts'+t).textContent=scores[t]});
+}
+
+/* ---------- true / false ---------- */
+if(window.TF&&$('#tfQ')){
+  let ti=0,timer=null;const arc=$('#tfArc'),C=326.7;
+  const stopT=()=>{clearInterval(timer);timer=null};
+  function renderTF(){stopT();const t=TF[ti];$('#tfNo').textContent=`第 ${ti+1} / ${TF.length} 題`;$('#tfQ').textContent=t.q;$('#tfA').innerHTML='';
+    $('#tfT').textContent='10';arc.style.transition='none';arc.setAttribute('stroke-dashoffset',0);arc.setAttribute('stroke','#172421')}
+  $('#tfGo').onclick=()=>{stopT();let s=10;$('#tfT').textContent=s;arc.style.transition='stroke-dashoffset 1s linear';arc.setAttribute('stroke-dashoffset',0);
+    timer=setInterval(()=>{s--;$('#tfT').textContent=s;arc.setAttribute('stroke-dashoffset',C*(10-s)/10);if(s<=3)arc.setAttribute('stroke','#D9412B');if(s<=0)stopT()},1000)};
+  $('#tfShow').onclick=()=>{stopT();const t=TF[ti];$('#tfA').innerHTML=`<span class="mark ${t.a?'o':'x'}">${t.a?'○':'✕'}</span><span>${t.w}</span>`};
+  $('#tfNext').onclick=()=>{ti=(ti+1)%TF.length;renderTF()};renderTF();
+}
+
+}
+/* ---------- start ---------- */
+window.startDeck=function(){initExtras();const h=parseInt(location.hash.slice(1),10);go(h>0?h-1:0)};
+})();
+
+</script>
+<script>
+(function(){
+/* cover waveform */
+(function(){let d='';const W=1150,y0=170;for(let k=0;k<4;k++){const x=k*290;d+=`M${x} ${y0}L${x+20} ${y0-40}L${x+80} ${y0-150}L${x+95} ${y0-55}L${x+160} ${y0-50}L${x+190} ${y0}L${x+290} ${y0}`}
+  $('#covWave').innerHTML=`<line x1="0" x2="${W}" y1="42" y2="42" stroke="#FF6B5E" stroke-dasharray="8 8" stroke-width="2"/><text x="10" y="34" font-size="18" fill="#FF6B5E" font-family="IBM Plex Mono,monospace">上限 40</text><path d="${d}" fill="none" stroke="#F2D34B" stroke-width="4" stroke-linejoin="round"/>`})();
+
+/* capnography */
+const CAP={ok:{a:[38,38,38,38],cap:'<b>在氣管內</b>：每一口都有方方的波，數值穩定（正常約 35–45 mmHg）。'},
+  eso:{a:[14,7,2,0],cap:'<b>插到食道</b>：一開始可能有幾口小波（胃裡的氣），很快變成一直線 → 立即通知醫師，拔管重插。'},
+  out:{a:[38,38,6,0],cap:'<b>管子滑出來</b>：原本好好的，突然變小、變平。聽聲音、看刻度，同時準備手壓給氧。'}};
+function drawCap(k){const a=CAP[k].a,W=760,H=250,P=4,D=a.length*P,px=W/D,y=v=>H-30-v/50*(H-60);
+  let grid='';[0,20,40].forEach(v=>grid+=`<line x1="0" x2="${W}" y1="${y(v)}" y2="${y(v)}" stroke="#1F2E28"/><text x="${W-6}" y="${y(v)-6}" text-anchor="end" font-size="16" fill="#6F8279" font-family="IBM Plex Mono,monospace">${v}</text>`);
+  let d=`M0 ${y(0)}`;a.forEach((v,i)=>{const t=i*P+.6;d+=`L${t*px} ${y(0)}`;if(v>0)d+=`L${(t+.25)*px} ${y(v*.86)}L${(t+2.2)*px} ${y(v)}L${(t+2.4)*px} ${y(0)}`;d+=`L${(i+1)*P*px} ${y(0)}`});
+  $('#capSvg').innerHTML=grid+`<path d="${d}" fill="none" stroke="#F2D34B" stroke-width="4" stroke-linejoin="round"/>`;
+  $('#capV').textContent=a[a.length-1];$('#capCap').innerHTML=CAP[k].cap;
+  $$('#capSeg .sbtn').forEach(b=>b.classList.toggle('on',b.dataset.c===k))}
+$$('#capSeg .sbtn').forEach(b=>b.onclick=()=>drawCap(b.dataset.c));drawCap('ok');
+
+/* RSI drug timeline */
+const RSI=[[['Etomidate','約 5–10 分鐘',8],['Rocuronium','約 45–60 分鐘以上',55]],[['Ketamine','約 10–20 分鐘',15],['Rocuronium','約 45–60 分鐘以上',55]],[['Etomidate','約 5–10 分鐘',8],['Succinylcholine','約 6–10 分鐘',8]]];
+let rsi=0;const tMin=$('#tMin');
+function updRsi(){const [s,p]=RSI[rsi],t=+tMin.value;
+  $('#bS').innerHTML=`${s[0]}<small>鎮靜・${s[1]}</small>`;$('#bP').innerHTML=`${p[0]}<small>肌鬆・${p[1]}</small>`;
+  $("#barSed").style.width=s[2]/60*100+'%';$("#barPar").style.width=p[2]/60*100+'%';
+  $('#vMin').textContent=t;$('#cur').style.left=`calc(${t/60} * (100% - 244px))`;
+  const sa=t<s[2],pa=t<p[2],st=$('#tStat');
+  if(sa&&pa){st.className='tstat ok';st.innerHTML='<b>睡著、不會動</b><br>插管的藥都還在作用。趁現在開始止痛鎮靜。'}
+  else if(!sa&&pa){st.className='tstat bad';st.innerHTML='<b>⚠ 醒了，但動不了</b><br>鎮靜藥已經退了，肌鬆還在：病人可能清醒、會痛、會怕，卻沒辦法表達。'}
+  else if(sa&&!pa){st.className='tstat warn';st.innerHTML='<b>開始會動了</b><br>肌鬆退了，鎮靜也快退，準備好止痛鎮靜。'}
+  else{st.className='tstat warn';st.innerHTML='<b>醒了、會動</b><br>沒有止痛鎮靜 → 躁動、咬管、嗆咳、人機對抗，甚至自拔。'}
+  $$('#rsiSeg .sbtn').forEach(b=>b.classList.toggle('on',+b.dataset.r===rsi))}
+tMin.addEventListener('input',updRsi);$$('#rsiSeg .sbtn').forEach(b=>b.onclick=()=>{rsi=+b.dataset.r;updRsi()});updRsi();
+
+/* PBW */
+let sex='f';const hCm=$('#hCm'),wKg=$('#wKg');
+function updPbw(){const h=+hCm.value,w=+wKg.value,pbw=(sex==='m'?50:45.5)+.91*(h-152.4),v6=pbw*6,v8=pbw*8,va=w*8,mx=Math.max(va,v8,900);
+  $('#vH').textContent=h;$('#vW').textContent=w;$('#pbwV').textContent=pbw.toFixed(0);
+  $('#pbwFx').textContent=`${sex==='m'?'男':'女'}：${sex==='m'?'50':'45.5'} ＋ 0.91 ×（${h} − 152.4）＝ ${pbw.toFixed(1)} kg`;
+  [['6',v6],['8',v8],['A',va]].forEach(([k,v])=>{$('#b'+k).style.width=v/mx*100+'%';$('#v'+k).textContent=Math.round(v)});
+  const extra=va-v8;$('#pbwNote').innerHTML=extra>40?`用實際體重算，每一口會多灌 <b>${Math.round(extra)} mL</b>，肺被過度撐開。`:'這位體重接近理想體重，差距不大；但還是要養成看身高的習慣。';
+  $$('#sexSeg .sbtn').forEach(b=>b.classList.toggle('on',b.dataset.s===sex))}
+[hCm,wKg].forEach(x=>x.addEventListener('input',updPbw));$$('#sexSeg .sbtn').forEach(b=>b.onclick=()=>{sex=b.dataset.s;updPbw()});updPbw();
+
+/* vent screen */
+const VS={
+  vc:{set:[['模式','AC/VC','','mode'],['VT 潮氣量','400','mL','vt'],['RR 次數','16','/min','rr'],['PEEP','5','cmH₂O','peep'],['FiO₂','60','%','fio']],watch:'ppk'},
+  pc:{set:[['模式','AC/PC','','mode'],['Pinsp 吸氣壓','15','cmH₂O','pinsp'],['RR 次數','16','/min','rr'],['PEEP','5','cmH₂O','peep'],['FiO₂','60','%','fio']],watch:'vte'}
+};
+const MEA=[['Ppeak 尖峰壓','24','cmH₂O','ppk'],['Pplat 平台壓','18','cmH₂O','ppl'],['VTe 吐出潮氣量','395','mL','vte'],['RR 總次數','18','/min','rrt'],['MVe 分鐘通氣量','7.1','L/min','mve']];
+const EXP={
+  mode:['模式','VC（容積控制）：每一口保證給設定的「量」，壓力會隨病人變化 → 要盯壓力。PC（壓力控制）：每一口給固定「壓力」，量會隨病人變化 → 要盯潮氣量。AC 代表病人自己吸也會給足一口。'],
+  vt:['VT 潮氣量（設定）','每一口送多少氣。依理想體重 6–8 mL/kg 設定，由醫師或呼吸治療師調整。'],
+  pinsp:['Pinsp 吸氣壓（設定）','PC 模式每一口推的壓力（高於 PEEP 的部分）。肺變硬或管子卡住時，同樣壓力推進去的量就會變少。'],
+  rr:['RR 呼吸次數（設定）','保證的最低次數；病人可以自己多吸。'],
+  peep:['PEEP 吐氣末正壓','吐完氣還留一點壓力，撐住肺泡不塌掉、改善氧合。常見起始 5 cmH₂O。'],
+  fio:['FiO₂ 氧氣濃度','21–100%。剛插管先給高，穩定後依醫囑的 SpO₂ 目標往下調。'],
+  ppk:['Ppeak 尖峰壓','送氣時的最高壓力＝管子與氣道的阻力＋肺的硬度。突然升高 → 高壓警報；VC 模式最該盯這個。'],
+  ppl:['Pplat 平台壓','吸氣末停住時的壓力，只反映肺和胸廓的硬度，目標 ≤ 30。要按「吸氣暫停」才量得到。'],
+  vte:['VTe 吐出潮氣量','實際吐回來的量。比設定少很多 → 漏氣（接頭、氣囊、管子滑出）。PC 模式最該盯這個。'],
+  rrt:['RR 總次數','包含病人自己觸發的。比設定多很多 → 痛、躁動、缺氧、發燒、酸中毒，或管路積水造成「假觸發」。'],
+  mve:['MVe 分鐘通氣量','吐出潮氣量 × 呼吸次數，一般約 5–8 L/min，和排 CO₂ 有關。突然變 0 → 管路脫落或管子滑出。']
+};
+let mode='vc',sel='mode';
+function tile([n,v,u,k],cls){return `<button class="vt ${cls}${k===sel?' on':''}${k===VS[mode].watch?' watch':''}" data-k="${k}"><span>${n}</span><b>${v}</b><small>${u}</small></button>`}
+function drawVs(){$('#setRow').innerHTML='<em>設定<br>（我們給的）</em>'+VS[mode].set.map(x=>tile(x,'set')).join('');
+  $('#meaRow').innerHTML='<em>監測<br>（病人的結果）</em>'+MEA.map(x=>tile(x,'mea')).join('');
+  $$('.vt').forEach(b=>b.onclick=()=>{sel=b.dataset.k;drawVs()});
+  const e=EXP[sel]||EXP.mode;$('#vExp').innerHTML=`<h3>${e[0]}</h3><p>${e[1]}</p>`;
+  $$('#modeSeg .sbtn').forEach(b=>b.classList.toggle('on',b.dataset.m===mode))}
+$$('#modeSeg .sbtn').forEach(b=>b.onclick=()=>{mode=b.dataset.m;if(sel==='vt'||sel==='pinsp')sel='mode';drawVs()});drawVs();
+
+/* Ppeak vs Pplat */
+const PP={n:[22,16,'var(--green)','正常','尖峰壓和平台壓都不高，差距小（約 5–10）。'],
+  r:[42,17,'var(--amber)','差距大 → 卡在管子或氣道','只有尖峰壓升高：<b>咬管、痰、管路折到、氣管痙攣</b>。<br>先做：看有沒有咬管（放牙墊）、抽痰、順管路、聽喘鳴聲。'],
+  c:[44,38,'var(--purple)','兩個都高 → 肺或胸腔變硬','尖峰壓和平台壓一起升高：<b>氣胸、插太深、肺水腫、肚子很脹</b>。<br>先做：聽兩側呼吸音、看刻度、看血壓 → 想到氣胸就立刻通知醫師。']};
+function drawPP(k){const [pk,pl,col,t,txt]=PP[k],PE=5,W=860,H=400,x0=60,y=p=>H-40-p/50*(H-70),T=4,px=(W-x0-20)/(2*T);
+  const pts=[];for(let b=0;b<2;b++){const o=b*T;pts.push([o,PE],[o+.05,PE+(pk-pl)],[o+1,pk],[o+1.08,pl],[o+1.5,pl],[o+1.75,PE+1],[o+2,PE],[o+T,PE])}
+  const d=pts.map(([t,p],i)=>(i?'L':'M')+(x0+t*px).toFixed(1)+' '+y(p).toFixed(1)).join('');
+  let g='';[0,10,20,30,40,50].forEach(p=>g+=`<line x1="${x0}" x2="${W-20}" y1="${y(p)}" y2="${y(p)}" stroke="#E5EAE3"/><text x="${x0-10}" y="${y(p)+6}" text-anchor="end" font-size="17" fill="#5B6A64" font-family="IBM Plex Mono,monospace">${p}</text>`);
+  const bx=x0+(T+1.25)*px;
+  $('#ppSvg').innerHTML=`${g}<line x1="${x0}" x2="${W-20}" y1="${y(30)}" y2="${y(30)}" stroke="#D9412B" stroke-dasharray="7 7" stroke-width="2"/><text x="${W-24}" y="${y(30)-8}" text-anchor="end" font-size="18" fill="#D9412B">Pplat 上限 30</text>
+   <path d="${d}" fill="none" stroke="#172421" stroke-width="4" stroke-linejoin="round"/>
+   <text x="${x0+px}" y="${y(pk)-12}" text-anchor="middle" font-size="21" font-weight="700" fill="#172421">Ppeak ${pk}</text>
+   <text x="${x0+1.3*px}" y="${y(pl)+26}" text-anchor="middle" font-size="19" fill="#5B6A64">Pplat ${pl}</text>
+   <text x="${x0+3*px}" y="${y(PE)-10}" text-anchor="middle" font-size="18" fill="#5B6A64">PEEP ${PE}</text>
+   <line x1="${bx}" x2="${bx}" y1="${y(pk)}" y2="${y(pl)}" stroke="#B06A08" stroke-width="6"/><text x="${bx+12}" y="${(y(pk)+y(pl))/2+7}" font-size="19" fill="#B06A08">阻力（管子、痰）</text>
+   <line x1="${bx}" x2="${bx}" y1="${y(pl)}" y2="${y(PE)}" stroke="#6A4BC4" stroke-width="6"/><text x="${bx+12}" y="${(y(pl)+y(PE))/2+7}" font-size="19" fill="#6A4BC4">肺與胸腔的硬度</text>
+   <text x="${W-20}" y="${H-8}" text-anchor="end" font-size="17" fill="#5B6A64">時間 →</text><text x="8" y="22" font-size="17" fill="#5B6A64">cmH₂O</text>`;
+  $('#pk').textContent=pk;$('#pl').textContent=pl;$('#pd').textContent=pk-pl;
+  const dx=$('#ppDx');dx.style.setProperty('--pc',col);dx.innerHTML=`<h3>${t}</h3><p>${txt}</p>`;
+  $$('#ppSeg .sbtn').forEach(b=>b.classList.toggle('on',b.dataset.p===k))}
+$$('#ppSeg .sbtn').forEach(b=>b.onclick=()=>drawPP(b.dataset.p));drawPP('n');
+
+/* decision tree */
+const N={
+  s:{q:'警報響了。病人穩定嗎？',p:'看 SpO₂、血壓、胸部起伏、意識。',o:[['穩定','ok'],['不穩定／SpO₂ 一直掉','bag']]},
+  ok:{end:1,tag:'看警報',c:'var(--green)',q:'病人穩定：看是哪一種警報',p:'對照下一頁的警報表找原因，處理完才消音。不確定就請呼吸治療師或醫師，不要自己改設定。'},
+  bag:{q:'拔開呼吸器，接甦醒球＋100% 氧氣手壓，大聲叫人。',p:'擠起來感覺如何？病人有沒有變好？',o:[['好擠，病人變好','E'],['很難擠，還是很差','suc']]},
+  E:{end:1,tag:'E 機器',c:'var(--blue)',q:'機器或管路的問題',p:'繼續手壓。檢查接頭、管路、氧氣與電源，請呼吸治療師換機器或管路。'},
+  suc:{q:'放抽痰管下去，放得進去嗎？',p:'同時看病人有沒有咬住管子、管路有沒有折到。',o:[['很卡，放不進去','O'],['放得進去','lis']]},
+  O:{end:1,tag:'O 阻塞',c:'var(--amber)',q:'管子阻塞',p:'咬管 → 放牙墊、依醫囑鎮靜；折到 → 順好管路；痰塊 → 抽痰。還是不通 → 通知醫師準備換管。'},
+  lis:{q:'聽兩側呼吸音、看刻度、看 EtCO₂',p:'哪一個不對？',o:[['EtCO₂ 消失／刻度變淺／會出聲','Dout'],['單側呼吸音變小','side'],['都還好','S']]},
+  Dout:{end:1,tag:'D 移位',c:'var(--red)',q:'管子滑出',p:'持續給氧（必要時改面罩甦醒球），通知醫師準備重新插管。不要只把氣囊打更飽，也不要自己把管子往內推。'},
+  side:{q:'刻度比原本深嗎？',p:'對照交班記錄的刻度。',o:[['變深了','Ddeep'],['沒變，血壓掉、氣管偏','P']]},
+  Ddeep:{end:1,tag:'D 移位',c:'var(--red)',q:'插太深（多半進右主支氣管）',p:'通知醫師，依醫囑退回原刻度，照胸部 X 光確認。'},
+  P:{end:1,tag:'P 氣胸',c:'var(--purple)',q:'懷疑張力性氣胸',p:'立即通知醫師，準備針刺減壓與胸管，持續手壓給氧。'},
+  S:{end:1,tag:'S 其他',c:'var(--teal)',q:'想想：氣吐不完、氣管痙攣、疼痛躁動',p:'氣喘或 COPD → 可能 auto-PEEP（後面會講）；有喘鳴 → 依醫囑支氣管擴張劑；躁動、人機對抗 → 評估止痛鎮靜。通知醫師。'}
+};
+let hist=[];
+function drawDt(){const k=hist.length?hist[hist.length-1][1]:'s',n=N[k],el=$('#dtNode');
+  el.style.setProperty('--nc',n.c||'var(--ink)');
+  el.innerHTML=(n.end?`<span class="tag">${n.tag}</span>`:'')+`<h3>${n.q}</h3><p>${n.p}</p><div class="btns">${n.end?'<button class="pri" data-go="reset">重來一次</button>':n.o.map(([l,g])=>`<button data-go="${g}">${l}</button>`).join('')}</div>`;
+  $$('#dtNode [data-go]').forEach(b=>b.onclick=()=>{const g=b.dataset.go;if(g==='reset')hist=[];else hist.push([b.textContent,g]);drawDt()});
+  const steps=[['s']].concat(hist.map(h=>[h[1],h[0]]));
+  $('#dtPath').innerHTML=hist.length?hist.map((h,i)=>{const from=i?N[hist[i-1][1]]:N.s;return `<div><b>${from.q}</b>→ ${h[0]}</div>`}).join(''):'<div class="muted">從右邊開始選</div>'}
+drawDt();
+
+/* alarm table */
+const AL=[
+  {n:'高壓',en:'HIGH PRESSURE',c:'var(--red)',m:'送氣時壓力超過上限，呼吸器會提早停止送氣 → 病人拿不到該有的氣。',why:'咬管、痰多、管路折到或積水、咳嗽／人機對抗、氣管痙攣、插太深、氣胸',do:['看病人：SpO₂、胸部起伏','有咬管 → 放牙墊；有痰 → 抽痰','順管路、倒掉積水','聽兩側呼吸音、看刻度','評估止痛鎮靜，通知醫師'],no:'只把高壓上限調高'},
+  {n:'低壓／脫落',en:'LOW PRESSURE / DISCONNECT',c:'var(--blue)',m:'壓力或流量不見了 → 氣漏掉了。',why:'接頭鬆脫、管路破、氣囊漏氣、管子滑出',do:['從病人端一路摸到機器','聽有沒有漏氣聲、病人會不會出聲','量氣囊壓、看刻度','接不回去 → 先手壓給氧'],no:'消音後離開'},
+  {n:'低潮氣量／低通氣量',en:'LOW VTe / LOW MVe',c:'var(--blue)',m:'吐回來的氣比設定少很多。',why:'漏氣（同上）；PC 模式下管子卡住或肺變硬；自主呼吸模式下病人呼吸變少（鎮靜太深）',do:['先查漏氣','看病人自己的呼吸','PC 模式 → 當作「高壓」的原因找','通知醫師調整'],no:'以為只是數字小一點'},
+  {n:'呼吸次數過高',en:'HIGH RR',c:'var(--amber)',m:'病人呼吸次數遠高於設定。',why:'疼痛躁動、缺氧、發燒、代謝性酸中毒；管路積水或漏氣造成「假觸發」',do:['評估疼痛與鎮靜','倒掉管路積水','量體溫、依醫囑抽 ABG','通知醫師'],no:'直接加鎮靜而不找原因'},
+  {n:'呼吸暫停',en:'APNEA',c:'var(--purple)',m:'自主呼吸模式（如 PSV、CPAP）下，病人一段時間沒有自己呼吸。',why:'鎮靜太深、神經學問題',do:['叫病人、看胸部起伏','確認備援通氣有啟動','SpO₂ 掉 → 手壓','通知醫師改控制模式'],no:'等它自己恢復'},
+  {n:'氣源／電源',en:'GAS / POWER',c:'var(--ink)',m:'氧氣、空氣或電源供應出問題。',why:'牆上接頭沒插緊、轉送時氧氣筒沒開或沒氣、電源線脫落、電池沒電',do:['立刻甦醒球手壓 100% 氧','檢查氣源接頭與插頭','請呼吸治療師換機'],no:'先研究機器再救人'}
+];
+let ai=0;
+function drawAl(){$('#aList').innerHTML=AL.map((a,i)=>`<button style="--ac:${a.c}" class="${i===ai?'on':''}" data-i="${i}"><i></i><span>${a.n}<small>${a.en}</small></span></button>`).join('');
+  $$('#aList button').forEach(b=>b.onclick=()=>{ai=+b.dataset.i;drawAl()});
+  const a=AL[ai];$('#aPanel').innerHTML=`<div class="full"><h4>意思</h4><p>${a.m}</p></div><div><h4>常見原因</h4><p>${a.why}</p></div><div><h4>先做什麼</h4><ol>${a.do.map(x=>`<li>${x}</li>`).join('')}</ol></div><div class="full dont"><h4>不要</h4><p>${a.no}</p></div>`}
+drawAl();
+
+/* auto-PEEP flow */
+let tau=.9;const apRR=$('#apRR');
+function drawAp(){const rr=+apRR.value,T=60/rr,Ti=1,Te=T-Ti,Fi=60,Fe=65,W=880,H=360,x0=60,win=12,px=(W-x0-20)/win,y0=H/2+10,sc=(H/2-40)/70,y=f=>y0-f*sc;
+  let d=`M${x0} ${y(0)}`;let t=0;
+  while(t<win){const ti=Math.min(Ti,win-t);d+=`L${x0+t*px} ${y(Fi)}L${x0+(t+ti)*px} ${y(Fi)}`;
+    const te=Math.min(Te,win-t-Ti);if(te>0){for(let s=0;s<=te+1e-9;s+=.04){d+=`L${(x0+(t+Ti+s)*px).toFixed(1)} ${y(-Fe*Math.exp(-s/tau)).toFixed(1)}`}}
+    t+=T}
+  const endF=Fe*Math.exp(-Te/tau),stack=endF>4;
+  $('#fwSvg').innerHTML=`<line x1="${x0}" x2="${W-20}" y1="${y(0)}" y2="${y(0)}" stroke="#6F8279" stroke-width="2"/>
+    <text x="${x0-10}" y="${y(0)+6}" text-anchor="end" font-size="18" fill="#9FB0A8">0</text><text x="12" y="30" font-size="18" fill="#9FB0A8">流量</text>
+    <text x="${W-24}" y="${y(Fi)-10}" text-anchor="end" font-size="18" fill="#7FD3F0">吸氣 ↑</text><text x="${W-24}" y="${y(-Fe)+24}" text-anchor="end" font-size="18" fill="#F2B84B">吐氣 ↓</text>
+    <path d="${d}" fill="none" stroke="${stack?'#FF6B5E':'#5BE08A'}" stroke-width="4" stroke-linejoin="round"/>
+    ${stack?`<text x="${x0+(T)*px+8}" y="${y(-endF)-14}" font-size="19" fill="#FF6B5E">還沒回到 0，下一口就來了</text>`:''}`;
+  $('#vRR').textContent=rr;
+  const c=$('#apChip');c.className='chip '+(stack?'red':'green');c.textContent=stack?'氣吐不完（auto-PEEP）':'氣吐得完';
+  const trap=Math.min(1,endF/30);$('#apLung').setAttribute('r',42+trap*30);
+  $('#apTxt').innerHTML=`吐氣時間 <b>${Te.toFixed(1)}</b> 秒；這種肺約需 <b>${(3*tau).toFixed(1)}</b> 秒才吐得完。<br>${stack?'氣一口一口卡在肺裡 → 高壓、血壓掉，嚴重會心跳停止。':'吐氣時間夠，氣可以吐乾淨。'}`;
+  $$('#lungSeg .sbtn').forEach(b=>b.classList.toggle('on',+b.dataset.t===tau))}
+apRR.addEventListener('input',drawAp);$$('#lungSeg .sbtn').forEach(b=>b.onclick=()=>{tau=+b.dataset.t;drawAp()});drawAp();
+startDeck();
+})();
+</script>

@@ -1,0 +1,1138 @@
+<meta charset="utf-8">
+<title>監視器在叫了</title>
+<meta name="description" content="急診護理在職教育：致命心律辨識互動投影片">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Huninn&family=IBM+Plex+Mono:wght@500;600&family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
+<style>
+:root{
+  --paper:#F2F4F0; --paper-2:#E5EAE3; --frame:#CDD5CC; --ink:#172421; --muted:#5B6A64; --line:#C9D1C8;
+  --red:#D9412B; --red-soft:#F8DCD4;
+  --green:#2F9A5A; --green-soft:#D5ECDD;
+  --blue:#2E5BC9; --blue-soft:#D9E2F7;
+  --purple:#6A4BC4; --purple-soft:#E6DFF6;
+  --amber:#B06A08; --amber-soft:#F5E5C8;
+  --teal:#1F7A80; --teal-soft:#D3E9EA;
+  --slip:#FFFFFF; --screen:#0F1916;
+  --f-display:"Huninn","Chiron GoRound TC","Microsoft JhengHei","PingFang TC",sans-serif;
+  --f-body:"Noto Sans TC","Microsoft JhengHei","PingFang TC",sans-serif;
+  --f-mono:"IBM Plex Mono",Consolas,"Courier New",monospace;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--frame);color:var(--ink);font-family:var(--f-body);overflow:hidden;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;cursor:pointer}
+button:disabled{opacity:.4;cursor:default}
+input[type=number]{font:inherit}
+:focus-visible{outline:4px solid var(--blue);outline-offset:3px}
+
+#stage{position:absolute;left:50%;top:50%;width:1600px;height:900px;background:var(--paper);transform-origin:center;transform:translate(-50%,-50%);overflow:hidden;box-shadow:0 20px 60px -30px rgba(23,36,33,.45)}
+
+/* ---------- slide shell ---------- */
+.slide{position:absolute;inset:0 0 72px 0;padding:58px 96px 30px;display:flex;flex-direction:column;gap:28px;opacity:0;visibility:hidden;transform:translateX(30px);transition:opacity .35s ease,transform .35s ease,visibility 0s .35s}
+.slide.past{transform:translateX(-30px)}
+.slide.active{opacity:1;visibility:visible;transform:none;transition:opacity .35s ease,transform .35s ease}
+.head{display:flex;flex-direction:column;gap:6px}
+.eyebrow{margin:0;font-size:21px;font-weight:700;letter-spacing:.14em;color:var(--sec)}
+h2{margin:0;font-family:var(--f-display);font-weight:400;font-size:62px;line-height:1.12;text-wrap:balance;letter-spacing:.01em}
+h3{margin:0;font-family:var(--f-display);font-weight:400;font-size:36px;line-height:1.2}
+p{margin:0}
+.body{flex:1;min-height:0}
+.muted{color:var(--muted)}
+.notes{display:none}
+.c-red{color:var(--red)} .c-blue{color:var(--blue)} .c-green{color:var(--green)} .c-purple{color:var(--purple)} .c-amber{color:var(--amber)} .c-teal{color:var(--teal)}
+sub,sup{line-height:0}
+.mono{font-family:var(--f-mono)}
+
+/* ---------- bottom bar ---------- */
+.bar{position:absolute;left:0;right:0;bottom:0;height:72px;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 40px 0 96px;background:var(--paper)}
+.secs{display:flex;gap:34px;list-style:none;margin:0;padding:0}
+.secs button{background:none;border:0;padding:8px 0;font-size:20px;color:var(--muted);display:flex;align-items:center;gap:10px;border-bottom:3px solid transparent}
+.secs button i{width:10px;height:10px;border-radius:50%;background:var(--c)}
+.secs button.on{color:var(--ink);font-weight:700;border-bottom-color:var(--c)}
+.ctrl{display:flex;align-items:center;gap:10px}
+.count{font-family:var(--f-mono);font-size:19px;color:var(--muted);min-width:78px;text-align:right;margin-right:8px;font-variant-numeric:tabular-nums}
+.ibtn{height:44px;min-width:44px;padding:0 14px;border:1.5px solid var(--line);background:var(--paper);border-radius:8px;font-size:18px;color:var(--ink)}
+.ibtn:hover{background:var(--paper-2)}
+
+#notes{position:fixed;left:0;right:0;bottom:0;max-height:34vh;overflow:auto;background:var(--screen);color:#E8EEE9;font:16px/1.7 var(--f-body);padding:16px 28px 20px;z-index:10}
+#notes b{color:#F4C77A;font-weight:700;margin-right:10px}
+
+/* ---------- cover ---------- */
+.cover{justify-content:space-between;padding-top:76px}
+.cover-title{margin:14px 0 18px;font-family:var(--f-display);font-weight:400;font-size:150px;line-height:1;letter-spacing:.02em}
+.cover-title span{color:var(--accent)}
+.cover-sub{font-size:34px;color:var(--ink);max-width:32em}
+.byline{font-size:22px;color:var(--muted)}
+.mascot{display:block;width:100%;height:auto;overflow:visible}
+.m-label{font-family:var(--f-display);fill:#fff}
+.bubble{position:absolute;white-space:nowrap;background:var(--slip);border:2px solid var(--ink);border-radius:18px;padding:8px 16px;font-size:22px}
+@media (prefers-reduced-motion:no-preference){
+  .bob{animation:bob 2.6s ease-in-out infinite}
+  @keyframes bob{50%{transform:translateY(-8px)}}
+}
+
+/* ---------- chips ---------- */
+.chip{display:inline-flex;align-items:center;gap:10px;padding:8px 20px;border-radius:999px;font-size:28px;font-weight:700;background:var(--c-soft);color:var(--c);white-space:nowrap}
+.chip.red{--c:var(--red);--c-soft:var(--red-soft)} .chip.green{--c:var(--green);--c-soft:var(--green-soft)} .chip.blue{--c:var(--blue);--c-soft:var(--blue-soft)}
+.chip.amber{--c:var(--amber);--c-soft:var(--amber-soft)} .chip.purple{--c:var(--purple);--c-soft:var(--purple-soft)} .chip.teal{--c:var(--teal);--c-soft:var(--teal-soft)}
+.chip.sm{font-size:21px;padding:5px 14px}
+
+/* ---------- poll ---------- */
+.poll{display:grid;grid-template-columns:auto 1fr;gap:64px;align-items:center}
+.opts{display:flex;flex-direction:column;gap:16px}
+.vote{position:relative;display:grid;grid-template-columns:52px 1fr 70px;align-items:center;gap:18px;text-align:left;background:var(--slip);border:2px solid var(--line);border-radius:12px;padding:18px 22px;font-size:28px;overflow:hidden}
+.vote:hover{border-color:var(--ink)}
+.vote .k{font-family:var(--f-display);font-size:30px;width:52px;height:52px;border-radius:50%;display:grid;place-items:center;background:var(--paper-2)}
+.vote .fill{position:absolute;left:0;top:0;bottom:0;background:var(--green-soft);width:0;transition:width .3s ease;z-index:0}
+.vote>*:not(.fill){position:relative;z-index:1}
+.vote .n{font-family:var(--f-mono);font-size:30px;text-align:right;font-variant-numeric:tabular-nums}
+.vote .ghost{position:absolute;left:0;bottom:0;height:6px;background:var(--muted);opacity:.45;width:0;z-index:1;transition:width .3s}
+.tiny{background:none;border:0;padding:4px 0;color:var(--muted);font-size:18px;text-decoration:underline;text-underline-offset:4px;align-self:flex-start}
+
+/* ---------- ABG slip (thermal paper) ---------- */
+.slip-wrap{filter:drop-shadow(0 14px 18px rgba(23,36,33,.18));width:max-content}
+.slip{background:var(--slip);font-family:var(--f-mono);padding:22px 30px 34px;width:380px;
+  -webkit-mask:conic-gradient(from -45deg at bottom,#0000,#000 1deg 89deg,#0000 90deg) 50%/18px 100%;
+          mask:conic-gradient(from -45deg at bottom,#0000,#000 1deg 89deg,#0000 90deg) 50%/18px 100%}
+.slip-h{display:flex;justify-content:space-between;font-size:16px;color:var(--muted);letter-spacing:.08em;border-bottom:2px dashed var(--line);padding-bottom:10px;margin-bottom:8px}
+.slip-r{display:grid;grid-template-columns:110px 1fr 82px 30px;align-items:baseline;padding:5px 0;font-size:22px}
+.slip-r span{color:var(--muted);font-size:20px}
+.slip-r b{font-size:36px;font-weight:600;text-align:right;padding-right:12px;font-variant-numeric:tabular-nums}
+.slip-r i{font-style:normal;font-size:16px;color:var(--muted)}
+.slip-r em{font-style:normal;font-weight:600;font-size:20px;text-align:right}
+.slip-r em.L{color:var(--blue)} .slip-r em.H{color:var(--red)}
+.slip-f{margin-top:8px;font-size:14px;color:var(--muted);letter-spacing:.1em}
+
+/* ---------- monitor ---------- */
+.monitor{background:var(--screen);border-radius:16px;padding:18px 26px;color:#DDE6E1;font-family:var(--f-mono);box-shadow:inset 0 0 0 6px #25332E}
+.mrow{display:flex;justify-content:space-between;align-items:baseline;padding:9px 0;border-bottom:1px solid #26352F}
+.mrow:last-child{border:0}
+.mrow span{font-size:20px;letter-spacing:.06em}
+.mrow b{font-size:58px;font-weight:600;line-height:1;font-variant-numeric:tabular-nums;transition:color .3s}
+.m-o2{color:#5BE08A} .m-hr{color:#7FD3F0} .m-bp{color:#F28B82} .m-rr{color:#F2B84B} .m-w{color:#E8EEE9}
+
+/* ---------- definition strip ---------- */
+.def{display:flex;align-items:center;gap:22px;font-size:30px;flex-wrap:wrap}
+.def .tag{font-family:var(--f-mono);font-weight:600;font-size:28px;padding:6px 16px;border-radius:8px;background:var(--slip);border:2px solid var(--ink)}
+
+/* ---------- flip cards ---------- */
+.flips{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:6px}
+.flip{perspective:1400px;background:none;border:0;padding:0;height:372px;text-align:left;--fc:var(--sec)}
+.flip-in{position:relative;width:100%;height:100%;transition:transform .55s cubic-bezier(.3,.7,.2,1);transform-style:preserve-3d}
+.flip.on .flip-in{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;border-radius:14px;padding:26px;backface-visibility:hidden;-webkit-backface-visibility:hidden;display:flex;flex-direction:column;gap:12px}
+.front{background:var(--fs,var(--paper-2));border:2px solid transparent}
+.flip:hover .front{border-color:var(--fc)}
+.front small{font-size:19px;letter-spacing:.12em;color:var(--fc);font-weight:700}
+.front h3{font-size:44px;margin-top:auto}
+.front .hint{font-size:19px;color:var(--muted)}
+.back{background:var(--slip);border:2px solid var(--fc);transform:rotateY(180deg)}
+.back h4{margin:0;font-size:24px;color:var(--fc)}
+.back ul{margin:0;padding-left:1.1em;font-size:24px;line-height:1.55}
+.back p{font-size:23px;line-height:1.55}
+
+/* ---------- stepper ---------- */
+.track{position:relative;display:grid;grid-template-columns:repeat(var(--n,4),1fr);margin-top:12px}
+.track::before{content:"";position:absolute;left:0;right:calc(100% / var(--n,4) - 78px);top:34px;height:10px;border-radius:5px;background:var(--trackbg,linear-gradient(90deg,#D9A22A,#E0672C 45%,#B8322B))}
+.stop{position:relative;background:none;border:0;padding:0;display:flex;flex-direction:column;align-items:flex-start;gap:14px}
+.stop i{width:78px;height:78px;border-radius:50%;background:var(--paper);border:4px solid var(--ink);display:grid;place-items:center;font-style:normal;font-family:var(--f-mono);font-weight:600;font-size:24px;transition:background .2s,color .2s}
+.stop.on i{background:var(--ink);color:var(--paper)}
+.stop span{font-size:20px;color:var(--muted)}
+.state{margin-top:26px;padding:24px 30px;border-left:6px solid var(--sec);background:var(--slip);min-height:180px}
+.state h3{font-size:40px;margin-bottom:10px}
+.state p{font-size:26px;line-height:1.6}
+.fine{font-size:19px;color:var(--muted);margin-top:14px;line-height:1.5}
+
+/* ---------- checklist ---------- */
+.checks{display:grid;grid-template-columns:1fr 1fr;gap:18px 46px;margin-top:4px;align-content:start}
+.chk{display:grid;grid-template-columns:44px 1fr;gap:18px;align-items:start;text-align:left;background:none;border:0;padding:14px 0;border-bottom:1px solid var(--line)}
+.chk .box{width:40px;height:40px;border:3px solid var(--ink);border-radius:8px;margin-top:4px;display:grid;place-items:center;transition:background .15s}
+.chk .box svg{width:26px;height:26px;opacity:0;transform:scale(.4);transition:all .2s}
+.chk[aria-pressed="true"] .box{background:var(--sec);border-color:var(--sec)}
+.chk[aria-pressed="true"] .box svg{opacity:1;transform:none}
+.chk strong{display:block;font-size:31px;font-weight:700;line-height:1.3}
+.chk span{display:block;font-size:24px;color:var(--muted);line-height:1.5;margin-top:4px}
+
+/* ---------- case / quiz ---------- */
+.case{display:grid;grid-template-columns:460px 1fr;gap:60px;align-items:start}
+.story{font-size:27px;line-height:1.6;margin-bottom:24px}
+.story b{font-weight:700}
+.q{font-size:32px;font-weight:700;margin-bottom:18px;line-height:1.4}
+.qopts{display:flex;flex-direction:column;gap:12px}
+.qo{display:grid;grid-template-columns:48px 1fr;gap:16px;align-items:center;text-align:left;background:var(--slip);border:2px solid var(--line);border-radius:12px;padding:14px 20px;font-size:25px;line-height:1.4}
+.qo:hover{border-color:var(--ink)}
+.qo .k{font-family:var(--f-display);font-size:26px;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;background:var(--paper-2)}
+.qo.right{border-color:var(--green);background:var(--green-soft)} .qo.right .k{background:var(--green);color:#fff}
+.qo.wrong{border-color:var(--red);background:var(--red-soft)} .qo.wrong .k{background:var(--red);color:#fff}
+.explain{margin-top:18px;font-size:24px;line-height:1.6;padding:14px 22px;border-left:6px solid var(--green);background:var(--slip)}
+
+/* ---------- vitals card ---------- */
+.vitals{display:grid;grid-template-columns:1fr 1fr;gap:0;background:var(--screen);border-radius:14px;padding:10px 22px;font-family:var(--f-mono);box-shadow:inset 0 0 0 5px #25332E;width:440px}
+.vitals div{display:flex;flex-direction:column;padding:10px 4px;border-bottom:1px solid #26352F}
+.vitals div:nth-last-child(-n+2){border-bottom:0}
+.vitals span{font-size:17px;letter-spacing:.06em;color:#9FB0A8}
+.vitals b{font-size:44px;font-weight:600;line-height:1.1;font-variant-numeric:tabular-nums}
+
+/* ---------- tiles ---------- */
+.tiles{display:grid;grid-template-columns:repeat(var(--cols,4),1fr);gap:16px}
+.tile{background:var(--ts,var(--paper-2));border:2px solid transparent;border-radius:14px;padding:18px 20px;text-align:left;min-height:var(--th,260px);display:flex;flex-direction:column;gap:8px;--tc:var(--sec)}
+.tile:hover{border-color:var(--tc)}
+.tile .ch{font-family:var(--f-display);font-size:64px;line-height:1;color:var(--tc)}
+.tile .nm{font-size:27px;font-weight:700;line-height:1.3}
+.tile .dt{font-size:21px;line-height:1.5;color:var(--ink);opacity:0;transform:translateY(8px);transition:all .3s}
+.tile .tp{font-size:18px;color:var(--muted);margin-top:auto}
+.tile.on{background:var(--slip);border-color:var(--tc)}
+.tile.on .dt{opacity:1;transform:none}
+.tile.on .tp{display:none}
+
+/* ---------- reveal steps ---------- */
+.steps{display:grid;grid-template-columns:var(--lead,380px) repeat(3,1fr);gap:28px;align-items:stretch}
+.step{border-top:6px solid var(--stc,var(--ink));padding-top:18px;display:flex;flex-direction:column;gap:10px}
+.step .no{font-family:var(--f-mono);font-size:22px;color:var(--muted)}
+.step h3{font-size:38px}
+.step p{font-size:24px;line-height:1.55}
+.res{margin-top:auto;padding:14px 18px;border-radius:10px;background:var(--paper-2);font-size:23px;line-height:1.5;min-height:120px;color:transparent;transition:color .3s,background .3s}
+.res:not(.show),.res:not(.show) *{color:transparent!important}
+.res.show{background:var(--slip);color:var(--ink);box-shadow:inset 0 0 0 2px var(--ink)}
+
+/* ---------- game ---------- */
+.gtop{display:flex;justify-content:space-between;align-items:flex-end}
+.score{display:flex;gap:18px}
+.team{display:grid;grid-template-columns:auto auto auto auto;align-items:center;gap:10px;background:var(--slip);border:2px solid var(--line);border-radius:12px;padding:8px 14px}
+.team .tn{font-size:22px;font-weight:700;padding-right:6px}
+.team .ts{font-family:var(--f-mono);font-size:40px;font-weight:600;min-width:52px;text-align:center;font-variant-numeric:tabular-nums}
+.team button{width:40px;height:40px;border-radius:8px;border:1.5px solid var(--line);background:var(--paper);font-size:24px;line-height:1}
+.team.red .tn{color:var(--red)} .team.blue .tn{color:var(--blue)}
+.game{display:grid;grid-template-columns:var(--gl,470px) 1fr;gap:52px;align-items:start}
+.gno{font-family:var(--f-mono);font-size:22px;color:var(--muted);margin-bottom:10px}
+.gopts{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.gopts .qo{font-size:27px;padding:18px 20px}
+.gnav{display:flex;gap:12px;margin-top:18px;align-items:center}
+.gbtn{border:2px solid var(--ink);background:var(--slip);border-radius:10px;padding:10px 24px;font-size:22px}
+.gbtn.pri{background:var(--ink);color:var(--paper)}
+.gdots{display:flex;gap:8px;align-items:center;margin-left:auto}
+.gdots i{width:14px;height:14px;border-radius:50%;background:var(--line)}
+.gdots i.on{background:var(--ink)}
+
+/* ---------- true/false ---------- */
+.tf{display:grid;grid-template-columns:1fr 360px;gap:60px;align-items:center}
+.tf .ring{margin:0 auto}
+.tfbtns .gbtn{padding:10px 18px;white-space:nowrap}
+.tfq{font-family:var(--f-display);font-size:60px;line-height:1.3;text-wrap:balance;min-height:260px;display:flex;align-items:center}
+.tfa{display:flex;align-items:center;gap:26px;min-height:120px;font-size:28px;line-height:1.55}
+.tfa .mark{flex:none;width:110px;height:110px;border-radius:50%;display:grid;place-items:center;font-family:var(--f-display);font-size:78px;color:#fff}
+.tfa .mark.o{background:var(--green)} .tfa .mark.x{background:var(--red)}
+.ring{position:relative;width:260px;height:260px}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring .t{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--f-mono);font-weight:600;font-size:96px;font-variant-numeric:tabular-nums}
+.tfbtns{display:flex;gap:12px;margin-top:24px;justify-content:center}
+
+/* ---------- wrap ---------- */
+.wrapg{display:grid;grid-template-columns:1fr 520px;gap:70px;align-items:start}
+.take{display:flex;flex-direction:column;gap:0;border-top:2px solid var(--ink)}
+.take div{padding:20px 0;border-bottom:1px solid var(--line);display:grid;grid-template-columns:130px 1fr;gap:20px;align-items:baseline}
+.take b{font-family:var(--f-display);font-weight:400;font-size:32px;color:var(--c)}
+.take p{font-size:28px;line-height:1.5}
+.post h3{font-size:32px;margin-bottom:6px}
+.post .opts{gap:12px;margin-top:14px}
+.post .vote{font-size:23px;padding:14px 18px;grid-template-columns:44px 1fr 56px}
+.post .vote .k{width:44px;height:44px;font-size:24px}
+.legend{font-size:18px;color:var(--muted);display:flex;gap:18px;align-items:center}
+.legend i{display:inline-block;width:26px;height:6px;background:var(--muted);opacity:.45;vertical-align:middle;margin-right:6px}
+.thanks{font-family:var(--f-display);font-size:40px;margin-top:26px}
+
+/* ---------- sliders ---------- */
+.sl{display:flex;flex-direction:column;gap:6px;margin-top:18px}
+.sl label{display:flex;justify-content:space-between;align-items:baseline;font-size:24px}
+.sl label b{font-family:var(--f-mono);font-size:30px;font-variant-numeric:tabular-nums}
+.sl input{width:100%;accent-color:var(--ink);height:28px}
+.presets{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.pbtn{border:1.5px solid var(--line);background:var(--slip);border-radius:999px;padding:8px 18px;font-size:20px}
+.pbtn:hover{border-color:var(--ink)}
+.pbtn.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.seg{display:flex;gap:10px;flex-wrap:wrap}
+.sbtn{border:2px solid var(--line);background:var(--slip);border-radius:10px;padding:12px 20px;font-size:23px}
+.sbtn.on{border-color:var(--ink);background:var(--ink);color:var(--paper)}
+.big{font-family:var(--f-mono);font-weight:600;font-size:120px;line-height:1;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.note{font-size:19px;color:var(--muted);line-height:1.5}
+.warnbox{padding:14px 20px;border-radius:10px;background:var(--red-soft);color:var(--ink);font-size:23px;line-height:1.5;border-left:6px solid var(--red)}
+.keybox{padding:14px 20px;border-radius:10px;background:var(--slip);font-size:23px;line-height:1.5;border-left:6px solid var(--sec)}
+.bnum{font-family:var(--f-mono);font-weight:600;font-size:110px;line-height:1;font-variant-numeric:tabular-nums}
+.bnum.sm{font-size:72px}
+[hidden]{display:none!important}
+
+:root{--accent:var(--red)}
+.sweep{animation:sweep var(--d) linear infinite}
+@keyframes sweep{to{transform:translateX(calc(var(--w) * -1px))}}
+@media (prefers-reduced-motion:reduce){.sweep{animation:none}}
+.ecg{position:relative;border-radius:12px;overflow:hidden;width:max-content;max-width:100%}
+.ecg .lead{position:absolute;left:14px;top:8px;font-family:var(--f-mono);font-size:18px;color:#9FB0A8;letter-spacing:.06em}
+.ecg.paper .lead{color:var(--muted)}
+.cov-mon{position:relative}
+.cov-mon .m-wrap{position:absolute;right:36px;top:-150px;width:140px}
+.cov-mon .bubble{right:150px;top:10px}
+.cov-hr{position:absolute;right:26px;bottom:18px;font-family:var(--f-mono);color:#5BE08A;font-size:26px}
+.cov-hr b{font-size:52px;font-weight:600;margin-left:8px}
+
+/* anatomy */
+.anat{display:grid;grid-template-columns:830px 1fr;gap:48px;align-items:start}
+.beat{background:#FFF7F5;border-radius:12px;overflow:hidden}
+.parts{display:flex;gap:10px;margin-top:18px}
+.pexp{margin-top:18px;min-height:150px;font-size:26px;line-height:1.6;padding:16px 24px;border-left:6px solid var(--pc,var(--ink));background:var(--slip)}
+.pexp h3{font-size:34px;margin-bottom:4px;color:var(--pc,var(--ink))}
+.heart text{font-family:var(--f-body)}
+.heart .ch{transition:fill .35s}
+.heart .node{transition:r .3s,fill .3s}
+
+/* four questions */
+.q4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.q4 div{background:var(--slip);border-radius:12px;padding:14px 20px;border-top:5px solid var(--sec)}
+.q4 .n{font-family:var(--f-mono);font-size:20px;color:var(--muted)}
+.q4 strong{display:block;font-size:29px;line-height:1.3;margin-top:2px}
+.q4 span{display:block;font-size:21px;color:var(--muted);line-height:1.45;margin-top:4px}
+.counter{display:flex;align-items:center;gap:28px;margin-top:16px}
+.counter .sl{margin:0;width:430px}
+.counter .res6{font-size:30px}
+.counter .res6 b{font-family:var(--f-mono);font-size:44px}
+
+/* flip mini ecg */
+.flip .front .ecg{margin:4px 0 0}
+.shock{display:inline-flex;align-self:flex-start;padding:4px 14px;border-radius:999px;font-weight:700;font-size:22px}
+.shock.y{background:var(--amber-soft);color:var(--amber)} .shock.n{background:var(--blue-soft);color:var(--blue)}
+.mnemo{margin-top:24px;font-size:30px;padding:18px 26px;background:var(--paper-2);border-radius:10px}
+.mnemo b{color:var(--red)}
+
+/* defib steps */
+.defib{display:grid;grid-template-columns:720px 1fr;gap:48px;align-items:start}
+.cap{font-size:25px;line-height:1.6;margin-top:16px;min-height:120px}
+.acc{display:flex;flex-direction:column;gap:10px}
+.acc button{display:grid;grid-template-columns:54px 1fr;gap:16px;align-items:center;text-align:left;background:var(--slip);border:2px solid var(--line);border-radius:12px;padding:12px 18px}
+.acc button i{font-style:normal;width:50px;height:50px;border-radius:50%;display:grid;place-items:center;border:3px solid var(--ink);font-family:var(--f-mono);font-weight:600;font-size:22px}
+.acc button strong{font-size:28px;font-weight:700}
+.acc button p{grid-column:2;font-size:23px;line-height:1.55;color:var(--muted);display:none}
+.acc button.on{border-color:var(--sec)}
+.acc button.on i{background:var(--sec);border-color:var(--sec);color:#fff}
+.acc button.on p{display:block;color:var(--ink)}
+
+/* flat line */
+.flat{display:grid;grid-template-columns:760px 1fr;gap:48px;align-items:start}
+.gainlbl{font-family:var(--f-mono);font-size:20px;color:var(--muted);margin:10px 0 0}
+.checks4{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+.checks4 button{text-align:left;border:2px solid var(--line);background:var(--slip);border-radius:10px;padding:12px 18px;font-size:24px}
+.checks4 button.done{border-color:var(--ink);background:var(--paper-2)}
+.log{display:flex;flex-direction:column;gap:10px;min-height:300px}
+.log div{font-size:24px;line-height:1.5;padding:10px 16px;background:var(--slip);border-radius:8px;border-left:5px solid var(--line)}
+.log div b{font-weight:700}
+.verdict{margin-top:14px;font-size:27px;line-height:1.55;padding:16px 22px;border-radius:10px}
+.verdict.y{background:var(--amber-soft);border-left:6px solid var(--amber)} .verdict.n{background:var(--blue-soft);border-left:6px solid var(--blue)}
+
+/* H & T tiles */
+.ht .tile .ch{font-size:40px}
+.ht .tile .nm small{display:block;font-size:17px;font-weight:500;color:var(--muted);font-family:var(--f-mono)}
+
+/* rhythm explorer */
+.rx .seg{margin-bottom:16px}
+.rxcap{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:18px}
+.rxcap h3{font-size:38px;margin-bottom:6px}
+.rxcap p{font-size:25px;line-height:1.6}
+.badges{display:flex;gap:12px;flex-wrap:wrap;margin:6px 0 10px}
+.toggleP{margin-left:auto}
+
+/* stable matrix */
+.stab{display:grid;grid-template-columns:500px 1fr;gap:56px;align-items:start}
+.signs5{display:flex;flex-direction:column;border-top:2px solid var(--ink)}
+.signs5 div{display:grid;grid-template-columns:48px 1fr;gap:14px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line);font-size:28px}
+.signs5 i{font-style:normal;width:44px;height:44px;border-radius:50%;background:var(--red-soft);color:var(--red);display:grid;place-items:center;font-weight:700;font-family:var(--f-mono)}
+.signs5 small{display:block;font-size:20px;color:var(--muted)}
+.mtx{display:flex;gap:24px;align-items:center;flex-wrap:wrap}
+.mtx .lb{font-size:22px;color:var(--muted)}
+.plan{margin-top:22px;padding:22px 28px;background:var(--slip);border-radius:12px;border-top:6px solid var(--pc,var(--ink));min-height:390px}
+.plan h3{font-size:38px;color:var(--pc,var(--ink));margin-bottom:10px}
+.plan ol{margin:0;padding-left:1.3em;font-size:26px;line-height:1.6}
+.plan li+li{margin-top:6px}
+
+/* game layout */
+.game2{display:flex;flex-direction:column;gap:18px}
+.game2 .row{display:grid;grid-template-columns:540px 1fr;gap:48px;align-items:start}
+.game2 .story{font-size:25px;margin-bottom:0;min-height:80px}
+.game2 .explain{margin-top:12px;font-size:22px}
+.game2 .q{font-size:26px;margin-bottom:10px}
+.game2 .gopts .qo{font-size:24px;padding:12px 18px}
+</style>
+
+<div id="stage" role="region" aria-label="投影片">
+
+<!-- 1 封面 -->
+<section class="slide cover active" data-sec="0">
+  <div>
+    <p class="eyebrow">急診護理在職教育　約 20 分鐘</p>
+    <h1 class="cover-title">監視器<span>在叫</span>了</h1>
+    <p class="cover-sub">致命心律辨識——看懂、喊出來、動起來</p>
+  </div>
+  <div class="cov-mon">
+    <div class="m-wrap bob" data-mascot="worried" data-label="♥" data-color="#D9412B"><div class="bubble">我的心跳……怪怪的</div></div>
+    <div class="ecg" id="coverEcg" data-w="1408" data-h="250" data-style="monitor" data-anim data-lead="II　25 mm/s"></div>
+  </div>
+  <p class="byline">天晟醫院 急診科　陳孝綱</p>
+  <aside class="notes"><b>0:30</b>開場。螢幕上的波形前半段正常，後半段突然亂掉——這就是今天要練的：看到這種畫面，三秒內知道要做什麼。操作：← → 或翻頁器換頁，F 全螢幕，N 開關講稿。</aside>
+</section>
+
+<!-- 2 暖身投票 -->
+<section class="slide" data-sec="0">
+  <div class="head"><p class="eyebrow">暖身 · 舉手投票</p><h2>監視器突然跑出這個，你第一步？</h2></div>
+  <div class="body poll">
+    <div class="ecg" data-rh="vf" data-w="560" data-h="330" data-style="monitor" data-anim data-lead="BED 05 · II"></div>
+    <div class="opts" data-poll="pre">
+      <button class="vote" data-i="0"><span class="fill"></span><span class="k">A</span><span>馬上推電擊器過來準備電</span><span class="n">0</span></button>
+      <button class="vote" data-i="1"><span class="fill"></span><span class="k">B</span><span>先看病人：叫得醒嗎？有沒有脈搏？</span><span class="n">0</span></button>
+      <button class="vote" data-i="2"><span class="fill"></span><span class="k">C</span><span>先按消音，再檢查導線</span><span class="n">0</span></button>
+      <button class="tiny" data-reset="pre">票數歸零</button>
+    </div>
+  </div>
+  <aside class="notes"><b>1:00</b>請大家舉手，每舉一隻手就點一下選項計票。先不公布答案——病人翻身、刷牙、導線鬆脫都可能跑出這種圖。最後一頁會再投一次。</aside>
+</section>
+
+<!-- 3 一次心跳 -->
+<section class="slide" data-sec="0">
+  <div class="head"><p class="eyebrow">基礎 · 點點看</p><h2>一次心跳，在紙上長這樣</h2></div>
+  <div class="body anat">
+    <div>
+      <div class="beat" id="beatSvg"></div>
+      <div class="parts seg" id="parts">
+        <button class="sbtn on" data-p="P">P 波</button>
+        <button class="sbtn" data-p="PR">PR 間期</button>
+        <button class="sbtn" data-p="QRS">QRS</button>
+        <button class="sbtn" data-p="T">T 波</button>
+      </div>
+      <div class="pexp" id="pExp"></div>
+    </div>
+    <svg class="heart" viewBox="0 0 520 470" aria-label="心臟傳導示意圖">
+      <rect id="hRA" class="ch" x="70" y="40" width="180" height="140" rx="40" fill="#E5EAE3"/>
+      <rect id="hLA" class="ch" x="270" y="40" width="180" height="140" rx="40" fill="#E5EAE3"/>
+      <path id="hV" class="ch" d="M70 200 H450 Q455 330 260 450 Q65 330 70 200 Z" fill="#E5EAE3"/>
+      <line x1="260" y1="205" x2="260" y2="420" stroke="#F2F4F0" stroke-width="8"/>
+      <path id="hBundle" d="M258 195 V300 M258 300 Q200 330 150 380 M262 300 Q320 330 370 380" stroke="#C9D1C8" stroke-width="6" fill="none" stroke-linecap="round"/>
+      <circle id="nSA" class="node" cx="110" cy="72" r="14" fill="#C9D1C8"/>
+      <circle id="nAV" class="node" cx="258" cy="190" r="14" fill="#C9D1C8"/>
+      <text x="160" y="118" text-anchor="middle" font-size="26" fill="#172421">右心房</text>
+      <text x="360" y="118" text-anchor="middle" font-size="26" fill="#172421">左心房</text>
+      <text x="160" y="290" text-anchor="middle" font-size="26" fill="#172421">右心室</text>
+      <text x="360" y="290" text-anchor="middle" font-size="26" fill="#172421">左心室</text>
+      <text x="96" y="30" font-size="20" fill="#5B6A64">竇房結 SA</text>
+      <text x="290" y="226" font-size="20" fill="#5B6A64">房室結 AV</text>
+    </svg>
+  </div>
+  <aside class="notes"><b>1:00</b>依序點 P → PR → QRS → T，右邊心臟會亮對應的位置。重點只有兩句：QRS 超過 3 小格叫「寬」；PR 超過 5 小格叫「延長」。後面辨識心律都靠這兩把尺。</aside>
+</section>
+
+<!-- 4 四個問題 + 6 秒法 -->
+<section class="slide" data-sec="0">
+  <div class="head"><p class="eyebrow">基礎 · 看心律的順序</p><h2>先問四個問題，不用背圖</h2></div>
+  <div class="body" style="display:flex;flex-direction:column;gap:18px">
+    <div class="q4">
+      <div><span class="n">01</span><strong>病人還好嗎？</strong><span>叫得醒？摸得到脈搏？<br>先看人，再看螢幕</span></div>
+      <div><span class="n">02</span><strong>快還是慢？</strong><span>&lt; 60 慢、&gt; 100 快<br>6 秒內 QRS 數 × 10</span></div>
+      <div><span class="n">03</span><strong>QRS 窄還是寬？</strong><span>3 小格（0.12 秒）以內是窄<br>寬 → 多半從心室來</span></div>
+      <div><span class="n">04</span><strong>規則嗎？P 波在嗎？</strong><span>每個 QRS 前面都有 P？<br>間距一樣嗎？</span></div>
+    </div>
+    <div class="ecg paper" id="sixEcg" data-w="1408" data-h="230"></div>
+    <div class="counter">
+      <div class="sl"><label for="hrR"><span>設定心跳（講者用）</span><b id="hrV">88</b></label><input type="range" id="hrR" min="30" max="180" step="1" value="88"></div>
+      <button class="gbtn pri" id="countBtn">數 QRS</button>
+      <p class="res6" id="sixRes">6 秒內數到幾個 QRS？</p>
+    </div>
+  </div>
+  <aside class="notes"><b>1:30</b>先把拉桿拉到任意數字（不要讓台下看到數值），請大家數 6 秒內有幾個 QRS，乘以 10。再按「數 QRS」對答案。心律不規則（例如心房顫動）時，6 秒法比「300 除以大格」好用。</aside>
+</section>
+
+<!-- 5 會停的心律 -->
+<section class="slide" data-sec="1">
+  <div class="head"><p class="eyebrow">無脈搏心律 · 四種要壓胸的</p><h2>摸不到脈搏，就只有這四種</h2></div>
+  <div class="body" style="display:flex;flex-direction:column">
+    <div class="flips">
+      <button class="flip" aria-pressed="false" style="--fs:var(--amber-soft);--fc:var(--amber)"><div class="flip-in">
+        <div class="face front"><small>VF</small><div class="ecg" data-rh="vf" data-w="296" data-h="120" data-style="monitor" data-anim></div><h3>心室顫動</h3><span class="hint">點我翻面</span></div>
+        <div class="face back"><h4>心室顫動 VF</h4><span class="shock y">⚡ 可電擊</span><ul><li>亂七八糟，找不到 QRS</li><li>心臟只是在「抖」，沒有打出血</li><li>立即 CPR ＋ 盡快去顫</li></ul></div>
+      </div></button>
+      <button class="flip" aria-pressed="false" style="--fs:var(--amber-soft);--fc:var(--amber)"><div class="flip-in">
+        <div class="face front"><small>pulseless VT</small><div class="ecg" data-rh="vt" data-w="296" data-h="120" data-style="monitor" data-anim></div><h3>無脈搏 VT</h3><span class="hint">點我翻面</span></div>
+        <div class="face back"><h4>無脈搏心室頻脈</h4><span class="shock y">⚡ 可電擊</span><ul><li>寬、快、規則</li><li>摸不到脈搏就當 VF 處理</li><li>去顫（不是同步電擊）</li></ul></div>
+      </div></button>
+      <button class="flip" aria-pressed="false" style="--fs:var(--blue-soft);--fc:var(--blue)"><div class="flip-in">
+        <div class="face front"><small>PEA</small><div class="ecg" data-rh="pea" data-w="296" data-h="120" data-style="monitor" data-anim></div><h3>無脈搏電氣活動</h3><span class="hint">點我翻面</span></div>
+        <div class="face back"><h4>PEA</h4><span class="shock n">✋ 不可電擊</span><ul><li>螢幕有波形，甚至很正常</li><li>但摸不到脈搏</li><li>CPR ＋ Epinephrine ＋ 找原因</li></ul></div>
+      </div></button>
+      <button class="flip" aria-pressed="false" style="--fs:var(--blue-soft);--fc:var(--blue)"><div class="flip-in">
+        <div class="face front"><small>Asystole</small><div class="ecg" data-rh="asys" data-w="296" data-h="120" data-style="monitor" data-anim></div><h3>心搏停止</h3><span class="hint">點我翻面</span></div>
+        <div class="face back"><h4>Asystole</h4><span class="shock n">✋ 不可電擊</span><ul><li>一直線</li><li>先確認：導線、增益、換導程</li><li>CPR ＋ Epinephrine</li></ul></div>
+      </div></button>
+    </div>
+    <p class="mnemo">口訣：<b>「V 開頭的電，P 跟 A 的壓」</b>——VF、VT 可電擊；PEA、Asystole 只能壓胸給藥</p>
+  </div>
+  <aside class="notes"><b>1:30</b>先讓大家猜哪兩種可以電，再翻卡。PEA 最容易騙人：螢幕看起來很正常，所以「先摸脈搏」永遠是第一步。</aside>
+</section>
+
+<!-- 6 VF / pVT -->
+<section class="slide" data-sec="1">
+  <div class="head"><p class="eyebrow">無脈搏心律 · VF／無脈 VT</p><h2>可以電的，就不要拖</h2></div>
+  <div class="body defib">
+    <div>
+      <div class="ecg" id="shockEcg" data-w="720" data-h="300" data-style="monitor" data-anim data-lead="PADS"></div>
+      <div class="seg" id="shockSeg" style="margin-top:16px">
+        <button class="sbtn on" data-r="vf">粗顆粒 VF</button>
+        <button class="sbtn" data-r="vffine">細顆粒 VF</button>
+        <button class="sbtn" data-r="vt">無脈搏 VT</button>
+      </div>
+      <p class="cap" id="shockCap"></p>
+    </div>
+    <div class="acc" id="acc">
+      <button class="on"><i>1</i><strong>叫人、立刻 CPR</strong><p>確認沒有脈搏（10 秒內），馬上壓胸，大聲喊「床 5 VF，沒脈搏！」</p></button>
+      <button><i>2</i><strong>貼電擊貼片</strong><p>右鎖骨下＋左腋下（心尖）。邊壓邊貼，不要停下來貼。</p></button>
+      <button><i>3</i><strong>分析節律</strong><p>暫停按壓看螢幕，確認是 VF 或無脈 VT → 可電擊。</p></button>
+      <button><i>4</i><strong>充電、喊離開</strong><p>雙相波依機型建議（多為 120–200 J）。「我要電擊，大家離開！」氧氣移開，確認沒人碰病人。</p></button>
+      <button><i>5</i><strong>電完立刻壓</strong><p>不要先摸脈搏，直接 CPR 2 分鐘再分析。第 2 次電擊後依醫囑 Epinephrine 1 mg；第 3 次後 Amiodarone 300 mg。</p></button>
+    </div>
+  </div>
+  <aside class="notes"><b>1:30</b>左邊切換三種波形；右邊逐步點開。強調第 5 步：電完不要摸脈搏，心臟剛電完常常還沒力，直接壓。細顆粒 VF 很像一直線，下一頁就講它。能量以本院電擊器機型為準。</aside>
+</section>
+
+<!-- 7 一直線 -->
+<section class="slide" data-sec="1">
+  <div class="head"><p class="eyebrow">無脈搏心律 · 一直線別急著下結論</p><h2>看到一直線，先確認三件事</h2></div>
+  <div class="body flat">
+    <div>
+      <div class="seg" id="bedSeg" style="margin-bottom:14px">
+        <button class="sbtn on" data-b="3">床 3</button>
+        <button class="sbtn" data-b="8">床 8</button>
+      </div>
+      <div class="ecg" id="flatEcg" data-w="760" data-h="260" data-style="monitor" data-anim data-lead="II"></div>
+      <p class="gainlbl" id="gainLbl">增益 ×1　Lead II</p>
+      <div class="checks4" id="flatChecks">
+        <button data-c="pt">① 看病人、摸脈搏</button>
+        <button data-c="lead">② 導線／貼片有沒有掉</button>
+        <button data-c="gain">③ 增益調大</button>
+        <button data-c="view">④ 換一個導程看</button>
+      </div>
+    </div>
+    <div>
+      <div class="log" id="flatLog"></div>
+      <div class="verdict" id="flatVerdict" hidden></div>
+    </div>
+  </div>
+  <aside class="notes"><b>1:30</b>先選床 3，照順序點四個確認鍵；再切到床 8 重做一次——增益調大後會跑出細小的亂波，其實是細顆粒 VF，要電！結論：一直線要確認過才算 Asystole。</aside>
+</section>
+
+<!-- 8 PEA H&T -->
+<section class="slide" data-sec="1">
+  <div class="head"><p class="eyebrow">無脈搏心律 · PEA／Asystole 要找原因</p><h2>壓胸的同時，一起想 5H5T</h2></div>
+  <div class="body ht" style="display:flex;flex-direction:column;gap:14px">
+    <div class="tiles" style="--cols:5;--th:228px">
+      <button class="tile" style="--ts:var(--red-soft);--tc:var(--red)"><span class="ch">H</span><span class="nm">低血容<small>Hypovolemia</small></span><span class="dt">出血、脫水 → 快速輸液、備血</span><span class="tp">點我</span></button>
+      <button class="tile" style="--ts:var(--red-soft);--tc:var(--red)"><span class="ch">H</span><span class="nm">缺氧<small>Hypoxia</small></span><span class="dt">打開呼吸道、給氧，確認插管位置</span><span class="tp">點我</span></button>
+      <button class="tile" style="--ts:var(--red-soft);--tc:var(--red)"><span class="ch">H</span><span class="nm">酸中毒<small>Hydrogen ion</small></span><span class="dt">抽 ABG；依醫囑 NaHCO₃</span><span class="tp">點我</span></button>
+      <button class="tile" style="--ts:var(--red-soft);--tc:var(--red)"><span class="ch">H</span><span class="nm">高／低血鉀<small>Hyper/Hypokalemia</small></span><span class="dt">洗腎病人先想高血鉀 → 備鈣劑</span><span class="tp">點我</span></button>
+      <button class="tile" style="--ts:var(--red-soft);--tc:var(--red)"><span class="ch">H</span><span class="nm">低體溫<small>Hypothermia</small></span><span class="dt">量中心體溫、移除濕衣物、保暖</span><span class="tp">點我</span></button>
+      <button class="tile" style="--ts:var(--blue-soft);--tc:var(--blue)"><span class="ch">T</span><span class="nm">張力性氣胸<small>Tension PTX</small></span><span class="dt">單側呼吸音消失 → 備針刺減壓</span><span class="tp">點我</span></button>
+      <button class="tile" style="--ts:var(--blue-soft);--tc:var(--blue)"><span class="ch">T</span><span class="nm">心包填塞<small>Tamponade</small></span><span class="dt">頸靜脈怒張、胸部刀傷 → 超音波</span><span class="tp">點我</span></button>
+      <button class="tile" style="--ts:var(--blue-soft);--tc:var(--blue)"><span class="ch">T</span><span class="nm">中毒<small>Toxins</small></span><span class="dt">問家屬、找空藥袋 → 解毒劑</span><span class="tp">點我</span></button>
+      <button class="tile" style="--ts:var(--blue-soft);--tc:var(--blue)"><span class="ch">T</span><span class="nm">肺栓塞<small>Thrombosis, lung</small></span><span class="dt">久臥、突然喘 → 依醫囑溶栓</span><span class="tp">點我</span></button>
+      <button class="tile" style="--ts:var(--blue-soft);--tc:var(--blue)"><span class="ch">T</span><span class="nm">心肌梗塞<small>Thrombosis, heart</small></span><span class="dt">倒下前胸痛 → 通知心導管室</span><span class="tp">點我</span></button>
+    </div>
+    <p class="note">PEA／Asystole 的藥：Epinephrine 1 mg IV/IO，每 3–5 分鐘一次，越早給越好。</p>
+  </div>
+  <aside class="notes"><b>1:00</b>請台下幫忙喊出原因，喊到一個翻一張。護理端最能幫上忙的：抽血（K⁺、ABG、血糖）、問病史、量體溫、找藥袋。</aside>
+</section>
+
+<!-- 9 情境 1 -->
+<section class="slide" data-sec="1">
+  <div class="head"><p class="eyebrow">情境劇場 1</p><h2>螢幕看起來好好的，人卻倒了</h2></div>
+  <div class="body case">
+    <div>
+      <p class="story"><b>62 歲男性，胸悶。</b>檢傷完坐在等候區突然倒下。接上監視器是規則的窄 QRS，約 72 次/分；你摸頸動脈，<b>摸不到</b>。</p>
+      <div class="ecg" data-rh="pea" data-w="460" data-h="200" data-style="monitor" data-anim data-lead="HR 72"></div>
+    </div>
+    <div class="quiz">
+      <p class="q">下一步最正確的是？</p>
+      <div class="qopts">
+        <button class="qo"><span class="k">A</span><span>立刻電擊</span></button>
+        <button class="qo" data-ok><span class="k">B</span><span>立即 CPR，依醫囑 Epinephrine 1 mg，大家一起想 5H5T</span></button>
+        <button class="qo"><span class="k">C</span><span>心跳 72 很正常，先做 12 導程再說</span></button>
+        <button class="qo"><span class="k">D</span><span>先給 Atropine 1 mg</span></button>
+      </div>
+      <p class="explain" hidden>有波形、沒脈搏 → <b>PEA</b>，不可電擊。處理就是高品質 CPR ＋ Epinephrine ＋ 找原因；這位倒下前胸悶，要想到心肌梗塞、肺栓塞、心包填塞。</p>
+    </div>
+  </div>
+  <aside class="notes"><b>1:30</b>讓各組討論 20 秒再點。追問：如果你沒有親手摸脈搏，只看螢幕，會發生什麼事？</aside>
+</section>
+
+<!-- 10 太慢 -->
+<section class="slide rx" data-sec="2">
+  <div class="head"><p class="eyebrow">太慢 · 房室傳導阻滯</p><h2>P 波跟 QRS 的關係，決定危不危險</h2></div>
+  <div class="body">
+    <div class="seg" id="bradySeg" style="display:flex;align-items:center">
+      <button class="sbtn on" data-r="brady">竇性緩脈</button>
+      <button class="sbtn" data-r="avb1">一度</button>
+      <button class="sbtn" data-r="wenck">二度 I 型</button>
+      <button class="sbtn" data-r="mob2">二度 II 型</button>
+      <button class="sbtn" data-r="avb3">三度（完全）</button>
+      <button class="pbtn toggleP" id="pMark">標出 P 波</button>
+    </div>
+    <div class="ecg paper" id="bradyEcg" data-w="1408" data-h="250"></div>
+    <div class="rxcap" id="bradyCap"></div>
+  </div>
+  <aside class="notes"><b>1:30</b>先按「標出 P 波」，再依序切換。記法：一度只是拖延；二度 I 型越拖越久才掉一個；二度 II 型沒預警就掉；三度 P 跟 QRS 各過各的。越往右越危險，二度 II 型和三度要先貼好經皮調節貼片。</aside>
+</section>
+
+<!-- 11 穩不穩定 -->
+<section class="slide" data-sec="2">
+  <div class="head"><p class="eyebrow">太慢太快 · 決定下一步</p><h2>不是看數字，是看病人穩不穩</h2></div>
+  <div class="body stab">
+    <div>
+      <h3 style="font-size:30px;margin-bottom:10px">「不穩定」的五個徵象</h3>
+      <div class="signs5">
+        <div><i>1</i><span>低血壓<small>SBP &lt; 90 或明顯下降</small></span></div>
+        <div><i>2</i><span>意識改變<small>變混亂、叫不太醒</small></span></div>
+        <div><i>3</i><span>休克徵象<small>濕冷、微血管回填變慢</small></span></div>
+        <div><i>4</i><span>缺血性胸痛<small>胸悶、壓迫感</small></span></div>
+        <div><i>5</i><span>急性心衰竭<small>很喘、肺部囉音</small></span></div>
+      </div>
+    </div>
+    <div>
+      <div class="mtx">
+        <span class="lb">心跳</span>
+        <div class="seg" id="mRate"><button class="sbtn on" data-v="slow">太慢</button><button class="sbtn" data-v="fast">太快</button></div>
+        <span class="lb" style="margin-left:16px">病人</span>
+        <div class="seg" id="mStab"><button class="sbtn on" data-v="stable">穩定</button><button class="sbtn" data-v="unstable">不穩定</button></div>
+      </div>
+      <div class="plan" id="plan"></div>
+    </div>
+  </div>
+  <aside class="notes"><b>1:30</b>先講左邊五個徵象，有任一個就算不穩定。右邊切四種組合。重點：慢又不穩 → Atropine＋經皮調節；快又不穩 → 同步電擊。藥物劑量依醫囑與本院 ACLS 流程。</aside>
+</section>
+
+<!-- 12 太快 -->
+<section class="slide rx" data-sec="2">
+  <div class="head"><p class="eyebrow">太快 · 窄的還是寬的</p><h2>快心律先看兩件事：寬不寬、齊不齊</h2></div>
+  <div class="body">
+    <div class="seg" id="tachySeg">
+      <button class="sbtn on" data-r="stach">竇性心搏過速</button>
+      <button class="sbtn" data-r="svt">SVT</button>
+      <button class="sbtn" data-r="af">心房顫動</button>
+      <button class="sbtn" data-r="vtp">VT（有脈搏）</button>
+    </div>
+    <div class="ecg paper" id="tachyEcg" data-w="1408" data-h="230"></div>
+    <div class="rxcap" id="tachyCap"></div>
+  </div>
+  <aside class="notes"><b>1:30</b>切換四種。竇性心搏過速是「症狀」不是病——發燒、痛、脫水、出血，治原因。SVT 規則又窄；心房顫動完全不規則；寬的先當 VT。同步電擊一定要按 SYNC。</aside>
+</section>
+
+<!-- 13 護理重點 -->
+<section class="slide" data-sec="2">
+  <div class="head"><p class="eyebrow">護理重點</p><h2>心律出事時，護理站要做的六件事</h2></div>
+  <div class="body checks">
+    <button class="chk"><span><strong>先看病人，再看螢幕</strong><span>叫得醒？頸動脈脈搏 10 秒內確認</span></span></button>
+    <button class="chk"><span><strong>大聲喊出來</strong><span>「床 5 VF 沒脈搏！」閉環溝通，指定人</span></span></button>
+    <button class="chk"><span><strong>不穩定心律先貼貼片</strong><span>慢的可經皮調節、快的可同步電擊</span></span></button>
+    <button class="chk"><span><strong>同步電擊要按 SYNC</strong><span>每次電擊前確認 QRS 上有同步標記</span></span></button>
+    <button class="chk"><span><strong>Adenosine 要快推</strong><span>靠近心臟的大靜脈，推完立刻 20 mL 生理食鹽水沖</span></span></button>
+    <button class="chk"><span><strong>印節律條、記時間</strong><span>事件前後的心律、電擊與給藥時間都要留</span></span></button>
+  </div>
+  <aside class="notes"><b>1:00</b>每講一項打一個勾。第四點：有些電擊器電完會自動取消 SYNC，第二次電擊前要再確認。</aside>
+</section>
+
+<!-- 14 情境 2 -->
+<section class="slide" data-sec="2">
+  <div class="head"><p class="eyebrow">情境劇場 2</p><h2>阿嬤頭暈，心跳只有 38</h2></div>
+  <div class="body case">
+    <div>
+      <p class="story"><b>76 歲女性，</b>早上起床頭暈、差點昏倒。血壓 76/40，冒冷汗，講話有點慢。</p>
+      <div class="ecg" data-rh="avb3" data-w="460" data-h="200" data-style="monitor" data-anim data-lead="HR 34"></div>
+    </div>
+    <div class="quiz">
+      <p class="q">護理端最適合的準備是？</p>
+      <div class="qopts">
+        <button class="qo"><span class="k">A</span><span>讓她平躺休息，30 分鐘後再量血壓</span></button>
+        <button class="qo" data-ok><span class="k">B</span><span>通知醫師，備 Atropine 1 mg，貼上經皮調節貼片</span></button>
+        <button class="qo"><span class="k">C</span><span>準備同步電擊</span></button>
+        <button class="qo"><span class="k">D</span><span>準備 Adenosine 6 mg 快速推</span></button>
+      </div>
+      <p class="explain" hidden>P 波規律出現，但跟 QRS 各過各的 → <b>三度房室傳導阻滯</b>，又有低血壓、冷汗、意識變慢 → 不穩定。Atropine 可以先試，但三度常常沒效，要準備經皮心律調節。同步電擊和 Adenosine 是給「太快」的。</p>
+    </div>
+  </div>
+  <aside class="notes"><b>1:30</b>先讓大家說出這是哪種心律（回扣上上頁），再選處置。延伸：經皮調節會痛，清醒病人依醫囑給止痛鎮靜。</aside>
+</section>
+
+<!-- 15 心律偵探 -->
+<section class="slide" data-sec="3">
+  <div class="gtop">
+    <div class="head"><p class="eyebrow">實戰 · 分組搶答</p><h2>心律偵探</h2></div>
+    <div class="score">
+      <div class="team red"><span class="tn">紅隊</span><button data-t="0" data-d="-1" aria-label="紅隊減一分">−</button><span class="ts" id="ts0">0</span><button data-t="0" data-d="1" aria-label="紅隊加一分">+</button></div>
+      <div class="team blue"><span class="tn">藍隊</span><button data-t="1" data-d="-1" aria-label="藍隊減一分">−</button><span class="ts" id="ts1">0</span><button data-t="1" data-d="1" aria-label="藍隊加一分">+</button></div>
+    </div>
+  </div>
+  <div class="body game2">
+    <div id="gVis"></div>
+    <div class="row">
+      <div><p class="gno" id="gNo">第 1 / 6 題</p><p class="story" id="gStory"></p><p class="explain" id="gWhy" hidden></p></div>
+      <div>
+        <p class="q">這是哪一種心律？</p>
+        <div class="gopts" id="gOpts"></div>
+        <div class="gnav"><button class="gbtn" id="gPrev">上一題</button><button class="gbtn pri" id="gNext">下一題</button><span class="gdots" id="gDots"></span></div>
+      </div>
+    </div>
+  </div>
+  <aside class="notes"><b>2:30</b>分兩隊，看波形＋故事搶答，答對按右上角「+」。答完順便問「可不可以電？」加一分。←→ 仍然是換投影片，題目用「下一題」切換。</aside>
+</section>
+
+<!-- 16 是非 -->
+<section class="slide" data-sec="3">
+  <div class="head"><p class="eyebrow">實戰 · 快問快答 ○ ✕</p><h2 id="tfNo">第 1 / 5 題</h2></div>
+  <div class="body tf">
+    <div><p class="tfq" id="tfQ"></p><div class="tfa" id="tfA"></div></div>
+    <div>
+      <div class="ring"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="52" fill="none" stroke="#E5EAE3" stroke-width="12"/><circle id="tfArc" cx="60" cy="60" r="52" fill="none" stroke="#172421" stroke-width="12" stroke-linecap="round" stroke-dasharray="326.7" stroke-dashoffset="0"/></svg><span class="t" id="tfT">10</span></div>
+      <div class="tfbtns"><button class="gbtn" id="tfGo">倒數</button><button class="gbtn pri" id="tfShow">揭曉</button><button class="gbtn" id="tfNext">下一題</button></div>
+    </div>
+  </div>
+  <aside class="notes"><b>1:00</b>唸題目 → 按「倒數」給 10 秒，大家用手比 ○ 或 ✕ → 按「揭曉」。</aside>
+</section>
+
+<!-- 17 總結 -->
+<section class="slide" data-sec="4">
+  <div class="head"><p class="eyebrow">總結 · 帶走三句話</p><h2>下次監視器叫，你會怎麼做？</h2></div>
+  <div class="body wrapg">
+    <div>
+      <div class="take">
+        <div style="--c:var(--ink)"><b>先看人</b><p>叫得醒？摸得到脈搏？螢幕會騙人，病人不會</p></div>
+        <div style="--c:var(--red)"><b>會停的</b><p>V 開頭的電（VF、無脈 VT），P 跟 A 的壓（PEA、Asystole）</p></div>
+        <div style="--c:var(--blue)"><b>太慢太快</b><p>不穩定就處理：慢的 Atropine＋經皮調節，快的同步電擊</p></div>
+      </div>
+      <p class="thanks">謝謝大家，有問題現在問</p>
+    </div>
+    <div class="post">
+      <h3>再投一次：監視器跑出亂波？</h3>
+      <p class="legend"><span><i></i>課前票數</span><span>底色：課後票數</span></p>
+      <div class="opts" data-poll="post">
+        <button class="vote" data-i="0"><span class="fill"></span><span class="ghost"></span><span class="k">A</span><span>馬上推電擊器過來準備電</span><span class="n">0</span></button>
+        <button class="vote" data-i="1"><span class="fill"></span><span class="ghost"></span><span class="k">B</span><span>先看病人：叫得醒嗎？有沒有脈搏？</span><span class="n">0</span></button>
+        <button class="vote" data-i="2"><span class="fill"></span><span class="ghost"></span><span class="k">C</span><span>先按消音，再檢查導線</span><span class="n">0</span></button>
+        <button class="tiny" data-reset="post">票數歸零</button>
+      </div>
+    </div>
+  </div>
+  <aside class="notes"><b>0:45</b>三句話請大家跟著念。右邊再投一次，細灰線是課前票數，看 B 有沒有變多。補充：A 也不算全錯——電擊器確實要推來，但要先確認病人。</aside>
+</section>
+
+<nav class="bar" aria-label="投影片導覽">
+  <ul class="secs" id="secs"></ul>
+  <div class="ctrl">
+    <span class="count" id="count">1 / 1</span>
+    <button class="ibtn" id="prev" aria-label="上一張">←</button>
+    <button class="ibtn" id="next" aria-label="下一張">→</button>
+    <button class="ibtn" id="noteBtn" title="講稿（N）">講稿</button>
+    <button class="ibtn" id="fsBtn" title="全螢幕（F）">全螢幕</button>
+  </div>
+</nav>
+</div>
+<div id="notes" hidden></div>
+
+<script>
+window.DECK={key:'ecg',secs:[['基礎','var(--ink)'],['無脈搏','var(--red)'],['太慢太快','var(--blue)'],['實戰','var(--amber)'],['總結','var(--green)']]};
+window.TF=[
+  {q:'看到一直線，就可以直接判定是 Asystole。',a:false,w:'先確認導線有沒有掉、增益調大、換導程。細顆粒 VF 很像一直線，而它是可以電的。'},
+  {q:'PEA 螢幕上有規則波形，所以可以電擊。',a:false,w:'PEA 不可電擊。有波形但沒脈搏，處理是 CPR ＋ Epinephrine ＋ 找原因。'},
+  {q:'VF 電擊完，要先摸脈搏確認，再決定要不要壓。',a:false,w:'電完立刻 CPR 2 分鐘，不要先摸脈搏，再分析節律。'},
+  {q:'不穩定的快心律做同步電擊，要記得按 SYNC。',a:true,w:'沒按 SYNC，電擊可能落在 T 波上，反而誘發 VF。'},
+  {q:'Adenosine 要慢慢推，避免副作用。',a:false,w:'Adenosine 半衰期只有幾秒，要快速推，推完立刻用 20 mL 生理食鹽水沖。'}
+];
+</script>
+<script>
+(function(){
+const $=s=>document.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const D=window.DECK;
+const stage=$('#stage'), slides=$$('.slide');
+let cur=0;
+window.$=$;window.$$=$$;
+window.reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---------- mascot ---------- */
+const MOUTH={happy:'M-20 18 Q0 38 20 18',worried:'M-20 30 Q0 14 20 30',dizzy:'M-24 24 q6 -8 12 0 t12 0 t12 0 t12 0',flat:'M-18 24 L18 24'};
+window.MOUTH=MOUTH;
+window.mascot=function(label,mood,color){
+  const fs=label.length>2?24:30;
+  return `<svg class="mascot" viewBox="-75 -75 150 150" aria-hidden="true">
+  <ellipse cx="0" cy="68" rx="42" ry="6" fill="rgba(23,36,33,.14)"/>
+  <circle class="m-body" r="58" fill="${color}"/>
+  <text class="m-label" x="0" y="-22" text-anchor="middle" font-size="${fs}">${label}</text>
+  <circle cx="-20" cy="2" r="7.5" fill="#172421"/><circle cx="20" cy="2" r="7.5" fill="#172421"/>
+  <circle cx="-17.5" cy="-.5" r="2.5" fill="#fff"/><circle cx="22.5" cy="-.5" r="2.5" fill="#fff"/>
+  <path class="m-mouth" d="${MOUTH[mood]}" fill="none" stroke="#172421" stroke-width="6" stroke-linecap="round"/>
+  <path class="m-sweat" d="M50 -36 q9 15 0 22 q-9 -7 0 -22z" fill="#9CCBEB" opacity="${mood==='worried'?1:0}"/></svg>`;
+};
+window.setMascot=function(el,mood,color){
+  if(color)el.querySelector('.m-body').setAttribute('fill',color);
+  el.querySelector('.m-mouth').setAttribute('d',MOUTH[mood]);
+  el.querySelector('.m-sweat').setAttribute('opacity',mood==='worried'?1:0);
+};
+$$('[data-mascot]').forEach(el=>el.insertAdjacentHTML('afterbegin',mascot(el.dataset.label||'',el.dataset.mascot,el.dataset.color)));
+
+/* ---------- lab slip ---------- */
+// rows: [[name,value,unit,lo,hi,decimals]]
+window.slip=function(rows,head,foot){
+  const f=(v,lo,hi)=>lo==null?'<em></em>':v<lo?'<em class="L">L</em>':v>hi?'<em class="H">H</em>':'<em></em>';
+  return `<div class="slip"><div class="slip-h"><span>${head||'LAB'}</span><span>STAT</span></div>
+  ${rows.map(([n,v,u,lo,hi,dp])=>`<div class="slip-r"><span>${n}</span><b>${typeof v==='number'?v.toFixed(dp||0):v}</b><i>${u||''}</i>${f(v,lo,hi)}</div>`).join('')}
+  <div class="slip-f">${foot||''}</div></div>`;
+};
+window.vitals=function(v){return `<div class="vitals">${v.map(([n,val,cls])=>`<div><span>${n}</span><b class="${cls||'m-w'}">${val}</b></div>`).join('')}</div>`};
+
+/* ---------- navigation ---------- */
+const secs=$('#secs');
+D.secs.forEach(([n,c],i)=>{const li=document.createElement('li');li.innerHTML=`<button style="--c:${c}"><i></i>${n}</button>`;
+  li.firstChild.onclick=()=>go(slides.findIndex(s=>+s.dataset.sec===i));secs.appendChild(li)});
+slides.forEach(s=>s.style.setProperty('--sec',D.secs[+s.dataset.sec][1]));
+const notes=$('#notes');
+const hooks=[];window.onSlide=fn=>hooks.push(fn);
+function go(i){
+  i=Math.max(0,Math.min(slides.length-1,i));
+  slides.forEach((s,k)=>{s.classList.toggle('active',k===i);s.classList.toggle('past',k<i);s.toggleAttribute('inert',k!==i)});
+  cur=i;
+  $('#count').textContent=`${i+1} / ${slides.length}`;
+  $$('#secs button').forEach((b,k)=>b.classList.toggle('on',k===+slides[i].dataset.sec));
+  const n=slides[i].querySelector('.notes');notes.innerHTML=n?n.innerHTML:'';
+  try{history.replaceState(null,'','#'+(i+1))}catch(e){}
+  if(slides[i].querySelector('[data-poll="post"]'))renderPoll('post');
+  hooks.forEach(fn=>fn(slides[i],i));
+}
+window.go=go;
+function fit(){const s=Math.min(innerWidth/1600,innerHeight/900);stage.style.transform=`translate(-50%,-50%) scale(${s})`}
+addEventListener('resize',fit);fit();
+$('#prev').onclick=()=>go(cur-1);$('#next').onclick=()=>go(cur+1);
+function toggleNotes(){notes.hidden=!notes.hidden}
+function toggleFS(){if(!document.fullscreenElement)document.documentElement.requestFullscreen?.().catch(()=>{});else document.exitFullscreen?.()}
+$('#noteBtn').onclick=toggleNotes;$('#fsBtn').onclick=toggleFS;
+addEventListener('keydown',e=>{
+  const t=e.target, isField=t.type==='range'||t.type==='number'||t.tagName==='SELECT';
+  if(e.key==='PageDown'){e.preventDefault();t.blur?.();go(cur+1);return}
+  if(e.key==='PageUp'){e.preventDefault();t.blur?.();go(cur-1);return}
+  if(isField)return;
+  if(e.key==='ArrowRight'){go(cur+1)}
+  else if(e.key==='ArrowLeft'){go(cur-1)}
+  else if(e.key===' '&&t.tagName!=='BUTTON'){e.preventDefault();go(cur+1)}
+  else if(e.key==='Home')go(0); else if(e.key==='End')go(slides.length-1);
+  else if(e.key==='f'||e.key==='F')toggleFS();
+  else if(e.key==='n'||e.key==='N')toggleNotes();
+});
+let tx=null;
+stage.addEventListener('touchstart',e=>{tx=e.target.closest('input,button')?null:e.touches[0].clientX},{passive:true});
+stage.addEventListener('touchend',e=>{if(tx==null)return;const d=e.changedTouches[0].clientX-tx;if(Math.abs(d)>60)go(cur+(d<0?1:-1));tx=null});
+
+/* ---------- polls ---------- */
+const store={get(k,d){try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const nOpt=$$('[data-poll="pre"] .vote').length||3;
+const polls={pre:store.get(D.key+'-poll-pre',Array(nOpt).fill(0)),post:store.get(D.key+'-poll-post',Array(nOpt).fill(0))};
+function renderPoll(k){
+  const box=document.querySelector(`[data-poll="${k}"]`);if(!box)return;const v=polls[k];const max=Math.max(1,...v,...(k==='post'?polls.pre:[]));
+  $$('.vote',box).forEach((b,i)=>{b.querySelector('.n').textContent=v[i];b.querySelector('.fill').style.width=(v[i]/max*100)+'%';
+    const g=b.querySelector('.ghost');if(g)g.style.width=(polls.pre[i]/max*100)+'%'});
+}
+$$('[data-poll]').forEach(box=>{const k=box.dataset.poll;
+  $$('.vote',box).forEach(b=>b.onclick=()=>{polls[k][+b.dataset.i]++;store.set(D.key+'-poll-'+k,polls[k]);renderPoll(k)});
+  renderPoll(k)});
+$$('[data-reset]').forEach(b=>b.onclick=()=>{const k=b.dataset.reset;polls[k]=Array(nOpt).fill(0);store.set(D.key+'-poll-'+k,polls[k]);renderPoll(k)});
+
+/* ---------- flips / tiles / checklist ---------- */
+$$('.flip').forEach(b=>b.onclick=()=>{b.classList.toggle('on');b.setAttribute('aria-pressed',b.classList.contains('on'))});
+$$('.tile').forEach(b=>b.onclick=()=>b.classList.toggle('on'));
+const CHECK='<svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+$$('.chk').forEach(b=>{b.setAttribute('aria-pressed','false');b.insertAdjacentHTML('afterbegin',`<span class="box">${CHECK}</span>`);
+  b.onclick=()=>b.setAttribute('aria-pressed',b.getAttribute('aria-pressed')!=='true')});
+
+/* ---------- case quizzes ---------- */
+$$('.quiz').forEach(qz=>{const ex=qz.querySelector('.explain');
+  $$('.qo',qz).forEach(o=>o.onclick=()=>{
+    $$('.qo',qz).forEach(x=>x.classList.remove('right','wrong'));
+    if(o.hasAttribute('data-ok'))o.classList.add('right');else{o.classList.add('wrong');qz.querySelector('[data-ok]').classList.add('right')}
+    ex.hidden=false})});
+
+/* ---------- reveal steps ---------- */
+$$('[data-reveal]').forEach(btn=>{
+  const scope=btn.closest('.slide');let n=0;const label=btn.textContent;
+  btn.onclick=()=>{const r=$$('.res',scope);
+    if(n>=r.length){r.forEach(x=>x.classList.remove('show'));n=0;btn.textContent=label;return}
+    r[n++].classList.add('show');if(n>=r.length)btn.textContent='重來一次'}});
+
+/* ---------- game ---------- */
+function initExtras(){
+if(window.GAME&&$('#gOpts')){
+  let gi=0;const gOpts=$('#gOpts'),gWhy=$('#gWhy');
+  function renderGame(){
+    const g=GAME[gi],opts=g.o||D.gameOpts;$('#gNo').textContent=`第 ${gi+1} / ${GAME.length} 題`;$('#gStory').innerHTML=g.s;
+    $('#gVis').innerHTML=g.v?g.v(gi):'';
+    gOpts.innerHTML=opts.map((o,i)=>`<button class="qo" data-i="${i}"><span class="k">${'ABCD'[i]}</span><span>${o}</span></button>`).join('');
+    gWhy.hidden=true;gWhy.innerHTML=g.w;
+    $$('.qo',gOpts).forEach(b=>b.onclick=()=>{$$('.qo',gOpts).forEach(x=>x.classList.remove('right','wrong'));
+      const i=+b.dataset.i;if(i===g.ok)b.classList.add('right');else{b.classList.add('wrong');gOpts.children[g.ok].classList.add('right')}gWhy.hidden=false});
+    $('#gDots').innerHTML=GAME.map((_,i)=>`<i class="${i===gi?'on':''}"></i>`).join('');
+    $('#gPrev').disabled=gi===0;$('#gNext').textContent=gi===GAME.length-1?'回第 1 題':'下一題';
+    if(D.afterGame)D.afterGame(gi);
+  }
+  $('#gPrev').onclick=()=>{if(gi>0){gi--;renderGame()}};$('#gNext').onclick=()=>{gi=(gi+1)%GAME.length;renderGame()};renderGame();
+  const scores=[0,0];
+  $$('.team button').forEach(b=>b.onclick=()=>{const t=+b.dataset.t;scores[t]=Math.max(0,scores[t]+ +b.dataset.d);$('#ts'+t).textContent=scores[t]});
+}
+
+/* ---------- true / false ---------- */
+if(window.TF&&$('#tfQ')){
+  let ti=0,timer=null;const arc=$('#tfArc'),C=326.7;
+  const stopT=()=>{clearInterval(timer);timer=null};
+  function renderTF(){stopT();const t=TF[ti];$('#tfNo').textContent=`第 ${ti+1} / ${TF.length} 題`;$('#tfQ').textContent=t.q;$('#tfA').innerHTML='';
+    $('#tfT').textContent='10';arc.style.transition='none';arc.setAttribute('stroke-dashoffset',0);arc.setAttribute('stroke','#172421')}
+  $('#tfGo').onclick=()=>{stopT();let s=10;$('#tfT').textContent=s;arc.style.transition='stroke-dashoffset 1s linear';arc.setAttribute('stroke-dashoffset',0);
+    timer=setInterval(()=>{s--;$('#tfT').textContent=s;arc.setAttribute('stroke-dashoffset',C*(10-s)/10);if(s<=3)arc.setAttribute('stroke','#D9412B');if(s<=0)stopT()},1000)};
+  $('#tfShow').onclick=()=>{stopT();const t=TF[ti];$('#tfA').innerHTML=`<span class="mark ${t.a?'o':'x'}">${t.a?'○':'✕'}</span><span>${t.w}</span>`};
+  $('#tfNext').onclick=()=>{ti=(ti+1)%TF.length;renderTF()};renderTF();
+}
+
+}
+/* ---------- start ---------- */
+window.startDeck=function(){initExtras();const h=parseInt(location.hash.slice(1),10);go(h>0?h-1:0)};
+})();
+
+</script>
+<script>
+/* ---------- ECG waveform generator ---------- */
+const ECG=(()=>{
+  const g=(t,mu,sd)=>Math.exp(-((t-mu)*(t-mu))/(2*sd*sd));
+  const TAU=Math.PI*2;
+  function rnd(seed){let s=seed>>>0||1;return()=>((s=(Math.imul(s,1664525)+1013904223)>>>0)/4294967296)}
+  // one QRS-T complex, t relative to R peak
+  function cx(t,b){
+    if(b.wide){const a=b.a||1,w=b.qw||1;return a*(.95*g(t,0,.036*w)-.6*g(t,.095*w,.04*w))-.38*a*g(t,.34,.08)+(b.u||0)*g(t,.55,.05)}
+    const w=b.qw||1;
+    let y=-.1*g(t,-.028*w,.009*w)+(b.rA??1)*g(t,0,.012*w)-(b.sA??.28)*g(t,.03*w,.011*w)+(b.tA??.3)*g(t,b.tOff??.3,b.tSd??.06);
+    if(b.u)y+=b.u*g(t,(b.tOff??.3)+.2,.05);
+    if(b.st)y+=b.st*g(t,(b.tOff??.3)*.55,.06);
+    return y;
+  }
+  function Y(rh,t){
+    const D=rh.D;let y=rh.cont?rh.cont(((t%D)+D)%D):0;
+    const ks=rh.noWrap?[0]:[-1,0,1,2];
+    for(const k of ks)for(const e of rh.ev){const d=t-(e.t+k*D);if(d<-.25||d>.8)continue;
+      y+=e.k==='P'?(e.a??.12)*g(d,0,.024):cx(d,e.b||{})}
+    if(rh.sine){const m=rh.sine;y=y*(1-m)+m*.75*Math.sin(TAU*Math.round(2*D)*t/D)}
+    return y;
+  }
+  function regular(rate,D,o={}){
+    const n=Math.max(1,Math.round(D*rate/60)),RR=D/n,ev=[],ph=o.ph??RR*.55;
+    const b=Object.assign({tOff:Math.min(.3,RR*.55),tSd:RR<.45?.045:.06},o.b||{});
+    for(let i=0;i<n;i++){const tq=ph+i*RR;if(o.p!==false)ev.push({k:'P',t:tq-(o.pr??.16),a:o.pA});ev.push({k:'Q',t:tq,b})}
+    return {D,ev};
+  }
+  function strict(rate,D,seed){ // non-looping strip with random phase (for counting)
+    const RR=60/rate,r=rnd(seed),ev=[];let tq=.1+r()*RR;
+    const b={tOff:Math.min(.3,RR*.55),tSd:RR<.45?.045:.06};
+    while(tq<D+.5){ev.push({k:'P',t:tq-.16});ev.push({k:'Q',t:tq,b});tq+=RR}
+    return {D,ev,noWrap:true};
+  }
+  function afib(D,seed=7){
+    const r=rnd(seed);let ts=[],t=0;while(t<D-.3){t+=.38+r()*.55;ts.push(t)}
+    const sc=D/t;ts=ts.map(x=>x*sc);ts.pop();ts.unshift(0);
+    const b={tA:.16,tOff:.26,tSd:.05};
+    const k1=Math.round(6.2*D),k2=Math.round(4.4*D),k3=Math.round(8.3*D);
+    return {D,ev:ts.map(x=>({k:'Q',t:x+.2,b})),cont:t=>.05*Math.sin(TAU*k1*t/D)+.035*Math.sin(TAU*k2*t/D+1.3)+.025*Math.sin(TAU*k3*t/D+.4)};
+  }
+  function vf(D,amp=.55,seed=3){
+    const r=rnd(seed),comps=[];for(let i=0;i<9;i++)comps.push([Math.round((2.6+r()*4.6)*D),r()*TAU,.35+r()*.65]);
+    const m1=Math.max(1,Math.round(.35*D)),m2=Math.max(1,Math.round(.9*D)),m3=Math.max(1,Math.round(1.7*D));
+    const f=t=>{let s=0;for(const[k,ph,a]of comps)s+=a*Math.sin(TAU*k*t/D+ph);return amp*(.55+.22*Math.sin(TAU*m1*t/D)+.15*Math.sin(TAU*m2*t/D+2)+.08*Math.sin(TAU*m3*t/D+.7))*s/3.4};
+    return {D,ev:[],cont:f};
+  }
+  function asystole(D){const k=Math.max(1,Math.round(.3*D)),k2=Math.round(2.3*D);return {D,ev:[],cont:t=>.02*Math.sin(TAU*k*t/D)+.008*Math.sin(TAU*k2*t/D)}}
+  function wenck(){const D=6,ev=[],PR=[.18,.28,.38,null];for(let i=0;i<8;i++){const tp=.2+i*.75;ev.push({k:'P',t:tp});const pr=PR[i%4];if(pr)ev.push({k:'Q',t:tp+pr,b:{}})}return {D,ev}}
+  function mobitz2(){const D=6.3,ev=[];for(let i=0;i<9;i++){const tp=.2+i*.7;ev.push({k:'P',t:tp});if(i%3!==2)ev.push({k:'Q',t:tp+.18,b:{qw:1.5,tOff:.32}})}return {D,ev}}
+  function avb3(){const D=7,ev=[];for(let i=0;i<10;i++)ev.push({k:'P',t:.25+i*.7});for(let i=0;i<4;i++)ev.push({k:'Q',t:.9+i*1.75,b:{wide:true,a:.85,qw:.9}});return {D,ev}}
+
+  let uid=0;
+  function svg(rh,o={}){
+    const w=o.w||1400,h=o.h||240,D=rh.D,pps=w/D,mv=pps*.4*(o.gain||1)*(o.scale||1),y0=h*(o.base||(o.style==='monitor'?.56:.62));
+    const span=o.anim?2*D:D,step=D/w*2;let d='';
+    for(let t=0;t<=span+1e-9;t+=step){const x=t*pps,yy=y0-Y(rh,t)*mv;d+=(t?'L':'M')+x.toFixed(1)+' '+Math.max(-50,Math.min(h+50,yy)).toFixed(1)}
+    const id='e'+(++uid),sm=pps*.04,bg=pps*.2,mon=o.style==='monitor';
+    const grid=mon
+      ?`<pattern id="${id}b" width="${bg}" height="${bg}" patternUnits="userSpaceOnUse"><path d="M${bg} 0V${bg}M0 ${bg}H${bg}" stroke="#1B2A25" stroke-width="1.2" fill="none"/></pattern>`
+      :`<pattern id="${id}s" width="${sm}" height="${sm}" patternUnits="userSpaceOnUse"><path d="M${sm} 0V${sm}M0 ${sm}H${sm}" stroke="#F3C9C4" stroke-width="1" fill="none"/></pattern>
+        <pattern id="${id}b" width="${bg}" height="${bg}" patternUnits="userSpaceOnUse"><path d="M${bg} 0V${bg}M0 ${bg}H${bg}" stroke="#E59C94" stroke-width="1.6" fill="none"/></pattern>`;
+    let marks='';
+    if(o.marksP)rh.ev.filter(e=>e.k==='P'&&e.t>=0&&e.t<D).forEach(e=>{const x=e.t*pps;marks+=`<path d="M${(x-9).toFixed(1)} 14h18l-9 14z" fill="#2E5BC9"/>`});
+    if(o.dots){let n=0;rh.ev.filter(e=>e.k==='Q'&&e.t>=0&&e.t<D).forEach(e=>{n++;const x=e.t*pps;marks+=`<circle cx="${x.toFixed(1)}" cy="24" r="17" fill="#D9412B"/><text x="${x.toFixed(1)}" y="31" text-anchor="middle" fill="#fff" font-size="20" font-weight="700" font-family="IBM Plex Mono,Consolas,monospace">${n}</text>`})}
+    if(o.ticks)o.ticks.forEach(s=>{const x=Math.min(w-2,Math.max(2,s*pps));marks+=`<line x1="${x}" y1="${h-26}" x2="${x}" y2="${h}" stroke="#172421" stroke-width="3"/><text x="${Math.min(w-8,Math.max(8,x+6))}" y="${h-8}" font-size="18" fill="#172421" text-anchor="${s===0?'start':s>=D?'end':'start'}" font-family="IBM Plex Mono,Consolas,monospace">${s} 秒</text>`});
+    const stroke=mon?(o.color||'#5BE08A'):'#172421';
+    const path=`<path d="${d}" fill="none" stroke="${stroke}" stroke-width="${mon?3:2.6}" stroke-linejoin="round" stroke-linecap="round"/>`;
+    return `<svg viewBox="0 0 ${w} ${h}" width="${w}" height="${h}" style="display:block;max-width:100%;height:auto" role="img" aria-label="心電圖波形">
+      <defs>${grid}</defs><rect width="${w}" height="${h}" fill="${mon?'#0F1916':'#FFF7F5'}"/>${mon?'':`<rect width="${w}" height="${h}" fill="url(#${id}s)"/>`}<rect width="${w}" height="${h}" fill="url(#${id}b)"/>
+      ${o.anim?`<g class="sweep" style="--w:${w};--d:${D}s">${path}</g>`:path}${marks}</svg>`;
+  }
+  return {g,cx,Y,regular,strict,afib,vf,asystole,wenck,mobitz2,avb3,svg,rnd};
+})();
+function drawECG(el,rh,extra){
+  const o=Object.assign({w:+el.dataset.w||1400,h:+el.dataset.h||240,style:el.dataset.style||'paper',anim:el.hasAttribute('data-anim')},extra||{});
+  el.innerHTML=ECG.svg(rh,o)+(el.dataset.lead?`<span class="lead">${el.dataset.lead}</span>`:'');
+}
+
+(function(){
+const RH={
+  cover:()=>{const base=ECG.regular(75,4,{ph:.44});const v=ECG.vf(8,.62,11);
+    return {D:8,ev:base.ev,noWrap:false,cont:t=>{if(t<4.3)return 0;const r=Math.min(1,(t-4.3)/.5)*Math.min(1,(7.95-t)/.35);return r>0?v.cont(t)*r:0}}},
+  nsr:()=>ECG.regular(75,4), vf:()=>ECG.vf(4,.55,3), vffine:()=>ECG.vf(4,.12,5), vt:()=>ECG.regular(165,4,{p:false,b:{wide:true}}),
+  asys:()=>ECG.asystole(4), pea:()=>ECG.regular(72,5),
+  brady:()=>ECG.regular(42,7), avb1:()=>ECG.regular(62,6.8,{pr:.34}), wenck:()=>ECG.wenck(), mob2:()=>ECG.mobitz2(), avb3:()=>ECG.avb3(),
+  stach:()=>ECG.regular(125,6), svt:()=>ECG.regular(180,6,{p:false}), af:()=>ECG.afib(6), vtp:()=>ECG.regular(160,6,{p:false,b:{wide:true}})
+};
+// the cover rhythm: sinus beats only in the first half
+const cv=RH.cover();cv.ev=cv.ev.filter(e=>e.t<4.1);
+drawECG($('#coverEcg'),cv);
+$$('.ecg[data-rh]').forEach(el=>drawECG(el,RH[el.dataset.rh]()));
+
+/* anatomy */
+(function(){
+  const W=830,H=380,D=1.2,pps=W/D,mv=210,y0=285,rh={D,ev:[{k:'P',t:.25},{k:'Q',t:.43,b:{}}],noWrap:true};
+  let d='';for(let t=0;t<=D;t+=D/W*2){d+=(t?'L':'M')+(t*pps).toFixed(1)+' '+(y0-ECG.Y(rh,t)*mv).toFixed(1)}
+  const B={P:[.19,.31,'#B06A08','P'],PR:[.19,.40,'#2E5BC9','PR 間期'],QRS:[.40,.47,'#D9412B','QRS'],T:[.62,.88,'#6A4BC4','T']};
+  const sm=pps*.04,bg=pps*.2;
+  $('#beatSvg').innerHTML=`<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" style="display:block">
+   <defs><pattern id="bs" width="${sm}" height="${sm}" patternUnits="userSpaceOnUse"><path d="M${sm} 0V${sm}M0 ${sm}H${sm}" stroke="#F3C9C4" fill="none"/></pattern>
+   <pattern id="bb" width="${bg}" height="${bg}" patternUnits="userSpaceOnUse"><path d="M${bg} 0V${bg}M0 ${bg}H${bg}" stroke="#E59C94" stroke-width="1.6" fill="none"/></pattern></defs>
+   <rect width="${W}" height="${H}" fill="url(#bs)"/><rect width="${W}" height="${H}" fill="url(#bb)"/>
+   <g id="band"><rect id="bandR" y="0" height="${H}" fill="#B06A08" opacity=".16"/><text id="bandT" y="36" font-size="26" font-weight="700" font-family="Noto Sans TC,Microsoft JhengHei,sans-serif"></text></g>
+   <path d="${d}" fill="none" stroke="#172421" stroke-width="4" stroke-linejoin="round"/></svg>`;
+  const EXP={
+    P:['P 波：心房收縮','電從「竇房結」出發，先讓心房收縮。每個 QRS 前面都有一個長得一樣的 P → 竇性節律。'],
+    PR:['PR 間期：在房室結排隊','正常 0.12–0.20 秒（3–5 小格）。超過 5 小格 → 一度房室傳導阻滯；P 後面沒跟 QRS → 更嚴重的阻滯。'],
+    QRS:['QRS：心室收縮','真正把血打出去的時刻。正常 &lt; 0.12 秒（3 小格內）。變寬 → 電從心室自己冒出來，或傳導卡住。'],
+    T:['T 波：心室充電休息','心室再極化，準備下一次跳動。T 波又高又尖 → 想到高血鉀。電擊落在 T 波上可能誘發 VF（所以要同步）。']
+  };
+  function setPart(p){
+    const [a,b,c,label]=B[p];const r=$('#bandR'),t=$('#bandT');
+    r.setAttribute('x',a*pps);r.setAttribute('width',(b-a)*pps);r.setAttribute('fill',c);t.setAttribute('x',a*pps+6);t.setAttribute('fill',c);t.textContent=label;
+    $$('#parts .sbtn').forEach(x=>x.classList.toggle('on',x.dataset.p===p));
+    const e=$('#pExp');e.style.setProperty('--pc',c);e.innerHTML=`<h3>${EXP[p][0]}</h3><p>${EXP[p][1]}</p>`;
+    const grey='#E5EAE3';
+    $('#hRA').setAttribute('fill',p==='P'?'#F5E5C8':grey);$('#hLA').setAttribute('fill',p==='P'?'#F5E5C8':grey);
+    $('#hV').setAttribute('fill',p==='QRS'?'#F8DCD4':p==='T'?'#E6DFF6':grey);
+    $('#nSA').setAttribute('fill',p==='P'?'#B06A08':'#C9D1C8');$('#nSA').setAttribute('r',p==='P'?20:14);
+    $('#nAV').setAttribute('fill',p==='PR'?'#2E5BC9':'#C9D1C8');$('#nAV').setAttribute('r',p==='PR'?20:14);
+    $('#hBundle').setAttribute('stroke',p==='QRS'?'#D9412B':'#C9D1C8');
+  }
+  $$('#parts .sbtn').forEach(b=>b.onclick=()=>setPart(b.dataset.p));setPart('P');
+})();
+
+/* 6-second count */
+(function(){
+  const r=$('#hrR');let seed=1,shown=false;
+  function draw(){const rh=ECG.strict(+r.value,6,seed);drawECG($('#sixEcg'),rh,{ticks:[0,3,6],dots:shown});
+    const n=rh.ev.filter(e=>e.k==='Q'&&e.t>=0&&e.t<6).length;
+    $('#sixRes').innerHTML=shown?`數到 <b>${n}</b> 個 × 10 ≈ <b>${n*10}</b> 次/分`:'6 秒內數到幾個 QRS？'}
+  r.addEventListener('input',()=>{$('#hrV').textContent=r.value;shown=false;seed++;draw()});
+  $('#countBtn').onclick=()=>{shown=!shown;draw()};draw();
+})();
+
+/* defib */
+(function(){
+  const CAP={vf:'<b>粗顆粒 VF</b>：波很大、很亂，找不到 QRS。越早電，成功機會越高。',
+    vffine:'<b>細顆粒 VF</b>：波很小，看起來快變一直線。一樣可以電——這就是為什麼一直線要把增益調大確認。',
+    vt:'<b>無脈搏 VT</b>：寬、快、規則。摸不到脈搏 → 用去顫（非同步），跟 VF 一樣處理。'};
+  function set(k){drawECG($('#shockEcg'),RH[k]());$('#shockCap').innerHTML=CAP[k];$$('#shockSeg .sbtn').forEach(b=>b.classList.toggle('on',b.dataset.r===k))}
+  $$('#shockSeg .sbtn').forEach(b=>b.onclick=()=>set(b.dataset.r));set('vf');
+  $$('#acc button').forEach(b=>b.onclick=()=>$$('#acc button').forEach(x=>x.classList.toggle('on',x===b)));
+})();
+
+/* flat line */
+(function(){
+  let bed='3',gain=1,lead='II',done=new Set();
+  const TXT={
+    pt:()=>'<b>看病人：</b>叫不醒、摸不到頸動脈脈搏 → 喊人、開始 CPR',
+    lead:()=>'<b>導線：</b>電極片都有貼好，導線沒有鬆脫',
+    gain:()=>bed==='3'?'<b>增益 ×4：</b>放大後還是一直線':'<b>增益 ×4：</b>放大後跑出細小的亂波！',
+    view:()=>bed==='3'?'<b>換導程：</b>Lead I、II、III 都是一直線':'<b>換導程：</b>Lead I 也看得到細小亂波'
+  };
+  function draw(){
+    const rh=bed==='3'?RH.asys():ECG.vf(4,.045,5);
+    drawECG($('#flatEcg'),rh,{gain});$('#flatEcg').querySelector('.lead')&&($('#flatEcg').querySelector('.lead').textContent=lead);
+    $('#gainLbl').textContent=`增益 ×${gain}　Lead ${lead}`;
+    $('#flatLog').innerHTML=[...done].map(k=>`<div>${TXT[k]()}</div>`).join('')||'<div class="muted">點左邊的確認鍵，結果會出現在這裡</div>';
+    $$('#flatChecks button').forEach(b=>b.classList.toggle('done',done.has(b.dataset.c)));
+    const v=$('#flatVerdict');
+    if(done.has('gain')&&done.has('view')&&done.has('pt')){v.hidden=false;
+      if(bed==='3'){v.className='verdict n';v.innerHTML='確認是 <b>Asystole</b>：不可電擊 → 持續 CPR，Epinephrine 1 mg 每 3–5 分鐘，找 5H5T。'}
+      else{v.className='verdict y';v.innerHTML='其實是 <b>細顆粒 VF</b>：⚡ 可電擊！立刻去顫，電完繼續 CPR。'}}
+    else v.hidden=true;
+  }
+  $$('#flatChecks button').forEach(b=>b.onclick=()=>{const c=b.dataset.c;done.add(c);if(c==='gain')gain=4;if(c==='view')lead='I';draw()});
+  $$('#bedSeg .sbtn').forEach(b=>b.onclick=()=>{bed=b.dataset.b;gain=1;lead='II';done=new Set();$$('#bedSeg .sbtn').forEach(x=>x.classList.toggle('on',x===b));draw()});
+  draw();
+})();
+
+/* brady explorer */
+(function(){
+  const C={
+    brady:['竇性緩脈','green','通常不危險','每個 P 後面都有 QRS，只是慢（&lt; 60）。運動員、睡覺、β 阻斷劑都會。','有症狀才處理；問用藥史。'],
+    avb1:['一度房室傳導阻滯','green','通常不危險','PR 間期拉長（&gt; 5 小格），但每個 P 都有傳下去。','觀察、記錄即可。'],
+    wenck:['二度 I 型（Wenckebach）','amber','多半穩定','PR 一次比一次長，拉到最後掉一個 QRS，然後重來。','監測；有症狀通知醫師。'],
+    mob2:['二度 II 型（Mobitz II）','red','危險','PR 固定不變，卻突然掉一個 QRS，沒有預警。','可能突然變成三度 → 貼好經皮調節貼片，通知醫師。'],
+    avb3:['三度（完全）房室傳導阻滯','red','很危險','P 波規律出現，QRS 也規律出現，但兩者毫無關係，各跳各的；QRS 常常又慢又寬。','貼上經皮調節貼片、備 Atropine（常無效），準備暫時性節律器。']
+  };
+  let k='brady',pm=false;
+  function set(){const c=C[k];drawECG($('#bradyEcg'),RH[k](),{marksP:pm});
+    $('#bradyCap').innerHTML=`<div><h3>${c[0]}</h3><div class="badges"><span class="chip sm ${c[1]}">${c[2]}</span></div><p>${c[3]}</p></div><div><p class="muted" style="font-size:22px">怎麼辦</p><p style="font-size:28px">${c[4]}</p></div>`;
+    $$('#bradySeg .sbtn').forEach(b=>b.classList.toggle('on',b.dataset.r===k));$('#pMark').classList.toggle('on',pm)}
+  $$('#bradySeg .sbtn').forEach(b=>b.onclick=()=>{k=b.dataset.r;set()});
+  $('#pMark').onclick=()=>{pm=!pm;set()};set();
+})();
+
+/* stable matrix */
+(function(){
+  const P={
+    'slow-stable':['var(--green)','慢，但穩定',['接上監視器，印節律條、做 12 導程','找原因：β 阻斷劑、毛地黃、高血鉀、下壁心肌梗塞','電擊器推到床邊、貼片先備著','持續觀察血壓與意識']],
+    'slow-unstable':['var(--blue)','慢，而且不穩定',['通知醫師，Atropine 1 mg IV，每 3–5 分鐘可重複，最多 3 mg','Atropine 沒效 → 經皮心律調節（TCP）','或依醫囑 Dopamine／Epinephrine 點滴','聯絡心臟科，準備暫時性節律器']],
+    'fast-stable':['var(--amber)','快，但穩定',['做 12 導程：QRS 窄還是寬？規則嗎？','窄又規則（SVT）→ 迷走神經刺激 → Adenosine 6 mg 快推，第二劑 12 mg','寬 → 通知醫師，依醫囑 Amiodarone 150 mg，10 分鐘滴完','竇性心搏過速 → 治原因，不是把心跳壓下來']],
+    'fast-unstable':['var(--red)','快，而且不穩定',['立即同步電擊，按下 SYNC','清醒病人依醫囑先給鎮靜止痛（不能拖延電擊）','每次電擊前確認 QRS 上有同步標記','變成沒有脈搏 → 改去顫＋CPR']]
+  };
+  let r='slow',s='stable';
+  function set(){const [c,t,items]=P[r+'-'+s];const el=$('#plan');el.style.setProperty('--pc',c);el.innerHTML=`<h3>${t}</h3><ol>${items.map(x=>`<li>${x}</li>`).join('')}</ol>`;
+    $$('#mRate .sbtn').forEach(b=>b.classList.toggle('on',b.dataset.v===r));$$('#mStab .sbtn').forEach(b=>b.classList.toggle('on',b.dataset.v===s))}
+  $$('#mRate .sbtn').forEach(b=>b.onclick=()=>{r=b.dataset.v;set()});$$('#mStab .sbtn').forEach(b=>b.onclick=()=>{s=b.dataset.v;set()});set();
+})();
+
+/* tachy explorer */
+(function(){
+  const C={
+    stach:['竇性心搏過速','約 125',['規則','QRS 窄','P 波在'],'身體在反應某件事：發燒、疼痛、脫水、出血、焦慮、缺氧。','找原因、治原因。不用電擊，也不是用藥把數字壓下來。'],
+    svt:['陣發性上心室頻脈 SVT','約 180',['規則','QRS 窄','看不到 P'],'突然開始、突然結束，年輕人常見，病人說「心臟快跳出來」。','穩定 → 迷走神經刺激、Adenosine 6 mg 快推；不穩定 → 同步電擊。'],
+    af:['心房顫動 AF','110–150',['完全不規則','QRS 窄','沒有 P，基線抖動'],'心房在亂抖，心室跟著亂跳。最大風險是心房長血栓 → 中風。','依醫囑控制心率；不穩定 → 同步電擊；問發作多久（抗凝血評估）。'],
+    vtp:['心室頻脈 VT（有脈搏）','約 160',['規則','QRS 寬','看不到 P'],'寬又快，先當 VT 處理，不要當成 SVT。隨時可能變成沒脈搏。','穩定 → 依醫囑 Amiodarone；不穩定 → 同步電擊；沒脈搏 → 去顫＋CPR。']
+  };
+  let k='stach';
+  function set(){const c=C[k];drawECG($('#tachyEcg'),RH[k]());
+    $('#tachyCap').innerHTML=`<div><h3>${c[0]}<span class="mono muted" style="font-size:24px;margin-left:14px">${c[1]} 次/分</span></h3><div class="badges">${c[2].map(x=>`<span class="chip sm amber">${x}</span>`).join('')}</div><p>${c[3]}</p></div><div><p class="muted" style="font-size:22px">怎麼辦</p><p style="font-size:28px">${c[4]}</p></div>`;
+    $$('#tachySeg .sbtn').forEach(b=>b.classList.toggle('on',b.dataset.r===k))}
+  $$('#tachySeg .sbtn').forEach(b=>b.onclick=()=>{k=b.dataset.r;set()});set();
+})();
+
+/* game */
+window.GAME=[
+  {s:'<b>58 歲男性，心肌梗塞</b>住觀察室，突然抽一下就叫不醒。',rh:'vf',o:['心室顫動 VF','心室頻脈 VT','心搏停止','心房顫動'],ok:0,w:'亂成一團、找不到 QRS → <b>VF</b>。⚡ 可電擊：立刻 CPR、貼片、去顫。'},
+  {s:'<b>81 歲女性</b>，心悸兩天，脈搏摸起來「亂亂的」，血壓 128/76。',rh:'af',o:['竇性心搏過速','SVT','心房顫動','三度房室傳導阻滯'],ok:2,w:'完全不規則、沒有 P 波 → <b>心房顫動</b>。血壓穩定，依醫囑控制心率，問發作多久。'},
+  {s:'<b>70 歲男性</b>，洗澡時昏倒，現在清醒但心跳 35，血壓 84/50。',rh:'avb3',o:['竇性緩脈','一度房室傳導阻滯','二度 I 型','三度房室傳導阻滯'],ok:3,w:'P 波和 QRS 各跳各的 → <b>三度房室傳導阻滯</b>，又低血壓 → 貼經皮調節貼片、備 Atropine。'},
+  {s:'<b>24 歲女性</b>，追劇時突然心悸、胸悶，心跳 180，血壓 118/72，意識清楚。',rh:'svt',o:['竇性心搏過速','SVT','心室頻脈 VT','心房顫動'],ok:1,w:'規則、窄、看不到 P → <b>SVT</b>。穩定 → 先迷走神經刺激，再依醫囑 Adenosine 6 mg 快推。'},
+  {s:'<b>66 歲男性</b>，胸痛中突然倒下，你摸不到脈搏。',rh:'vt',o:['SVT','無脈搏 VT','心室顫動 VF','竇性心搏過速'],ok:1,w:'寬、快、規則，沒有脈搏 → <b>無脈搏 VT</b>。⚡ 可電擊，用去顫（非同步），跟 VF 同樣處理。'},
+  {s:'<b>急救第 10 分鐘</b>，導線確認過、增益調到最大、換過導程，仍然是這樣。',rh:'asys',o:['細顆粒 VF','心搏停止 Asystole','PEA','三度房室傳導阻滯'],ok:1,w:'三件事都確認過 → <b>Asystole</b>。不可電擊：持續 CPR、Epinephrine、找原因。'}
+];
+GAME.forEach(g=>g.v=()=>`<div class="ecg" style="width:100%"></div>`);
+DECK.afterGame=i=>{const el=$('#gVis .ecg');drawECG(el,RH[GAME[i].rh](),{w:1408,h:200,style:'monitor',anim:true})};
+})();
+</script>
+<script>startDeck();</script>

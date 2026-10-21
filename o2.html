@@ -1,0 +1,1019 @@
+<meta charset="utf-8">
+<title>氧氣給對了嗎</title>
+<meta name="description" content="急診護理在職教育：氧氣治療裝置、HFNC 與 BiPAP 互動投影片">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Huninn&family=IBM+Plex+Mono:wght@500;600&family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
+<style>
+:root{
+  --paper:#F2F4F0; --paper-2:#E5EAE3; --frame:#CDD5CC; --ink:#172421; --muted:#5B6A64; --line:#C9D1C8;
+  --red:#D9412B; --red-soft:#F8DCD4;
+  --green:#2F9A5A; --green-soft:#D5ECDD;
+  --blue:#2E5BC9; --blue-soft:#D9E2F7;
+  --purple:#6A4BC4; --purple-soft:#E6DFF6;
+  --amber:#B06A08; --amber-soft:#F5E5C8;
+  --teal:#1F7A80; --teal-soft:#D3E9EA;
+  --slip:#FFFFFF; --screen:#0F1916;
+  --f-display:"Huninn","Chiron GoRound TC","Microsoft JhengHei","PingFang TC",sans-serif;
+  --f-body:"Noto Sans TC","Microsoft JhengHei","PingFang TC",sans-serif;
+  --f-mono:"IBM Plex Mono",Consolas,"Courier New",monospace;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--frame);color:var(--ink);font-family:var(--f-body);overflow:hidden;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;cursor:pointer}
+button:disabled{opacity:.4;cursor:default}
+input[type=number]{font:inherit}
+:focus-visible{outline:4px solid var(--blue);outline-offset:3px}
+
+#stage{position:absolute;left:50%;top:50%;width:1600px;height:900px;background:var(--paper);transform-origin:center;transform:translate(-50%,-50%);overflow:hidden;box-shadow:0 20px 60px -30px rgba(23,36,33,.45)}
+
+/* ---------- slide shell ---------- */
+.slide{position:absolute;inset:0 0 72px 0;padding:58px 96px 30px;display:flex;flex-direction:column;gap:28px;opacity:0;visibility:hidden;transform:translateX(30px);transition:opacity .35s ease,transform .35s ease,visibility 0s .35s}
+.slide.past{transform:translateX(-30px)}
+.slide.active{opacity:1;visibility:visible;transform:none;transition:opacity .35s ease,transform .35s ease}
+.head{display:flex;flex-direction:column;gap:6px}
+.eyebrow{margin:0;font-size:21px;font-weight:700;letter-spacing:.14em;color:var(--sec)}
+h2{margin:0;font-family:var(--f-display);font-weight:400;font-size:62px;line-height:1.12;text-wrap:balance;letter-spacing:.01em}
+h3{margin:0;font-family:var(--f-display);font-weight:400;font-size:36px;line-height:1.2}
+p{margin:0}
+.body{flex:1;min-height:0}
+.muted{color:var(--muted)}
+.notes{display:none}
+.c-red{color:var(--red)} .c-blue{color:var(--blue)} .c-green{color:var(--green)} .c-purple{color:var(--purple)} .c-amber{color:var(--amber)} .c-teal{color:var(--teal)}
+sub,sup{line-height:0}
+.mono{font-family:var(--f-mono)}
+
+/* ---------- bottom bar ---------- */
+.bar{position:absolute;left:0;right:0;bottom:0;height:72px;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 40px 0 96px;background:var(--paper)}
+.secs{display:flex;gap:34px;list-style:none;margin:0;padding:0}
+.secs button{background:none;border:0;padding:8px 0;font-size:20px;color:var(--muted);display:flex;align-items:center;gap:10px;border-bottom:3px solid transparent}
+.secs button i{width:10px;height:10px;border-radius:50%;background:var(--c)}
+.secs button.on{color:var(--ink);font-weight:700;border-bottom-color:var(--c)}
+.ctrl{display:flex;align-items:center;gap:10px}
+.count{font-family:var(--f-mono);font-size:19px;color:var(--muted);min-width:78px;text-align:right;margin-right:8px;font-variant-numeric:tabular-nums}
+.ibtn{height:44px;min-width:44px;padding:0 14px;border:1.5px solid var(--line);background:var(--paper);border-radius:8px;font-size:18px;color:var(--ink)}
+.ibtn:hover{background:var(--paper-2)}
+
+#notes{position:fixed;left:0;right:0;bottom:0;max-height:34vh;overflow:auto;background:var(--screen);color:#E8EEE9;font:16px/1.7 var(--f-body);padding:16px 28px 20px;z-index:10}
+#notes b{color:#F4C77A;font-weight:700;margin-right:10px}
+
+/* ---------- cover ---------- */
+.cover{justify-content:space-between;padding-top:76px}
+.cover-title{margin:14px 0 18px;font-family:var(--f-display);font-weight:400;font-size:150px;line-height:1;letter-spacing:.02em}
+.cover-title span{color:var(--accent)}
+.cover-sub{font-size:34px;color:var(--ink);max-width:32em}
+.byline{font-size:22px;color:var(--muted)}
+.mascot{display:block;width:100%;height:auto;overflow:visible}
+.m-label{font-family:var(--f-display);fill:#fff}
+.bubble{position:absolute;white-space:nowrap;background:var(--slip);border:2px solid var(--ink);border-radius:18px;padding:8px 16px;font-size:22px}
+@media (prefers-reduced-motion:no-preference){
+  .bob{animation:bob 2.6s ease-in-out infinite}
+  @keyframes bob{50%{transform:translateY(-8px)}}
+}
+
+/* ---------- chips ---------- */
+.chip{display:inline-flex;align-items:center;gap:10px;padding:8px 20px;border-radius:999px;font-size:28px;font-weight:700;background:var(--c-soft);color:var(--c);white-space:nowrap}
+.chip.red{--c:var(--red);--c-soft:var(--red-soft)} .chip.green{--c:var(--green);--c-soft:var(--green-soft)} .chip.blue{--c:var(--blue);--c-soft:var(--blue-soft)}
+.chip.amber{--c:var(--amber);--c-soft:var(--amber-soft)} .chip.purple{--c:var(--purple);--c-soft:var(--purple-soft)} .chip.teal{--c:var(--teal);--c-soft:var(--teal-soft)}
+.chip.sm{font-size:21px;padding:5px 14px}
+
+/* ---------- poll ---------- */
+.poll{display:grid;grid-template-columns:auto 1fr;gap:64px;align-items:center}
+.opts{display:flex;flex-direction:column;gap:16px}
+.vote{position:relative;display:grid;grid-template-columns:52px 1fr 70px;align-items:center;gap:18px;text-align:left;background:var(--slip);border:2px solid var(--line);border-radius:12px;padding:18px 22px;font-size:28px;overflow:hidden}
+.vote:hover{border-color:var(--ink)}
+.vote .k{font-family:var(--f-display);font-size:30px;width:52px;height:52px;border-radius:50%;display:grid;place-items:center;background:var(--paper-2)}
+.vote .fill{position:absolute;left:0;top:0;bottom:0;background:var(--green-soft);width:0;transition:width .3s ease;z-index:0}
+.vote>*:not(.fill){position:relative;z-index:1}
+.vote .n{font-family:var(--f-mono);font-size:30px;text-align:right;font-variant-numeric:tabular-nums}
+.vote .ghost{position:absolute;left:0;bottom:0;height:6px;background:var(--muted);opacity:.45;width:0;z-index:1;transition:width .3s}
+.tiny{background:none;border:0;padding:4px 0;color:var(--muted);font-size:18px;text-decoration:underline;text-underline-offset:4px;align-self:flex-start}
+
+/* ---------- ABG slip (thermal paper) ---------- */
+.slip-wrap{filter:drop-shadow(0 14px 18px rgba(23,36,33,.18));width:max-content}
+.slip{background:var(--slip);font-family:var(--f-mono);padding:22px 30px 34px;width:380px;
+  -webkit-mask:conic-gradient(from -45deg at bottom,#0000,#000 1deg 89deg,#0000 90deg) 50%/18px 100%;
+          mask:conic-gradient(from -45deg at bottom,#0000,#000 1deg 89deg,#0000 90deg) 50%/18px 100%}
+.slip-h{display:flex;justify-content:space-between;font-size:16px;color:var(--muted);letter-spacing:.08em;border-bottom:2px dashed var(--line);padding-bottom:10px;margin-bottom:8px}
+.slip-r{display:grid;grid-template-columns:110px 1fr 82px 30px;align-items:baseline;padding:5px 0;font-size:22px}
+.slip-r span{color:var(--muted);font-size:20px}
+.slip-r b{font-size:36px;font-weight:600;text-align:right;padding-right:12px;font-variant-numeric:tabular-nums}
+.slip-r i{font-style:normal;font-size:16px;color:var(--muted)}
+.slip-r em{font-style:normal;font-weight:600;font-size:20px;text-align:right}
+.slip-r em.L{color:var(--blue)} .slip-r em.H{color:var(--red)}
+.slip-f{margin-top:8px;font-size:14px;color:var(--muted);letter-spacing:.1em}
+
+/* ---------- monitor ---------- */
+.monitor{background:var(--screen);border-radius:16px;padding:18px 26px;color:#DDE6E1;font-family:var(--f-mono);box-shadow:inset 0 0 0 6px #25332E}
+.mrow{display:flex;justify-content:space-between;align-items:baseline;padding:9px 0;border-bottom:1px solid #26352F}
+.mrow:last-child{border:0}
+.mrow span{font-size:20px;letter-spacing:.06em}
+.mrow b{font-size:58px;font-weight:600;line-height:1;font-variant-numeric:tabular-nums;transition:color .3s}
+.m-o2{color:#5BE08A} .m-hr{color:#7FD3F0} .m-bp{color:#F28B82} .m-rr{color:#F2B84B} .m-w{color:#E8EEE9}
+
+/* ---------- definition strip ---------- */
+.def{display:flex;align-items:center;gap:22px;font-size:30px;flex-wrap:wrap}
+.def .tag{font-family:var(--f-mono);font-weight:600;font-size:28px;padding:6px 16px;border-radius:8px;background:var(--slip);border:2px solid var(--ink)}
+
+/* ---------- flip cards ---------- */
+.flips{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:6px}
+.flip{perspective:1400px;background:none;border:0;padding:0;height:372px;text-align:left;--fc:var(--sec)}
+.flip-in{position:relative;width:100%;height:100%;transition:transform .55s cubic-bezier(.3,.7,.2,1);transform-style:preserve-3d}
+.flip.on .flip-in{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;border-radius:14px;padding:26px;backface-visibility:hidden;-webkit-backface-visibility:hidden;display:flex;flex-direction:column;gap:12px}
+.front{background:var(--fs,var(--paper-2));border:2px solid transparent}
+.flip:hover .front{border-color:var(--fc)}
+.front small{font-size:19px;letter-spacing:.12em;color:var(--fc);font-weight:700}
+.front h3{font-size:44px;margin-top:auto}
+.front .hint{font-size:19px;color:var(--muted)}
+.back{background:var(--slip);border:2px solid var(--fc);transform:rotateY(180deg)}
+.back h4{margin:0;font-size:24px;color:var(--fc)}
+.back ul{margin:0;padding-left:1.1em;font-size:24px;line-height:1.55}
+.back p{font-size:23px;line-height:1.55}
+
+/* ---------- stepper ---------- */
+.track{position:relative;display:grid;grid-template-columns:repeat(var(--n,4),1fr);margin-top:12px}
+.track::before{content:"";position:absolute;left:0;right:calc(100% / var(--n,4) - 78px);top:34px;height:10px;border-radius:5px;background:var(--trackbg,linear-gradient(90deg,#D9A22A,#E0672C 45%,#B8322B))}
+.stop{position:relative;background:none;border:0;padding:0;display:flex;flex-direction:column;align-items:flex-start;gap:14px}
+.stop i{width:78px;height:78px;border-radius:50%;background:var(--paper);border:4px solid var(--ink);display:grid;place-items:center;font-style:normal;font-family:var(--f-mono);font-weight:600;font-size:24px;transition:background .2s,color .2s}
+.stop.on i{background:var(--ink);color:var(--paper)}
+.stop span{font-size:20px;color:var(--muted)}
+.state{margin-top:26px;padding:24px 30px;border-left:6px solid var(--sec);background:var(--slip);min-height:180px}
+.state h3{font-size:40px;margin-bottom:10px}
+.state p{font-size:26px;line-height:1.6}
+.fine{font-size:19px;color:var(--muted);margin-top:14px;line-height:1.5}
+
+/* ---------- checklist ---------- */
+.checks{display:grid;grid-template-columns:1fr 1fr;gap:18px 46px;margin-top:4px;align-content:start}
+.chk{display:grid;grid-template-columns:44px 1fr;gap:18px;align-items:start;text-align:left;background:none;border:0;padding:14px 0;border-bottom:1px solid var(--line)}
+.chk .box{width:40px;height:40px;border:3px solid var(--ink);border-radius:8px;margin-top:4px;display:grid;place-items:center;transition:background .15s}
+.chk .box svg{width:26px;height:26px;opacity:0;transform:scale(.4);transition:all .2s}
+.chk[aria-pressed="true"] .box{background:var(--sec);border-color:var(--sec)}
+.chk[aria-pressed="true"] .box svg{opacity:1;transform:none}
+.chk strong{display:block;font-size:31px;font-weight:700;line-height:1.3}
+.chk span{display:block;font-size:24px;color:var(--muted);line-height:1.5;margin-top:4px}
+
+/* ---------- case / quiz ---------- */
+.case{display:grid;grid-template-columns:460px 1fr;gap:60px;align-items:start}
+.story{font-size:27px;line-height:1.6;margin-bottom:24px}
+.story b{font-weight:700}
+.q{font-size:32px;font-weight:700;margin-bottom:18px;line-height:1.4}
+.qopts{display:flex;flex-direction:column;gap:12px}
+.qo{display:grid;grid-template-columns:48px 1fr;gap:16px;align-items:center;text-align:left;background:var(--slip);border:2px solid var(--line);border-radius:12px;padding:14px 20px;font-size:25px;line-height:1.4}
+.qo:hover{border-color:var(--ink)}
+.qo .k{font-family:var(--f-display);font-size:26px;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;background:var(--paper-2)}
+.qo.right{border-color:var(--green);background:var(--green-soft)} .qo.right .k{background:var(--green);color:#fff}
+.qo.wrong{border-color:var(--red);background:var(--red-soft)} .qo.wrong .k{background:var(--red);color:#fff}
+.explain{margin-top:18px;font-size:24px;line-height:1.6;padding:14px 22px;border-left:6px solid var(--green);background:var(--slip)}
+
+/* ---------- vitals card ---------- */
+.vitals{display:grid;grid-template-columns:1fr 1fr;gap:0;background:var(--screen);border-radius:14px;padding:10px 22px;font-family:var(--f-mono);box-shadow:inset 0 0 0 5px #25332E;width:440px}
+.vitals div{display:flex;flex-direction:column;padding:10px 4px;border-bottom:1px solid #26352F}
+.vitals div:nth-last-child(-n+2){border-bottom:0}
+.vitals span{font-size:17px;letter-spacing:.06em;color:#9FB0A8}
+.vitals b{font-size:44px;font-weight:600;line-height:1.1;font-variant-numeric:tabular-nums}
+
+/* ---------- tiles ---------- */
+.tiles{display:grid;grid-template-columns:repeat(var(--cols,4),1fr);gap:16px}
+.tile{background:var(--ts,var(--paper-2));border:2px solid transparent;border-radius:14px;padding:18px 20px;text-align:left;min-height:var(--th,260px);display:flex;flex-direction:column;gap:8px;--tc:var(--sec)}
+.tile:hover{border-color:var(--tc)}
+.tile .ch{font-family:var(--f-display);font-size:64px;line-height:1;color:var(--tc)}
+.tile .nm{font-size:27px;font-weight:700;line-height:1.3}
+.tile .dt{font-size:21px;line-height:1.5;color:var(--ink);opacity:0;transform:translateY(8px);transition:all .3s}
+.tile .tp{font-size:18px;color:var(--muted);margin-top:auto}
+.tile.on{background:var(--slip);border-color:var(--tc)}
+.tile.on .dt{opacity:1;transform:none}
+.tile.on .tp{display:none}
+
+/* ---------- reveal steps ---------- */
+.steps{display:grid;grid-template-columns:var(--lead,380px) repeat(3,1fr);gap:28px;align-items:stretch}
+.step{border-top:6px solid var(--stc,var(--ink));padding-top:18px;display:flex;flex-direction:column;gap:10px}
+.step .no{font-family:var(--f-mono);font-size:22px;color:var(--muted)}
+.step h3{font-size:38px}
+.step p{font-size:24px;line-height:1.55}
+.res{margin-top:auto;padding:14px 18px;border-radius:10px;background:var(--paper-2);font-size:23px;line-height:1.5;min-height:120px;color:transparent;transition:color .3s,background .3s}
+.res:not(.show),.res:not(.show) *{color:transparent!important}
+.res.show{background:var(--slip);color:var(--ink);box-shadow:inset 0 0 0 2px var(--ink)}
+
+/* ---------- game ---------- */
+.gtop{display:flex;justify-content:space-between;align-items:flex-end}
+.score{display:flex;gap:18px}
+.team{display:grid;grid-template-columns:auto auto auto auto;align-items:center;gap:10px;background:var(--slip);border:2px solid var(--line);border-radius:12px;padding:8px 14px}
+.team .tn{font-size:22px;font-weight:700;padding-right:6px}
+.team .ts{font-family:var(--f-mono);font-size:40px;font-weight:600;min-width:52px;text-align:center;font-variant-numeric:tabular-nums}
+.team button{width:40px;height:40px;border-radius:8px;border:1.5px solid var(--line);background:var(--paper);font-size:24px;line-height:1}
+.team.red .tn{color:var(--red)} .team.blue .tn{color:var(--blue)}
+.game{display:grid;grid-template-columns:var(--gl,470px) 1fr;gap:52px;align-items:start}
+.gno{font-family:var(--f-mono);font-size:22px;color:var(--muted);margin-bottom:10px}
+.gopts{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.gopts .qo{font-size:27px;padding:18px 20px}
+.gnav{display:flex;gap:12px;margin-top:18px;align-items:center}
+.gbtn{border:2px solid var(--ink);background:var(--slip);border-radius:10px;padding:10px 24px;font-size:22px}
+.gbtn.pri{background:var(--ink);color:var(--paper)}
+.gdots{display:flex;gap:8px;align-items:center;margin-left:auto}
+.gdots i{width:14px;height:14px;border-radius:50%;background:var(--line)}
+.gdots i.on{background:var(--ink)}
+
+/* ---------- true/false ---------- */
+.tf{display:grid;grid-template-columns:1fr 360px;gap:60px;align-items:center}
+.tf .ring{margin:0 auto}
+.tfbtns .gbtn{padding:10px 18px;white-space:nowrap}
+.tfq{font-family:var(--f-display);font-size:60px;line-height:1.3;text-wrap:balance;min-height:260px;display:flex;align-items:center}
+.tfa{display:flex;align-items:center;gap:26px;min-height:120px;font-size:28px;line-height:1.55}
+.tfa .mark{flex:none;width:110px;height:110px;border-radius:50%;display:grid;place-items:center;font-family:var(--f-display);font-size:78px;color:#fff}
+.tfa .mark.o{background:var(--green)} .tfa .mark.x{background:var(--red)}
+.ring{position:relative;width:260px;height:260px}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring .t{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--f-mono);font-weight:600;font-size:96px;font-variant-numeric:tabular-nums}
+.tfbtns{display:flex;gap:12px;margin-top:24px;justify-content:center}
+
+/* ---------- wrap ---------- */
+.wrapg{display:grid;grid-template-columns:1fr 520px;gap:70px;align-items:start}
+.take{display:flex;flex-direction:column;gap:0;border-top:2px solid var(--ink)}
+.take div{padding:20px 0;border-bottom:1px solid var(--line);display:grid;grid-template-columns:130px 1fr;gap:20px;align-items:baseline}
+.take b{font-family:var(--f-display);font-weight:400;font-size:32px;color:var(--c)}
+.take p{font-size:28px;line-height:1.5}
+.post h3{font-size:32px;margin-bottom:6px}
+.post .opts{gap:12px;margin-top:14px}
+.post .vote{font-size:23px;padding:14px 18px;grid-template-columns:44px 1fr 56px}
+.post .vote .k{width:44px;height:44px;font-size:24px}
+.legend{font-size:18px;color:var(--muted);display:flex;gap:18px;align-items:center}
+.legend i{display:inline-block;width:26px;height:6px;background:var(--muted);opacity:.45;vertical-align:middle;margin-right:6px}
+.thanks{font-family:var(--f-display);font-size:40px;margin-top:26px}
+
+/* ---------- sliders ---------- */
+.sl{display:flex;flex-direction:column;gap:6px;margin-top:18px}
+.sl label{display:flex;justify-content:space-between;align-items:baseline;font-size:24px}
+.sl label b{font-family:var(--f-mono);font-size:30px;font-variant-numeric:tabular-nums}
+.sl input{width:100%;accent-color:var(--ink);height:28px}
+.presets{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.pbtn{border:1.5px solid var(--line);background:var(--slip);border-radius:999px;padding:8px 18px;font-size:20px}
+.pbtn:hover{border-color:var(--ink)}
+.pbtn.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.seg{display:flex;gap:10px;flex-wrap:wrap}
+.sbtn{border:2px solid var(--line);background:var(--slip);border-radius:10px;padding:12px 20px;font-size:23px}
+.sbtn.on{border-color:var(--ink);background:var(--ink);color:var(--paper)}
+.big{font-family:var(--f-mono);font-weight:600;font-size:120px;line-height:1;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.note{font-size:19px;color:var(--muted);line-height:1.5}
+.warnbox{padding:14px 20px;border-radius:10px;background:var(--red-soft);color:var(--ink);font-size:23px;line-height:1.5;border-left:6px solid var(--red)}
+.keybox{padding:14px 20px;border-radius:10px;background:var(--slip);font-size:23px;line-height:1.5;border-left:6px solid var(--sec)}
+.bnum{font-family:var(--f-mono);font-weight:600;font-size:110px;line-height:1;font-variant-numeric:tabular-nums}
+.bnum.sm{font-size:72px}
+[hidden]{display:none!important}
+
+:root{--accent:var(--blue)}
+/* cover */
+.hero{position:relative;padding-top:160px}
+.hero .m-wrap{position:absolute;top:0;width:140px;margin-left:-70px}
+.hero .bubble{right:118px;top:-6px}
+.spstrip{height:58px;border-radius:6px;background:linear-gradient(90deg,#B8322B 0%,#E0672C 25%,#D9A22A 40%,#9BB33A 55%,#2F9A5A 70%,#2F9A5A 90%,#2A86B8 100%)}
+.band{position:absolute;top:114px;height:46px;border:3px solid var(--ink);border-bottom:0;border-radius:4px 4px 0 0}
+.band span{position:absolute;bottom:52px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:21px;font-weight:700}
+.ticks{position:relative;height:40px;font-family:var(--f-mono);font-size:20px;color:var(--muted)}
+.ticks span{position:absolute;top:10px;transform:translateX(-50%)}
+
+/* ODC */
+.odc{display:grid;grid-template-columns:820px 1fr;gap:56px;align-items:start}
+.odcsvg{width:100%;height:auto}
+.odcsvg text{font-family:var(--f-body)}
+.odc .rl{font-size:24px;color:var(--muted)}
+.zone{margin-top:18px;font-size:25px;line-height:1.55;min-height:120px}
+
+/* device */
+.dev{display:grid;grid-template-columns:420px 1fr;gap:56px;align-items:start}
+.facesvg{width:100%;height:auto}
+.facesvg .dv{opacity:0;transition:opacity .35s}
+.facesvg .dv.on{opacity:1}
+.dinfo{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}
+.dinfo>div{background:var(--slip);border-radius:12px;padding:14px 20px}
+.dinfo span{font-size:20px;color:var(--muted)}
+.dinfo p{font-size:24px;line-height:1.5;margin-top:2px}
+.fio{display:flex;align-items:baseline;gap:18px;margin-top:10px}
+.fio b{font-family:var(--f-mono);font-weight:600;font-size:88px;line-height:1;color:var(--blue);font-variant-numeric:tabular-nums}
+.fio span{font-size:26px}
+
+/* mistakes + tank */
+.mist{display:grid;grid-template-columns:1fr 520px;gap:56px;align-items:start}
+.mist .checks{grid-template-columns:1fr;gap:4px}
+.mist .chk{padding:10px 0}
+.mist .chk strong{font-size:28px}
+.mist .chk span{font-size:22px}
+.tank{background:var(--slip);border-radius:14px;padding:18px 24px}
+.tank .sl{margin-top:10px}
+.capin{display:flex;align-items:center;gap:10px;font-size:22px;flex-wrap:wrap}
+.capin input{width:110px;font-family:var(--f-mono);font-size:24px;padding:4px 8px;border:2px solid var(--line);border-radius:8px}
+.tres{display:flex;align-items:baseline;gap:14px;margin-top:14px}
+.tres b{font-family:var(--f-mono);font-size:72px;font-weight:600;line-height:1}
+
+/* HFNC tiles */
+.hf .tile .ch{font-family:var(--f-mono);font-weight:600;font-size:52px}
+
+/* ROX */
+.rox{display:grid;grid-template-columns:560px 1fr;gap:64px;align-items:start}
+.rbar{position:relative;height:28px;border-radius:14px;background:linear-gradient(90deg,var(--red-soft) 0 var(--r1),var(--amber-soft) var(--r1) var(--r2),var(--green-soft) var(--r2));margin:22px 0 6px}
+.rbar .mk{position:absolute;top:-10px;width:8px;height:48px;border-radius:4px;background:var(--ink);transform:translateX(-50%);transition:left .3s}
+.rscale{position:relative;height:24px;font-family:var(--f-mono);font-size:18px;color:var(--muted)}
+.rscale span{position:absolute;transform:translateX(-50%)}
+.fxl{font-family:var(--f-mono);font-size:24px;background:var(--slip);border-radius:10px;padding:12px 18px;margin-top:18px}
+
+/* BiPAP wave */
+.bip{display:grid;grid-template-columns:520px 1fr;gap:50px;align-items:start}
+.pw{width:100%;height:auto;background:var(--slip);border-radius:12px}
+.pw text{font-family:var(--f-body)}
+.effects{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:16px}
+.effects div{background:var(--slip);border-radius:12px;padding:12px 18px}
+.effects p{font-size:22px;line-height:1.45}
+.ebar{height:14px;border-radius:7px;background:var(--paper-2);margin-top:8px;overflow:hidden}
+.ebar i{display:block;height:100%;border-radius:7px;transition:width .3s}
+.psread{display:flex;gap:28px;align-items:baseline;margin-top:14px;font-size:24px}
+.psread b{font-family:var(--f-mono);font-size:44px;font-weight:600}
+
+/* indications */
+.ind .tile{--th:196px}
+.ind .tile .nm{font-size:28px}
+.ind .tile .ch{font-size:46px}
+.ind .tile.on[data-ok="1"]{background:var(--green-soft);border-color:var(--green)}
+.ind .tile.on[data-ok="0"]{background:var(--red-soft);border-color:var(--red)}
+.ind .tile .ch{opacity:0;transition:opacity .3s}
+.ind .tile.on .ch{opacity:1}
+.ind .tile[data-ok="1"] .ch{color:var(--green)} .ind .tile[data-ok="0"] .ch{color:var(--red)}
+
+/* one hour */
+.hr1{display:grid;grid-template-columns:auto 40px auto 1fr;gap:18px;align-items:center;margin-top:18px}
+.hr1 .arrow{font-size:44px;color:var(--muted);text-align:center}
+.hr1 .slip{width:330px;padding:18px 24px 30px}
+.hr1 .slip-r{grid-template-columns:90px 1fr 70px 26px}
+.hr1 .slip-r b{font-size:32px}
+.cmp{background:var(--screen);border-radius:14px;padding:12px 22px;font-family:var(--f-mono);box-shadow:inset 0 0 0 5px #25332E;color:#E8EEE9}
+.cmp div{display:grid;grid-template-columns:110px 1fr 30px 1fr;align-items:baseline;padding:8px 0;border-bottom:1px solid #26352F}
+.cmp div:last-child{border:0}
+.cmp span{font-size:18px;color:#9FB0A8}
+.cmp b{font-size:34px;font-weight:600;text-align:right}
+.cmp i{font-style:normal;color:#9FB0A8;text-align:center}
+.verdict{margin-top:20px;font-size:27px;line-height:1.55;padding:16px 24px;border-radius:10px}
+.verdict.ok{background:var(--green-soft);border-left:6px solid var(--green)}
+.verdict.bad{background:var(--red-soft);border-left:6px solid var(--red)}
+</style>
+
+<div id="stage" role="region" aria-label="投影片">
+
+<!-- 1 封面 -->
+<section class="slide cover active" data-sec="0">
+  <div>
+    <p class="eyebrow">急診護理在職教育　約 20 分鐘</p>
+    <h1 class="cover-title">氧氣<span>給對</span>了嗎</h1>
+    <p class="cover-sub">氧氣治療與 BiPAP——選對工具、抓對目標、看懂警訊</p>
+  </div>
+  <div class="hero">
+    <div class="m-wrap bob" style="left:96%" data-mascot="dizzy" data-label="O₂" data-color="#2A86B8"><div class="bubble">SpO₂ 100%……好像太多了</div></div>
+    <div class="band" style="left:40%;width:20%"><span>CO₂ 滯留風險 88–92</span></div>
+    <div class="band" style="left:70%;width:20%"><span>一般病人 94–98</span></div>
+    <div class="spstrip"></div>
+    <div class="ticks"><span style="left:0%">80</span><span style="left:25%">85</span><span style="left:50%">90</span><span style="left:75%">95</span><span style="left:100%">100</span></div>
+  </div>
+  <p class="byline">天晟醫院 急診科　陳孝綱</p>
+  <aside class="notes"><b>0:30</b>開場。色條是 SpO₂，小氧氣現在衝到 100%，反而頭暈。今天 20 分鐘：目標抓多少、工具怎麼選、BiPAP 怎麼顧。操作：← → 或翻頁器換頁，F 全螢幕，N 開關講稿。</aside>
+</section>
+
+<!-- 2 暖身 -->
+<section class="slide" data-sec="0">
+  <div class="head"><p class="eyebrow">暖身 · 舉手投票</p><h2>看到 SpO₂ 100%，你的感覺是？</h2></div>
+  <div class="body poll">
+    <div>
+      <div class="vitals"><div><span>SpO₂</span><b class="m-o2">100%</b></div><div><span>O₂</span><b class="m-w">NC 4 L</b></div><div><span>RR</span><b class="m-rr">16</b></div><div><span>HR</span><b class="m-hr">84</b></div></div>
+      <p class="note" style="margin-top:14px">肺炎第三天，意識清楚，沒有 COPD</p>
+    </div>
+    <div class="opts" data-poll="pre">
+      <button class="vote" data-i="0"><span class="fill"></span><span class="k">A</span><span>太好了，這樣最安全</span><span class="n">0</span></button>
+      <button class="vote" data-i="1"><span class="fill"></span><span class="k">B</span><span>可能給太多了，考慮往下調</span><span class="n">0</span></button>
+      <button class="vote" data-i="2"><span class="fill"></span><span class="k">C</span><span>氧氣多給沒有壞處，維持就好</span><span class="n">0</span></button>
+      <button class="tiny" data-reset="pre">票數歸零</button>
+    </div>
+  </div>
+  <aside class="notes"><b>1:00</b>請大家舉手，每舉一隻手點一下計票。先不公布，最後一頁再投一次。</aside>
+</section>
+
+<!-- 3 解離曲線 -->
+<section class="slide" data-sec="0">
+  <div class="head"><p class="eyebrow">基礎 · 拉拉看</p><h2>SpO₂ 90% 以下，就是懸崖</h2></div>
+  <div class="body odc">
+    <div>
+      <svg class="odcsvg" id="odcSvg" viewBox="0 0 820 470" aria-label="氧合血紅素解離曲線"></svg>
+      <div class="sl" style="margin-top:6px"><label for="po2"><span>PaO₂（動脈血氧分壓）</span><b id="vPo2">60</b></label><input type="range" id="po2" min="20" max="150" value="60"></div>
+    </div>
+    <div>
+      <p class="rl">SpO₂</p>
+      <div style="display:flex;align-items:baseline;gap:20px"><span class="bnum" id="spV">91</span><span style="font-size:40px">%</span></div>
+      <div style="margin-top:12px"><span class="chip amber" id="spChip">懸崖邊</span></div>
+      <p class="zone" id="spZone"></p>
+      <div class="keybox" style="margin-top:10px">目標：一般病人 <b>94–98%</b>；COPD 等 CO₂ 滯留風險者 <b>88–92%</b></div>
+    </div>
+  </div>
+  <aside class="notes"><b>1:30</b>把拉桿從 100 慢慢往左拉：一開始 SpO₂ 幾乎不動，過了 60（SpO₂ 90%）之後直直掉——所以 90% 以下要緊張。再往右拉到 150：SpO₂ 最多就是 100%，多給的氧氣沒有多幫忙，反而可能有害。</aside>
+</section>
+
+<!-- 4 SpO2 不準 -->
+<section class="slide" data-sec="0">
+  <div class="head"><p class="eyebrow">基礎 · 別被數字騙</p><h2>血氧機也會說謊</h2></div>
+  <div class="body" style="display:flex;flex-direction:column">
+    <div class="flips">
+      <button class="flip" aria-pressed="false" style="--fs:var(--blue-soft);--fc:var(--blue)"><div class="flip-in">
+        <div class="face front"><small>情況 1</small><h3>手冰冰、<br>休克</h3><span class="hint">點我翻面</span></div>
+        <div class="face back"><h4>末梢灌流差</h4><ul><li>讀不到或偏低</li><li>先看波形漂不漂亮</li><li>暖手、換手指</li><li>懷疑就抽 ABG</li></ul></div>
+      </div></button>
+      <button class="flip" aria-pressed="false" style="--fs:var(--blue-soft);--fc:var(--blue)"><div class="flip-in">
+        <div class="face front"><small>情況 2</small><h3>動來動去、<br>夾不好</h3><span class="hint">點我翻面</span></div>
+        <div class="face back"><h4>動作干擾</h4><ul><li>發抖、躁動、探頭脫落</li><li>數值亂跳</li><li>以波形穩定時的數字為準</li></ul></div>
+      </div></button>
+      <button class="flip" aria-pressed="false" style="--fs:var(--red-soft);--fc:var(--red)"><div class="flip-in">
+        <div class="face front"><small>情況 3</small><h3>燒炭、<br>火場</h3><span class="hint">點我翻面</span></div>
+        <div class="face back"><h4>一氧化碳中毒</h4><ul><li>一般血氧機分不出 CO</li><li><b>SpO₂ 假性正常</b></li><li>驗 COHb</li><li>直接給 100% 氧氣</li></ul></div>
+      </div></button>
+      <button class="flip" aria-pressed="false" style="--fs:var(--blue-soft);--fc:var(--blue)"><div class="flip-in">
+        <div class="face front"><small>情況 4</small><h3>指甲油、<br>光線</h3><span class="hint">點我翻面</span></div>
+        <div class="face back"><h4>外在干擾</h4><ul><li>深色指甲油、光療甲</li><li>強光直射探頭</li><li>卸除，或探頭側夾</li></ul></div>
+      </div></button>
+    </div>
+    <p class="keybox" style="margin-top:24px">也別忘了：SpO₂ 只看「氧氣進來了沒」，看不到 CO₂ 有沒有排出去。</p>
+  </div>
+  <aside class="notes"><b>1:00</b>先問台下遇過哪些血氧機「怪怪的」時候，再翻卡。一氧化碳中毒最危險：病人 SpO₂ 99%，其實嚴重缺氧。</aside>
+</section>
+
+<!-- 5 裝置選擇 -->
+<section class="slide" data-sec="1">
+  <div class="head"><p class="eyebrow">給氧裝置 · 點點看</p><h2>五種工具，流量和濃度都不一樣</h2></div>
+  <div class="body dev">
+    <svg class="facesvg" viewBox="0 0 420 480" aria-label="給氧裝置示意">
+      <ellipse cx="210" cy="200" rx="130" ry="160" fill="#F2D2BC"/>
+      <path d="M92 150 Q120 30 210 36 Q300 30 328 150 Q300 90 210 88 Q120 90 92 150Z" fill="#3B3230"/>
+      <circle cx="160" cy="180" r="10" fill="#172421"/><circle cx="260" cy="180" r="10" fill="#172421"/>
+      <path d="M210 190 Q198 236 188 244 Q210 254 232 244 Q222 236 210 190" fill="#E5B79C"/>
+      <path d="M180 292 Q210 306 240 292" stroke="#9C5D4F" stroke-width="6" fill="none" stroke-linecap="round"/>
+      <!-- nasal cannula -->
+      <g class="dv" id="dv-nc"><path d="M40 470 Q40 300 80 250 Q120 236 190 250 M380 470 Q380 300 340 250 Q300 236 230 250" stroke="#8FC1E3" stroke-width="10" fill="none"/><rect x="186" y="240" width="48" height="14" rx="7" fill="#8FC1E3"/><rect x="194" y="232" width="8" height="14" rx="3" fill="#8FC1E3"/><rect x="218" y="232" width="8" height="14" rx="3" fill="#8FC1E3"/></g>
+      <!-- simple mask -->
+      <g class="dv" id="dv-sm"><path d="M140 200 Q210 150 280 200 L290 300 Q210 360 130 300Z" fill="rgba(200,225,240,.7)" stroke="#6FA7CF" stroke-width="6"/><circle cx="160" cy="280" r="7" fill="#6FA7CF"/><circle cx="260" cy="280" r="7" fill="#6FA7CF"/><path d="M210 340 V470" stroke="#8FC1E3" stroke-width="12"/></g>
+      <!-- NRM -->
+      <g class="dv" id="dv-nrm"><path d="M140 200 Q210 150 280 200 L290 300 Q210 360 130 300Z" fill="rgba(200,225,240,.7)" stroke="#6FA7CF" stroke-width="6"/><circle cx="160" cy="280" r="9" fill="#2E5BC9"/><circle cx="260" cy="280" r="9" fill="#2E5BC9"/><rect x="170" y="345" width="80" height="120" rx="36" fill="rgba(143,193,227,.8)" stroke="#6FA7CF" stroke-width="5"/><text x="210" y="412" text-anchor="middle" font-size="20" fill="#172421">儲氣袋</text></g>
+      <!-- venturi -->
+      <g class="dv" id="dv-vm"><path d="M140 200 Q210 150 280 200 L290 300 Q210 360 130 300Z" fill="rgba(200,225,240,.7)" stroke="#6FA7CF" stroke-width="6"/><path d="M210 340 V380" stroke="#8FC1E3" stroke-width="22"/><rect x="186" y="380" width="48" height="40" rx="6" fill="#9FB0A8"/><text x="250" y="408" font-size="20" fill="#172421" id="vmTxt">28%</text><path d="M210 420 V470" stroke="#8FC1E3" stroke-width="10"/></g>
+      <!-- HFNC -->
+      <g class="dv" id="dv-hf"><path d="M20 470 Q30 310 80 256 Q120 238 186 250 M400 470 Q390 310 340 256 Q300 238 234 250" stroke="#7FB0D6" stroke-width="18" fill="none"/><rect x="178" y="236" width="64" height="22" rx="11" fill="#7FB0D6"/><text x="210" y="440" text-anchor="middle" font-size="20" fill="#172421">加溫加濕</text></g>
+    </svg>
+    <div>
+      <div class="seg" id="devSeg">
+        <button class="sbtn on" data-d="nc">鼻導管</button>
+        <button class="sbtn" data-d="sm">簡單面罩</button>
+        <button class="sbtn" data-d="nrm">非再吸入面罩</button>
+        <button class="sbtn" data-d="vm">Venturi 面罩</button>
+        <button class="sbtn" data-d="hf">高流量鼻導管</button>
+      </div>
+      <div class="sl"><label for="devFlow"><span id="flowLbl">流量 L/min</span><b id="vFlow">2</b></label><input type="range" id="devFlow" min="1" max="6" value="2"></div>
+      <div class="sl" id="fioRow" hidden><label for="devFio"><span>FiO₂ 設定 %</span><b id="vFio">40</b></label><input type="range" id="devFio" min="21" max="100" value="40"></div>
+      <div class="fio"><span>FiO₂ 約</span><b id="fioV">28</b><span>%</span></div>
+      <div class="dinfo"><div><span>適合</span><p id="dFit"></p></div><div><span>注意</span><p id="dWarn"></p></div></div>
+    </div>
+  </div>
+  <aside class="notes"><b>1:30</b>依序點五種，拉流量看 FiO₂ 變化。鼻導管每加 1 L 約多 4%；簡單面罩要 5 L 以上；非再吸入面罩儲氣袋要鼓。Venturi 的特色是濃度固定、精準，適合 COPD。FiO₂ 都是約略值，會受呼吸型態影響。</aside>
+</section>
+
+<!-- 6 常見錯誤＋氧氣筒 -->
+<section class="slide" data-sec="1">
+  <div class="head"><p class="eyebrow">給氧裝置 · 常見錯誤</p><h2>這五個小地方，最常出錯</h2></div>
+  <div class="body mist">
+    <div class="checks">
+      <button class="chk"><span><strong>鼻導管不超過 6 L</strong><span>再開大只會更乾、更痛，濃度也上不去</span></span></button>
+      <button class="chk"><span><strong>簡單面罩至少 5 L</strong><span>流量太小，吐出來的 CO₂ 會被吸回去</span></span></button>
+      <button class="chk"><span><strong>非再吸入面罩：袋子要鼓</strong><span>先充滿再戴上，吸氣時不可以扁掉</span></span></button>
+      <button class="chk"><span><strong>從牆上一路檢查到臉上</strong><span>流量表有開？管子折到？接頭、潮濕瓶有鎖緊？</span></span></button>
+      <button class="chk"><span><strong>推病人去檢查前算氧氣</strong><span>氧氣筒夠不夠用到回來？</span></span></button>
+    </div>
+    <div class="tank">
+      <h3 style="font-size:30px">氧氣筒夠用嗎？</h3>
+      <div class="capin" style="margin-top:10px"><span>滿瓶容量</span><input type="number" id="tCap" value="680" min="50" step="10"><span>L</span><span class="muted" style="font-size:18px">（示範值，依本院氧氣筒標示）</span></div>
+      <div class="sl"><label for="tPct"><span>壓力錶剩下</span><b id="vPct">50%</b></label><input type="range" id="tPct" min="5" max="100" step="5" value="50"></div>
+      <div class="sl"><label for="tFlow"><span>流量 L/min</span><b id="vtFlow">10</b></label><input type="range" id="tFlow" min="1" max="15" value="10"></div>
+      <div class="tres"><b id="tMin">27</b><span style="font-size:26px">分鐘</span><span class="chip amber sm" id="tChip">短程可以</span></div>
+      <p class="note" style="margin-top:8px">已扣掉 20% 安全餘量。CT 來回＋等候通常要抓 30 分鐘以上。</p>
+    </div>
+  </div>
+  <aside class="notes"><b>1:30</b>左邊每講一項打勾。右邊示範：半瓶、非再吸入面罩 10 L，只剩 20 幾分鐘——推去 CT 很可能半路沒氣。容量請換成本院氧氣筒實際標示。</aside>
+</section>
+
+<!-- 7 情境 1 -->
+<section class="slide" data-sec="1">
+  <div class="head"><p class="eyebrow">情境劇場 1</p><h2>鼻導管開到底，還是喘</h2></div>
+  <div class="body case">
+    <div>
+      <p class="story"><b>67 歲男性，肺炎。</b>鼻導管已經 6 L，講話一句只能說幾個字，吸氣時鎖骨上方凹進去。</p>
+      <div class="vitals"><div><span>SpO₂</span><b class="m-o2">87%</b></div><div><span>RR</span><b class="m-rr">32</b></div><div><span>HR</span><b class="m-hr">118</b></div><div><span>O₂</span><b class="m-w">NC 6 L</b></div></div>
+    </div>
+    <div class="quiz">
+      <p class="q">下一步最適當的是？</p>
+      <div class="qopts">
+        <button class="qo"><span class="k">A</span><span>鼻導管再開大到 10 L</span></button>
+        <button class="qo" data-ok><span class="k">B</span><span>通知醫師，換非再吸入面罩或 HFNC，評估呼吸費力、抽 ABG</span></button>
+        <button class="qo"><span class="k">C</span><span>請他深呼吸，30 分鐘後再量一次</span></button>
+        <button class="qo"><span class="k">D</span><span>換一隻手指夾就好</span></button>
+      </div>
+      <p class="explain" hidden>鼻導管 6 L 已經到頂，病人還呼吸費力、SpO₂ 87% → 要<b>升級</b>。開到 10 L 只會更乾、濃度也不會變高。呼吸快、用輔助肌 → 可能快撐不住，要讓醫師馬上評估。</p>
+    </div>
+  </div>
+  <aside class="notes"><b>1:30</b>先請大家說出「呼吸費力」的徵象：講話斷斷續續、輔助肌、鼻翼搧動、坐不住。</aside>
+</section>
+
+<!-- 8 HFNC -->
+<section class="slide hf" data-sec="2">
+  <div class="head"><p class="eyebrow">高流量鼻導管 HFNC · 為什麼比較好</p><h2>一樣是鼻管，高流量多了四個好處</h2></div>
+  <div class="body" style="display:flex;flex-direction:column;gap:22px">
+    <div class="tiles" style="--cols:4;--th:330px">
+      <button class="tile" style="--ts:var(--purple-soft);--tc:var(--purple)"><span class="ch">60</span><span class="nm">流量夠大</span><span class="dt">最高約 60 L/min，追得上很喘的人吸氣的量，設多少濃度就吸到多少。</span><span class="tp">點我</span></button>
+      <button class="tile" style="--ts:var(--purple-soft);--tc:var(--purple)"><span class="ch">37°</span><span class="nm">加溫加濕</span><span class="dt">接近體溫、濕度飽和，鼻子不乾不痛，痰比較好咳出來，病人願意戴。</span><span class="tp">點我</span></button>
+      <button class="tile" style="--ts:var(--purple-soft);--tc:var(--purple)"><span class="ch">+P</span><span class="nm">一點點正壓</span><span class="dt">閉嘴時產生少量 PEEP（流量越大越多），幫忙撐開肺泡。張嘴就會變少。</span><span class="tp">點我</span></button>
+      <button class="tile" style="--ts:var(--purple-soft);--tc:var(--purple)"><span class="ch">CO₂</span><span class="nm">沖掉死腔</span><span class="dt">把鼻咽裡殘留的 CO₂ 沖掉，下一口吸到的是新鮮氧氣，呼吸比較省力。</span><span class="tp">點我</span></button>
+    </div>
+    <div class="keybox">設定：流速常見 30–60 L/min，FiO₂ 依 SpO₂ 調整。<b>改善時先降 FiO₂，再降流速</b>。鼻管大小約佔鼻孔一半，不要塞滿。</div>
+  </div>
+  <aside class="notes"><b>1:00</b>一次翻一張。提醒：HFNC 會讓病人「看起來好很多」，但也可能延誤插管——所以下一頁要教怎麼判斷它有沒有效。</aside>
+</section>
+
+<!-- 9 ROX -->
+<section class="slide" data-sec="2">
+  <div class="head"><p class="eyebrow">HFNC · 有沒有效</p><h2>用 ROX 指數，判斷高流量撐不撐得住</h2></div>
+  <div class="body rox">
+    <div>
+      <div class="fxl">ROX ＝（SpO₂ ÷ FiO₂）÷ 呼吸次數</div>
+      <div class="sl"><label for="rS"><span>SpO₂ %</span><b id="vrS">92</b></label><input type="range" id="rS" min="80" max="100" value="92"></div>
+      <div class="sl"><label for="rF"><span>FiO₂ %</span><b id="vrF">50</b></label><input type="range" id="rF" min="21" max="100" value="50"></div>
+      <div class="sl"><label for="rR"><span>呼吸次數 /min</span><b id="vrR">28</b></label><input type="range" id="rR" min="10" max="45" value="28"></div>
+      <div style="display:flex;align-items:center;gap:16px;margin-top:22px"><span style="font-size:24px">使用 HFNC 後</span><div class="seg" id="rH"><button class="sbtn" data-h="2">2 小時</button><button class="sbtn" data-h="6">6 小時</button><button class="sbtn on" data-h="12">12 小時</button></div></div>
+    </div>
+    <div>
+      <p style="font-size:26px;font-weight:700">ROX 指數</p>
+      <div style="display:flex;align-items:baseline;gap:24px"><span class="bnum" id="roxV">6.6</span><span class="chip green" id="roxChip">較可能成功</span></div>
+      <div class="rbar" id="rbar"><div class="mk" id="roxMk"></div></div>
+      <div class="rscale" id="rscale"></div>
+      <p class="zone" id="roxTxt"></p>
+    </div>
+  </div>
+  <aside class="notes"><b>1:30</b>示範：SpO₂ 92、FiO₂ 50%、RR 28 → 6.6，還不錯。把 FiO₂ 拉到 90%、RR 拉到 36 → 掉到 2.8，紅色。重點不是一次的數字，而是「越來越低」要主動回報。門檻：≥ 4.88 較可能成功；2、6、12 小時分別低於 2.85、3.47、3.85 失敗風險高。</aside>
+</section>
+
+<!-- 10 BiPAP 原理 -->
+<section class="slide" data-sec="2">
+  <div class="head"><p class="eyebrow">BiPAP · 兩個壓力</p><h2>IPAP 幫你排碳，EPAP 幫你給氧</h2></div>
+  <div class="body bip">
+    <div>
+      <div class="sl"><label for="bI"><span>IPAP 吸氣壓 cmH₂O</span><b id="vbI">12</b></label><input type="range" id="bI" min="6" max="25" value="12"></div>
+      <div class="sl"><label for="bE"><span>EPAP 吐氣壓 cmH₂O</span><b id="vbE">5</b></label><input type="range" id="bE" min="4" max="15" value="5"></div>
+      <div class="presets" id="bPre">
+        <button class="pbtn" data-p="14,5">COPD 急性惡化</button>
+        <button class="pbtn" data-p="12,8">急性肺水腫</button>
+        <button class="pbtn" data-p="24,5">IPAP 太高</button>
+      </div>
+      <div class="psread"><span>壓力支持 PS ＝ IPAP − EPAP ＝</span><b id="psV">7</b></div>
+      <p class="note" style="margin-top:10px">常見起始值僅供參考，實際依醫囑。IPAP 超過約 20 容易把氣吹進胃。</p>
+    </div>
+    <div>
+      <svg class="pw" id="pwSvg" viewBox="0 0 820 330" aria-label="BiPAP 壓力波形"></svg>
+      <div class="effects">
+        <div><p><b class="c-purple">排 CO₂</b>：差距（PS）越大，每一口吸得越多</p><div class="ebar"><i id="eCO2" style="background:var(--purple)"></i></div></div>
+        <div><p><b class="c-blue">氧合</b>：EPAP 越高，肺泡越撐得開</p><div class="ebar"><i id="eO2" style="background:var(--blue)"></i></div></div>
+      </div>
+    </div>
+  </div>
+  <aside class="notes"><b>1:30</b>先點「COPD」：CO₂ 太高，要靠 IPAP 和 EPAP 的差距幫忙把氣吹進去。再點「肺水腫」：氧合差，EPAP 拉高撐開肺泡。最後點「IPAP 太高」：病人會脹氣、嘔吐，這就是下一個情境的伏筆。</aside>
+</section>
+
+<!-- 11 適不適合 -->
+<section class="slide ind" data-sec="2">
+  <div class="head"><p class="eyebrow">BiPAP · 適不適合</p><h2>這些病人，可以戴 BiPAP 嗎？</h2></div>
+  <div class="body" style="display:flex;flex-direction:column;gap:16px">
+    <div class="tiles" style="--cols:4">
+      <button class="tile" data-ok="1"><span class="ch">✓</span><span class="nm">COPD 急性惡化，CO₂ 升高</span><span class="dt">證據最強，可以減少插管</span><span class="tp">點我揭曉</span></button>
+      <button class="tile" data-ok="1"><span class="ch">✓</span><span class="nm">急性肺水腫</span><span class="dt">改善氧合，也減輕心臟負擔</span><span class="tp">點我揭曉</span></button>
+      <button class="tile" data-ok="0"><span class="ch">✕</span><span class="nm">昏迷、叫不醒</span><span class="dt">保護不了呼吸道，會吸入 → 插管</span><span class="tp">點我揭曉</span></button>
+      <button class="tile" data-ok="0"><span class="ch">✕</span><span class="nm">一直嘔吐、腸胃道出血</span><span class="dt">吐在面罩裡 → 吸入性肺炎</span><span class="tp">點我揭曉</span></button>
+      <button class="tile" data-ok="0"><span class="ch">✕</span><span class="nm">臉部外傷、面罩戴不密</span><span class="dt">漏氣沒效，還可能加重傷口</span><span class="tp">點我揭曉</span></button>
+      <button class="tile" data-ok="0"><span class="ch">✕</span><span class="nm">氣胸還沒放胸管</span><span class="dt">正壓會讓氣胸越變越大</span><span class="tp">點我揭曉</span></button>
+      <button class="tile" data-ok="0"><span class="ch">✕</span><span class="nm">呼吸快停、心跳停止</span><span class="dt">直接甦醒球＋插管，不是 BiPAP</span><span class="tp">點我揭曉</span></button>
+      <button class="tile" data-ok="0"><span class="ch">✕</span><span class="nm">躁動、完全不配合</span><span class="dt">相對禁忌：先安撫、找原因再評估</span><span class="tp">點我揭曉</span></button>
+    </div>
+  </div>
+  <aside class="notes"><b>1:00</b>先讓台下比 ○ 或 ✕，再點開。規則很簡單：要清醒、能保護呼吸道、面罩戴得住，而且原因是 BiPAP 救得了的。</aside>
+</section>
+
+<!-- 12 上機護理 -->
+<section class="slide" data-sec="2">
+  <div class="head"><p class="eyebrow">BiPAP · 上機護理</p><h2>戴得住，BiPAP 才有用</h2></div>
+  <div class="body checks">
+    <button class="chk"><span><strong>先解釋、先用手扶</strong><span>讓病人先適應氣流，再綁帶子</span></span></button>
+    <button class="chk"><span><strong>選對面罩尺寸</strong><span>鼻樑到下巴；太大漏氣、太小壓眼睛</span></span></button>
+    <button class="chk"><span><strong>鬆緊塞得進 1–2 指</strong><span>不必綁死，允許少量漏氣</span></span></button>
+    <button class="chk"><span><strong>鼻樑貼保護墊</strong><span>預防壓力性損傷，定時看皮膚</span></span></button>
+    <button class="chk"><span><strong>床頭抬高 30–45°</strong><span>減少吸入；腹脹明顯依醫囑放鼻胃管</span></span></button>
+    <button class="chk"><span><strong>1–2 小時追 ABG</strong><span>盯呼吸次數、意識、SpO₂、配合度</span></span></button>
+  </div>
+  <aside class="notes"><b>1:00</b>每講一項打一個勾。可以帶一個面罩上台，示範「先用手扶、再綁帶」。</aside>
+</section>
+
+<!-- 13 一小時後 -->
+<section class="slide" data-sec="2">
+  <div class="head"><p class="eyebrow">BiPAP · 戴了一小時</p><h2>有沒有變好，決定要不要插管</h2></div>
+  <div class="body">
+    <div class="seg" id="h1Seg"><button class="sbtn on" data-s="ok">病人 A</button><button class="sbtn" data-s="bad">病人 B</button></div>
+    <div class="hr1">
+      <div><p class="note" style="margin-bottom:8px">上 BiPAP 前</p><div class="slip-wrap" id="h1Before"></div></div>
+      <div class="arrow">→</div>
+      <div><p class="note" style="margin-bottom:8px">1 小時後</p><div class="slip-wrap" id="h1After"></div></div>
+      <div class="cmp" id="h1Cmp"></div>
+    </div>
+    <div class="verdict" id="h1Ver"></div>
+  </div>
+  <aside class="notes"><b>1:30</b>兩位都是 COPD 急性惡化。先看病人 A：pH、CO₂、呼吸、意識都變好 → 繼續。再看病人 B：CO₂ 更高、呼吸更快、叫不醒 → BiPAP 失敗，不要再拖，準備插管。</aside>
+</section>
+
+<!-- 14 情境 2 -->
+<section class="slide" data-sec="2">
+  <div class="head"><p class="eyebrow">情境劇場 2</p><h2>戴著 BiPAP，突然說想吐</h2></div>
+  <div class="body case">
+    <div>
+      <p class="story"><b>72 歲男性，急性肺水腫。</b>BiPAP 12／6 戴了 40 分鐘，突然說想吐，接著吐在面罩裡，叫他反應變慢。</p>
+      <div class="vitals"><div><span>SpO₂</span><b class="m-o2">86%</b></div><div><span>RR</span><b class="m-rr">34</b></div><div><span>HR</span><b class="m-hr">126</b></div><div><span>意識</span><b class="m-w" style="font-size:34px">反應變慢</b></div></div>
+    </div>
+    <div class="quiz">
+      <p class="q">你的第一步是？</p>
+      <div class="qopts">
+        <button class="qo"><span class="k">A</span><span>把面罩綁更緊，避免漏氣</span></button>
+        <button class="qo" data-ok><span class="k">B</span><span>立即拿下面罩、側躺抽吸，通知醫師評估插管</span></button>
+        <button class="qo"><span class="k">C</span><span>把 IPAP 調高一點</span></button>
+        <button class="qo"><span class="k">D</span><span>先給止吐藥，繼續觀察</span></button>
+      </div>
+      <p class="explain" hidden>面罩裡有嘔吐物，正壓會把它吹進肺裡 → <b>立刻移除面罩</b>、側躺、抽吸，先用其他方式給氧。又加上意識變差 → 已經不適合 BiPAP，準備插管。</p>
+    </div>
+  </div>
+  <aside class="notes"><b>1:30</b>回扣「適不適合」那頁：嘔吐、意識變差都是 ✕。追問：BiPAP 病人床邊一定要準備什麼？（抽吸設備、甦醒球。）</aside>
+</section>
+
+<!-- 15 偵探 -->
+<section class="slide" data-sec="3">
+  <div class="gtop">
+    <div class="head"><p class="eyebrow">實戰 · 分組搶答</p><h2>氧氣工具怎麼選</h2></div>
+    <div class="score">
+      <div class="team red"><span class="tn">紅隊</span><button data-t="0" data-d="-1" aria-label="紅隊減一分">−</button><span class="ts" id="ts0">0</span><button data-t="0" data-d="1" aria-label="紅隊加一分">+</button></div>
+      <div class="team blue"><span class="tn">藍隊</span><button data-t="1" data-d="-1" aria-label="藍隊減一分">−</button><span class="ts" id="ts1">0</span><button data-t="1" data-d="1" aria-label="藍隊加一分">+</button></div>
+    </div>
+  </div>
+  <div class="body game">
+    <div><p class="gno" id="gNo">第 1 / 6 題</p><p class="story" id="gStory" style="min-height:130px"></p><div id="gVis"></div></div>
+    <div>
+      <p class="q">最適合的是？</p>
+      <div class="gopts" id="gOpts"></div>
+      <p class="explain" id="gWhy" hidden></p>
+      <div class="gnav"><button class="gbtn" id="gPrev">上一題</button><button class="gbtn pri" id="gNext">下一題</button><span class="gdots" id="gDots"></span></div>
+    </div>
+  </div>
+  <aside class="notes"><b>2:30</b>分兩隊搶答，答對按「+」。答完追問「SpO₂ 目標抓多少」再加一分。</aside>
+</section>
+
+<!-- 16 是非 -->
+<section class="slide" data-sec="3">
+  <div class="head"><p class="eyebrow">實戰 · 快問快答 ○ ✕</p><h2 id="tfNo">第 1 / 5 題</h2></div>
+  <div class="body tf">
+    <div><p class="tfq" id="tfQ"></p><div class="tfa" id="tfA"></div></div>
+    <div>
+      <div class="ring"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="52" fill="none" stroke="#E5EAE3" stroke-width="12"/><circle id="tfArc" cx="60" cy="60" r="52" fill="none" stroke="#172421" stroke-width="12" stroke-linecap="round" stroke-dasharray="326.7" stroke-dashoffset="0"/></svg><span class="t" id="tfT">10</span></div>
+      <div class="tfbtns"><button class="gbtn" id="tfGo">倒數</button><button class="gbtn pri" id="tfShow">揭曉</button><button class="gbtn" id="tfNext">下一題</button></div>
+    </div>
+  </div>
+  <aside class="notes"><b>1:00</b>唸題目 → 按「倒數」給 10 秒 → 按「揭曉」。</aside>
+</section>
+
+<!-- 17 總結 -->
+<section class="slide" data-sec="4">
+  <div class="head"><p class="eyebrow">總結 · 帶走三句話</p><h2>下次掛氧氣，你會怎麼做？</h2></div>
+  <div class="body wrapg">
+    <div>
+      <div class="take">
+        <div style="--c:var(--ink)"><b>抓目標</b><p>一般 94–98%，CO₂ 滯留風險 88–92%，不是越高越好</p></div>
+        <div style="--c:var(--blue)"><b>選工具</b><p>鼻導管 ≤ 6 L、面罩 ≥ 5 L、儲氣袋要鼓；不夠就升級</p></div>
+        <div style="--c:var(--purple)"><b>BiPAP</b><p>IPAP 排碳、EPAP 給氧；沒變好、嘔吐、昏迷 → 準備插管</p></div>
+      </div>
+      <p class="thanks">謝謝大家，有問題現在問</p>
+    </div>
+    <div class="post">
+      <h3>再投一次：看到 SpO₂ 100%？</h3>
+      <p class="legend"><span><i></i>課前票數</span><span>底色：課後票數</span></p>
+      <div class="opts" data-poll="post">
+        <button class="vote" data-i="0"><span class="fill"></span><span class="ghost"></span><span class="k">A</span><span>太好了，這樣最安全</span><span class="n">0</span></button>
+        <button class="vote" data-i="1"><span class="fill"></span><span class="ghost"></span><span class="k">B</span><span>可能給太多了，考慮往下調</span><span class="n">0</span></button>
+        <button class="vote" data-i="2"><span class="fill"></span><span class="ghost"></span><span class="k">C</span><span>氧氣多給沒有壞處，維持就好</span><span class="n">0</span></button>
+        <button class="tiny" data-reset="post">票數歸零</button>
+      </div>
+    </div>
+  </div>
+  <aside class="notes"><b>0:45</b>三句話跟著念。右邊再投一次，細灰線是課前票數。</aside>
+</section>
+
+<nav class="bar" aria-label="投影片導覽">
+  <ul class="secs" id="secs"></ul>
+  <div class="ctrl">
+    <span class="count" id="count">1 / 1</span>
+    <button class="ibtn" id="prev" aria-label="上一張">←</button>
+    <button class="ibtn" id="next" aria-label="下一張">→</button>
+    <button class="ibtn" id="noteBtn" title="講稿（N）">講稿</button>
+    <button class="ibtn" id="fsBtn" title="全螢幕（F）">全螢幕</button>
+  </div>
+</nav>
+</div>
+<div id="notes" hidden></div>
+
+<script>
+window.DECK={key:'o2',secs:[['基礎','var(--ink)'],['給氧裝置','var(--blue)'],['HFNC・BiPAP','var(--purple)'],['實戰','var(--red)'],['總結','var(--green)']],
+  gameOpts:['鼻導管','非再吸入面罩','高流量鼻導管 HFNC','BiPAP']};
+window.TF=[
+  {q:'SpO₂ 越高越好，所以一律拉到 100%。',a:false,w:'一般病人 94–98% 就好；COPD 等 CO₂ 滯留風險的人抓 88–92%。給太多氧氣也有害。'},
+  {q:'簡單面罩的流量至少要開到 5 L/min。',a:true,w:'流量太小，吐出來的 CO₂ 留在面罩裡被吸回去。'},
+  {q:'一氧化碳中毒時，SpO₂ 可能看起來正常。',a:true,w:'一般血氧機分不出一氧化碳和氧氣。燒炭、火場病人要驗 COHb、給 100% 氧。'},
+  {q:'BiPAP 病人想吐時，面罩要綁更緊免得漏氣。',a:false,w:'要立刻拿下面罩、側躺、抽吸。正壓會把嘔吐物吹進肺裡。'},
+  {q:'鼻導管開到 15 L/min，效果就等於非再吸入面罩。',a:false,w:'一般鼻導管超過 6 L 濃度幾乎不會再升，只會更乾更痛。需要高流量請用 HFNC。'}
+];
+window.GAME=[
+  {s:'<b>35 歲女性，輕度肺炎。</b>講話正常，不太喘。',vt:[['SpO₂','92%','m-o2'],['RR','20','m-rr'],['HR','96','m-hr'],['意識','清楚','m-w']],ok:0,w:'輕度低血氧、不費力 → <b>鼻導管</b> 1–4 L，目標 SpO₂ 94–98%。'},
+  {s:'<b>一家三口燒炭</b>被發現，媽媽頭痛、嘔吐，意識清楚。',vt:[['SpO₂','99%','m-o2'],['RR','22','m-rr'],['HR','112','m-hr'],['COHb','待驗','m-w']],ok:1,w:'SpO₂ 99% 是假的！一氧化碳中毒 → <b>非再吸入面罩 15 L</b> 給最高濃度氧，驗 COHb、評估高壓氧。'},
+  {s:'<b>70 歲 COPD 急性惡化。</b>清醒可以配合，ABG pH 7.26、PaCO₂ 70。',vt:[['SpO₂','87%','m-o2'],['RR','30','m-rr'],['HR','108','m-hr'],['意識','清醒','m-w']],ok:3,w:'CO₂ 升高的呼吸性酸中毒、清醒能配合 → <b>BiPAP</b>，證據最強，SpO₂ 目標 88–92%。'},
+  {s:'<b>58 歲肺炎，</b>鼻導管 5 L 還是喘，痰很多。ABG PaCO₂ 36（正常）。',vt:[['SpO₂','88%','m-o2'],['RR','30','m-rr'],['HR','114','m-hr'],['意識','清楚','m-w']],ok:2,w:'單純低血氧、CO₂ 不高、痰多 → <b>HFNC</b>：高濃度又加溫加濕。記得追 ROX 指數。'},
+  {s:'<b>76 歲心衰竭病人</b>，半夜坐起來喘，咳粉紅色泡沫痰，意識清楚。',vt:[['SpO₂','85%','m-o2'],['RR','34','m-rr'],['BP','188/102','m-bp'],['意識','清楚','m-w']],ok:3,w:'急性肺水腫 → <b>BiPAP</b>（或 CPAP）：正壓把肺泡的水推回去，也減輕心臟負擔。'},
+  {s:'<b>30 歲男性，車禍多處骨折</b>，剛送到急救室，意識清楚。',vt:[['SpO₂','90%','m-o2'],['RR','26','m-rr'],['HR','124','m-hr'],['BP','96/60','m-bp']],ok:1,w:'重大外傷初期評估 → 先用<b>非再吸入面罩 15 L</b> 給高濃度氧，穩定後再依 SpO₂ 降階。'}
+];
+GAME.forEach(g=>g.v=()=>vitals(g.vt));
+</script>
+<script>
+(function(){
+const $=s=>document.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const D=window.DECK;
+const stage=$('#stage'), slides=$$('.slide');
+let cur=0;
+window.$=$;window.$$=$$;
+window.reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---------- mascot ---------- */
+const MOUTH={happy:'M-20 18 Q0 38 20 18',worried:'M-20 30 Q0 14 20 30',dizzy:'M-24 24 q6 -8 12 0 t12 0 t12 0 t12 0',flat:'M-18 24 L18 24'};
+window.MOUTH=MOUTH;
+window.mascot=function(label,mood,color){
+  const fs=label.length>2?24:30;
+  return `<svg class="mascot" viewBox="-75 -75 150 150" aria-hidden="true">
+  <ellipse cx="0" cy="68" rx="42" ry="6" fill="rgba(23,36,33,.14)"/>
+  <circle class="m-body" r="58" fill="${color}"/>
+  <text class="m-label" x="0" y="-22" text-anchor="middle" font-size="${fs}">${label}</text>
+  <circle cx="-20" cy="2" r="7.5" fill="#172421"/><circle cx="20" cy="2" r="7.5" fill="#172421"/>
+  <circle cx="-17.5" cy="-.5" r="2.5" fill="#fff"/><circle cx="22.5" cy="-.5" r="2.5" fill="#fff"/>
+  <path class="m-mouth" d="${MOUTH[mood]}" fill="none" stroke="#172421" stroke-width="6" stroke-linecap="round"/>
+  <path class="m-sweat" d="M50 -36 q9 15 0 22 q-9 -7 0 -22z" fill="#9CCBEB" opacity="${mood==='worried'?1:0}"/></svg>`;
+};
+window.setMascot=function(el,mood,color){
+  if(color)el.querySelector('.m-body').setAttribute('fill',color);
+  el.querySelector('.m-mouth').setAttribute('d',MOUTH[mood]);
+  el.querySelector('.m-sweat').setAttribute('opacity',mood==='worried'?1:0);
+};
+$$('[data-mascot]').forEach(el=>el.insertAdjacentHTML('afterbegin',mascot(el.dataset.label||'',el.dataset.mascot,el.dataset.color)));
+
+/* ---------- lab slip ---------- */
+// rows: [[name,value,unit,lo,hi,decimals]]
+window.slip=function(rows,head,foot){
+  const f=(v,lo,hi)=>lo==null?'<em></em>':v<lo?'<em class="L">L</em>':v>hi?'<em class="H">H</em>':'<em></em>';
+  return `<div class="slip"><div class="slip-h"><span>${head||'LAB'}</span><span>STAT</span></div>
+  ${rows.map(([n,v,u,lo,hi,dp])=>`<div class="slip-r"><span>${n}</span><b>${typeof v==='number'?v.toFixed(dp||0):v}</b><i>${u||''}</i>${f(v,lo,hi)}</div>`).join('')}
+  <div class="slip-f">${foot||''}</div></div>`;
+};
+window.vitals=function(v){return `<div class="vitals">${v.map(([n,val,cls])=>`<div><span>${n}</span><b class="${cls||'m-w'}">${val}</b></div>`).join('')}</div>`};
+
+/* ---------- navigation ---------- */
+const secs=$('#secs');
+D.secs.forEach(([n,c],i)=>{const li=document.createElement('li');li.innerHTML=`<button style="--c:${c}"><i></i>${n}</button>`;
+  li.firstChild.onclick=()=>go(slides.findIndex(s=>+s.dataset.sec===i));secs.appendChild(li)});
+slides.forEach(s=>s.style.setProperty('--sec',D.secs[+s.dataset.sec][1]));
+const notes=$('#notes');
+const hooks=[];window.onSlide=fn=>hooks.push(fn);
+function go(i){
+  i=Math.max(0,Math.min(slides.length-1,i));
+  slides.forEach((s,k)=>{s.classList.toggle('active',k===i);s.classList.toggle('past',k<i);s.toggleAttribute('inert',k!==i)});
+  cur=i;
+  $('#count').textContent=`${i+1} / ${slides.length}`;
+  $$('#secs button').forEach((b,k)=>b.classList.toggle('on',k===+slides[i].dataset.sec));
+  const n=slides[i].querySelector('.notes');notes.innerHTML=n?n.innerHTML:'';
+  try{history.replaceState(null,'','#'+(i+1))}catch(e){}
+  if(slides[i].querySelector('[data-poll="post"]'))renderPoll('post');
+  hooks.forEach(fn=>fn(slides[i],i));
+}
+window.go=go;
+function fit(){const s=Math.min(innerWidth/1600,innerHeight/900);stage.style.transform=`translate(-50%,-50%) scale(${s})`}
+addEventListener('resize',fit);fit();
+$('#prev').onclick=()=>go(cur-1);$('#next').onclick=()=>go(cur+1);
+function toggleNotes(){notes.hidden=!notes.hidden}
+function toggleFS(){if(!document.fullscreenElement)document.documentElement.requestFullscreen?.().catch(()=>{});else document.exitFullscreen?.()}
+$('#noteBtn').onclick=toggleNotes;$('#fsBtn').onclick=toggleFS;
+addEventListener('keydown',e=>{
+  const t=e.target, isField=t.type==='range'||t.type==='number'||t.tagName==='SELECT';
+  if(e.key==='PageDown'){e.preventDefault();t.blur?.();go(cur+1);return}
+  if(e.key==='PageUp'){e.preventDefault();t.blur?.();go(cur-1);return}
+  if(isField)return;
+  if(e.key==='ArrowRight'){go(cur+1)}
+  else if(e.key==='ArrowLeft'){go(cur-1)}
+  else if(e.key===' '&&t.tagName!=='BUTTON'){e.preventDefault();go(cur+1)}
+  else if(e.key==='Home')go(0); else if(e.key==='End')go(slides.length-1);
+  else if(e.key==='f'||e.key==='F')toggleFS();
+  else if(e.key==='n'||e.key==='N')toggleNotes();
+});
+let tx=null;
+stage.addEventListener('touchstart',e=>{tx=e.target.closest('input,button')?null:e.touches[0].clientX},{passive:true});
+stage.addEventListener('touchend',e=>{if(tx==null)return;const d=e.changedTouches[0].clientX-tx;if(Math.abs(d)>60)go(cur+(d<0?1:-1));tx=null});
+
+/* ---------- polls ---------- */
+const store={get(k,d){try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const nOpt=$$('[data-poll="pre"] .vote').length||3;
+const polls={pre:store.get(D.key+'-poll-pre',Array(nOpt).fill(0)),post:store.get(D.key+'-poll-post',Array(nOpt).fill(0))};
+function renderPoll(k){
+  const box=document.querySelector(`[data-poll="${k}"]`);if(!box)return;const v=polls[k];const max=Math.max(1,...v,...(k==='post'?polls.pre:[]));
+  $$('.vote',box).forEach((b,i)=>{b.querySelector('.n').textContent=v[i];b.querySelector('.fill').style.width=(v[i]/max*100)+'%';
+    const g=b.querySelector('.ghost');if(g)g.style.width=(polls.pre[i]/max*100)+'%'});
+}
+$$('[data-poll]').forEach(box=>{const k=box.dataset.poll;
+  $$('.vote',box).forEach(b=>b.onclick=()=>{polls[k][+b.dataset.i]++;store.set(D.key+'-poll-'+k,polls[k]);renderPoll(k)});
+  renderPoll(k)});
+$$('[data-reset]').forEach(b=>b.onclick=()=>{const k=b.dataset.reset;polls[k]=Array(nOpt).fill(0);store.set(D.key+'-poll-'+k,polls[k]);renderPoll(k)});
+
+/* ---------- flips / tiles / checklist ---------- */
+$$('.flip').forEach(b=>b.onclick=()=>{b.classList.toggle('on');b.setAttribute('aria-pressed',b.classList.contains('on'))});
+$$('.tile').forEach(b=>b.onclick=()=>b.classList.toggle('on'));
+const CHECK='<svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+$$('.chk').forEach(b=>{b.setAttribute('aria-pressed','false');b.insertAdjacentHTML('afterbegin',`<span class="box">${CHECK}</span>`);
+  b.onclick=()=>b.setAttribute('aria-pressed',b.getAttribute('aria-pressed')!=='true')});
+
+/* ---------- case quizzes ---------- */
+$$('.quiz').forEach(qz=>{const ex=qz.querySelector('.explain');
+  $$('.qo',qz).forEach(o=>o.onclick=()=>{
+    $$('.qo',qz).forEach(x=>x.classList.remove('right','wrong'));
+    if(o.hasAttribute('data-ok'))o.classList.add('right');else{o.classList.add('wrong');qz.querySelector('[data-ok]').classList.add('right')}
+    ex.hidden=false})});
+
+/* ---------- reveal steps ---------- */
+$$('[data-reveal]').forEach(btn=>{
+  const scope=btn.closest('.slide');let n=0;const label=btn.textContent;
+  btn.onclick=()=>{const r=$$('.res',scope);
+    if(n>=r.length){r.forEach(x=>x.classList.remove('show'));n=0;btn.textContent=label;return}
+    r[n++].classList.add('show');if(n>=r.length)btn.textContent='重來一次'}});
+
+/* ---------- game ---------- */
+function initExtras(){
+if(window.GAME&&$('#gOpts')){
+  let gi=0;const gOpts=$('#gOpts'),gWhy=$('#gWhy');
+  function renderGame(){
+    const g=GAME[gi],opts=g.o||D.gameOpts;$('#gNo').textContent=`第 ${gi+1} / ${GAME.length} 題`;$('#gStory').innerHTML=g.s;
+    $('#gVis').innerHTML=g.v?g.v(gi):'';
+    gOpts.innerHTML=opts.map((o,i)=>`<button class="qo" data-i="${i}"><span class="k">${'ABCD'[i]}</span><span>${o}</span></button>`).join('');
+    gWhy.hidden=true;gWhy.innerHTML=g.w;
+    $$('.qo',gOpts).forEach(b=>b.onclick=()=>{$$('.qo',gOpts).forEach(x=>x.classList.remove('right','wrong'));
+      const i=+b.dataset.i;if(i===g.ok)b.classList.add('right');else{b.classList.add('wrong');gOpts.children[g.ok].classList.add('right')}gWhy.hidden=false});
+    $('#gDots').innerHTML=GAME.map((_,i)=>`<i class="${i===gi?'on':''}"></i>`).join('');
+    $('#gPrev').disabled=gi===0;$('#gNext').textContent=gi===GAME.length-1?'回第 1 題':'下一題';
+    if(D.afterGame)D.afterGame(gi);
+  }
+  $('#gPrev').onclick=()=>{if(gi>0){gi--;renderGame()}};$('#gNext').onclick=()=>{gi=(gi+1)%GAME.length;renderGame()};renderGame();
+  const scores=[0,0];
+  $$('.team button').forEach(b=>b.onclick=()=>{const t=+b.dataset.t;scores[t]=Math.max(0,scores[t]+ +b.dataset.d);$('#ts'+t).textContent=scores[t]});
+}
+
+/* ---------- true / false ---------- */
+if(window.TF&&$('#tfQ')){
+  let ti=0,timer=null;const arc=$('#tfArc'),C=326.7;
+  const stopT=()=>{clearInterval(timer);timer=null};
+  function renderTF(){stopT();const t=TF[ti];$('#tfNo').textContent=`第 ${ti+1} / ${TF.length} 題`;$('#tfQ').textContent=t.q;$('#tfA').innerHTML='';
+    $('#tfT').textContent='10';arc.style.transition='none';arc.setAttribute('stroke-dashoffset',0);arc.setAttribute('stroke','#172421')}
+  $('#tfGo').onclick=()=>{stopT();let s=10;$('#tfT').textContent=s;arc.style.transition='stroke-dashoffset 1s linear';arc.setAttribute('stroke-dashoffset',0);
+    timer=setInterval(()=>{s--;$('#tfT').textContent=s;arc.setAttribute('stroke-dashoffset',C*(10-s)/10);if(s<=3)arc.setAttribute('stroke','#D9412B');if(s<=0)stopT()},1000)};
+  $('#tfShow').onclick=()=>{stopT();const t=TF[ti];$('#tfA').innerHTML=`<span class="mark ${t.a?'o':'x'}">${t.a?'○':'✕'}</span><span>${t.w}</span>`};
+  $('#tfNext').onclick=()=>{ti=(ti+1)%TF.length;renderTF()};renderTF();
+}
+
+}
+/* ---------- start ---------- */
+window.startDeck=function(){initExtras();const h=parseInt(location.hash.slice(1),10);go(h>0?h-1:0)};
+})();
+
+</script>
+<script>
+(function(){
+/* ODC */
+const sat=p=>100/(23400/(p*p*p+150*p)+1);
+const X=p=>70+p/150*720, Y=s=>400-s/100*370;
+(function(){
+  let d='';for(let p=1;p<=150;p+=1)d+=(p>1?'L':'M')+X(p).toFixed(1)+' '+Y(sat(p)).toFixed(1);
+  let grid='';
+  [0,25,50,75,100].forEach(s=>grid+=`<line x1="70" x2="790" y1="${Y(s)}" y2="${Y(s)}" stroke="#E5EAE3"/><text x="58" y="${Y(s)+7}" text-anchor="end" font-size="20" fill="#5B6A64" font-family="IBM Plex Mono,monospace">${s}</text>`);
+  [0,30,60,90,120,150].forEach(p=>grid+=`<text x="${X(p)}" y="430" text-anchor="middle" font-size="20" fill="#5B6A64" font-family="IBM Plex Mono,monospace">${p}</text>`);
+  $('#odcSvg').innerHTML=`<rect x="70" y="${Y(98)}" width="720" height="${Y(94)-Y(98)}" fill="#D5ECDD"/><rect x="70" y="${Y(92)}" width="720" height="${Y(88)-Y(92)}" fill="#F5E5C8"/>${grid}
+   <text x="786" y="${Y(96)+7}" text-anchor="end" font-size="19" fill="#2F9A5A">一般目標 94–98</text><text x="786" y="${Y(90)+7}" text-anchor="end" font-size="19" fill="#B06A08">CO₂ 滯留風險 88–92</text>
+   <path d="${d}" fill="none" stroke="#172421" stroke-width="5"/>
+   <line id="odcV" y1="400" stroke="#2E5BC9" stroke-width="2.5" stroke-dasharray="6 6"/><line id="odcH" x1="70" stroke="#2E5BC9" stroke-width="2.5" stroke-dasharray="6 6"/>
+   <circle id="odcP" r="14" fill="#2E5BC9" stroke="#fff" stroke-width="4"/>
+   <text x="430" y="462" text-anchor="middle" font-size="21" fill="#172421">PaO₂ mmHg</text>`;
+})();
+const po2=$('#po2');
+function updOdc(){const p=+po2.value,s=sat(p);
+  $('#vPo2').textContent=p;$('#spV').textContent=s.toFixed(0);
+  const x=X(p),y=Y(s);$('#odcP').setAttribute('cx',x);$('#odcP').setAttribute('cy',y);
+  const v=$('#odcV');v.setAttribute('x1',x);v.setAttribute('x2',x);v.setAttribute('y2',y);
+  const h=$('#odcH');h.setAttribute('x2',x);h.setAttribute('y1',y);h.setAttribute('y2',y);
+  const c=$('#spChip');let cl,t,z;
+  if(s<88){cl='red';t='低血氧';z='已經掉下懸崖：PaO₂ 再少一點，SpO₂ 就大幅下降。立即處理、通知醫師。'}
+  else if(s<93.5){cl='amber';t='懸崖邊';z='SpO₂ 90% 大約等於 PaO₂ 60。對 COPD 病人是可接受的目標；一般病人要再往上拉。'}
+  else if(s<=98.4){cl='green';t='一般目標';z='大部分病人抓這裡就夠了。'}
+  else{cl='blue';t='可能給太多';z='曲線已經平了：再加氧氣，SpO₂ 也只能到 100%。有在給氧的話，考慮往下調。'}
+  c.className='chip '+cl;c.textContent=t;$('#spZone').textContent=z}
+po2.addEventListener('input',updOdc);updOdc();
+
+/* devices */
+const DV={
+  nc:{min:1,max:6,def:2,lbl:'流量 L/min',fio:L=>21+4*L,fit:'輕中度低血氧；可以吃飯、講話',warn:'超過 6 L 會乾痛、濃度也上不去；4 L 以上可考慮加濕'},
+  sm:{min:5,max:10,def:6,lbl:'流量 L/min',fio:L=>35+(L-5)*4,fit:'中度低血氧、短時間使用',warn:'流量至少 5 L，不然會把吐出的 CO₂ 吸回去'},
+  nrm:{min:10,max:15,def:15,lbl:'流量 L/min',fio:L=>60+(L-10)*4,fit:'急重症、重大外傷、一氧化碳中毒',warn:'儲氣袋要先充滿、吸氣時不可扁掉；穩定後要降階'},
+  vm:{min:0,max:5,def:1,lbl:'轉接頭濃度',steps:[24,28,31,35,40,60],fio:i=>[24,28,31,35,40,60][i],fit:'COPD：需要「固定、精準」的濃度',warn:'流量照轉接頭上標示；進氣窗口別被被子蓋住'},
+  hf:{min:10,max:60,def:40,lbl:'流速 L/min',fit:'面罩不夠、呼吸費力的低血氧',warn:'流速常見 30–60 L/min；鼻管約佔鼻孔一半'}
+};
+let dk='nc';const dF=$('#devFlow'),dFi=$('#devFio');
+function setDev(k){dk=k;const d=DV[k];dF.min=d.min;dF.max=d.max;dF.step=1;dF.value=d.def;
+  $('#fioRow').hidden=k!=='hf';$('#flowLbl').textContent=d.lbl;
+  $$('#devSeg .sbtn').forEach(b=>b.classList.toggle('on',b.dataset.d===k));
+  $$('.facesvg .dv').forEach(g=>g.classList.toggle('on',g.id==='dv-'+k));
+  $('#dFit').textContent=d.fit;$('#dWarn').textContent=d.warn;updDev()}
+function updDev(){const d=DV[dk],v=+dF.value;
+  if(dk==='vm'){$('#vFlow').textContent=d.steps[v]+'%';$('#fioV').textContent=d.steps[v];$('#vmTxt').textContent=d.steps[v]+'%'}
+  else if(dk==='hf'){$('#vFlow').textContent=v;$('#vFio').textContent=dFi.value;$('#fioV').textContent=dFi.value}
+  else{$('#vFlow').textContent=v;$('#fioV').textContent=Math.round(d.fio(v))+(dk==='nrm'&&v>=15?'+':'')}}
+dF.addEventListener('input',updDev);dFi.addEventListener('input',updDev);
+$$('#devSeg .sbtn').forEach(b=>b.onclick=()=>setDev(b.dataset.d));setDev('nc');
+
+/* tank */
+function updTank(){const cap=Math.max(0,+$('#tCap').value||0),pct=+$('#tPct').value,fl=+$('#tFlow').value,m=Math.floor(cap*pct/100*.8/fl);
+  $('#vPct').textContent=pct+'%';$('#vtFlow').textContent=fl;$('#tMin').textContent=m;
+  const c=$('#tChip');const[cl,t]=m>=45?['green','夠用']:m>=30?['amber','剛好，換滿瓶較安心']:['red','不夠，換一瓶'];c.className='chip sm '+cl;c.textContent=t}
+['#tCap','#tPct','#tFlow'].forEach(s=>$(s).addEventListener('input',updTank));updTank();
+
+/* ROX */
+const TH={2:2.85,6:3.47,12:3.85},MAXR=10;let rh=12;
+function updRox(){const s=+$('#rS').value,f=+$('#rF').value,r=+$('#rR').value,rox=s/(f/100)/r;
+  $('#vrS').textContent=s;$('#vrF').textContent=f;$('#vrR').textContent=r;$('#roxV').textContent=rox.toFixed(1);
+  const lo=TH[rh],hi=4.88,pc=v=>Math.min(100,v/MAXR*100);
+  const bar=$('#rbar');bar.style.setProperty('--r1',pc(lo)+'%');bar.style.setProperty('--r2',pc(hi)+'%');
+  $('#roxMk').style.left=pc(rox)+'%';
+  $('#rscale').innerHTML=`<span style="left:0;transform:none">0</span><span style="left:${pc(lo)}%">${lo}</span><span style="left:${pc(hi)}%">4.88</span><span style="left:100%;transform:translateX(-100%)">10+</span>`;
+  const c=$('#roxChip');let cl,t,z;
+  if(rox>=hi){cl='green';t='較可能成功';z='繼續使用，定時再算一次；分數往下掉就要回報。'}
+  else if(rox<lo){cl='red';t='失敗風險高';z=`使用 ${rh} 小時仍低於 ${lo} → 通知醫師，準備升級（BiPAP 或插管），不要拖延。`}
+  else{cl='amber';t='密切觀察';z='灰色地帶：縮短評估間隔，看趨勢是往上還是往下。'}
+  c.className='chip '+cl;c.textContent=t;$('#roxTxt').textContent=z}
+['#rS','#rF','#rR'].forEach(s=>$(s).addEventListener('input',updRox));
+$$('#rH .sbtn').forEach(b=>b.onclick=()=>{rh=+b.dataset.h;$$('#rH .sbtn').forEach(x=>x.classList.toggle('on',x===b));updRox()});updRox();
+
+/* BiPAP wave */
+const bI=$('#bI'),bE=$('#bE');
+function updBip(src){
+  if(+bE.value>+bI.value-2){if(src===bE)bI.value=+bE.value+2;else bE.value=Math.max(4,+bI.value-2)}
+  const I=+bI.value,E=+bE.value,ps=I-E;$('#vbI').textContent=I;$('#vbE').textContent=E;$('#psV').textContent=ps;
+  const W=820,H=330,x0=70,y=p=>290-p/25*250,T=4,px=(W-x0-20)/(2*T);
+  let top='',pts=[];
+  for(let k=0;k<2;k++){const o=k*T;pts.push([o,E],[o+.2,I],[o+1.3,I],[o+1.5,E],[o+T,E])}
+  const path=pts.map(([t,p],i)=>(i?'L':'M')+(x0+t*px).toFixed(1)+' '+y(p).toFixed(1)).join('');
+  const psArea=pts.map(([t,p],i)=>(i?'L':'M')+(x0+t*px).toFixed(1)+' '+y(p).toFixed(1)).join('')+`L${x0+2*T*px} ${y(E)}L${x0} ${y(E)}Z`;
+  let grid='';[0,5,10,15,20,25].forEach(p=>grid+=`<line x1="${x0}" x2="${W-20}" y1="${y(p)}" y2="${y(p)}" stroke="#E5EAE3"/><text x="${x0-12}" y="${y(p)+7}" text-anchor="end" font-size="18" fill="#5B6A64" font-family="IBM Plex Mono,monospace">${p}</text>`);
+  $('#pwSvg').innerHTML=`${grid}<rect x="${x0}" y="${y(E)}" width="${2*T*px}" height="${y(0)-y(E)}" fill="#D9E2F7"/>
+    <path d="${psArea}" fill="#E6DFF6"/><path d="${path}" fill="none" stroke="#172421" stroke-width="4" stroke-linejoin="round"/>
+    ${I>20?`<rect x="${x0}" y="${y(25)}" width="${2*T*px}" height="${y(20)-y(25)}" fill="#F8DCD4" opacity=".8"/><text x="${W-30}" y="${y(22.5)+7}" text-anchor="end" font-size="20" fill="#D9412B">&gt; 20：容易脹氣</text>`:''}
+    <text x="${x0+.75*px}" y="${y(I)-12}" text-anchor="middle" font-size="22" fill="#6A4BC4" font-weight="700">IPAP ${I}</text>
+    <text x="${x0+2.8*px}" y="${y(E)-12}" text-anchor="middle" font-size="22" fill="#2E5BC9" font-weight="700">EPAP ${E}</text>
+    <text x="${x0+4.75*px}" y="${(y(I)+y(E))/2+8}" text-anchor="middle" font-size="22" fill="#6A4BC4">PS ${ps}</text>
+    <text x="${W-20}" y="320" text-anchor="end" font-size="18" fill="#5B6A64">時間 →</text><text x="12" y="24" font-size="18" fill="#5B6A64">cmH₂O</text>`;
+  $('#eCO2').style.width=Math.min(100,ps/15*100)+'%';$('#eO2').style.width=Math.min(100,E/12*100)+'%';
+  $$('#bPre .pbtn').forEach(b=>b.classList.toggle('on',b.dataset.p===I+','+E));
+}
+bI.addEventListener('input',()=>updBip(bI));bE.addEventListener('input',()=>updBip(bE));
+$$('#bPre .pbtn').forEach(b=>b.onclick=()=>{const[i,e]=b.dataset.p.split(',');bI.value=i;bE.value=e;updBip()});updBip();
+
+/* one hour */
+const ABG=(ph,c,h)=>[['pH',ph,'',7.35,7.45,2],['pCO₂',c,'mmHg',35,45],['HCO₃⁻',h,'mmol/L',22,26]];
+const H1={
+  ok:{b:ABG(7.25,72,30),a:ABG(7.32,60,30),rows:[['RR','32','22'],['SpO₂','86%','91%'],['HR','118','98'],['意識','嗜睡','清醒']],v:['ok','變好了：pH 上升、CO₂ 下降、呼吸變慢、人醒過來 → <b>繼續 BiPAP</b>，4–6 小時再追 ABG。']},
+  bad:{b:ABG(7.25,72,30),a:ABG(7.19,84,31),rows:[['RR','32','38'],['SpO₂','86%','83%'],['HR','118','132'],['意識','嗜睡','叫不醒']],v:['bad','沒變好：CO₂ 更高、呼吸更快、意識變差 → <b>BiPAP 失敗</b>，立即通知醫師準備插管，不要再等。']}
+};
+function setH1(k){const h=H1[k];
+  $('#h1Before').innerHTML=slip(h.b,'BLOOD GAS','BEFORE');$('#h1After').innerHTML=slip(h.a,'BLOOD GAS','1 HR');
+  $('#h1Cmp').innerHTML=h.rows.map(([n,a,b])=>`<div><span>${n}</span><b>${a}</b><i>→</i><b style="color:${k==='ok'?'#5BE08A':'#FF6B5E'}">${b}</b></div>`).join('');
+  const v=$('#h1Ver');v.className='verdict '+h.v[0];v.innerHTML=h.v[1];
+  $$('#h1Seg .sbtn').forEach(b=>b.classList.toggle('on',b.dataset.s===k))}
+$$('#h1Seg .sbtn').forEach(b=>b.onclick=()=>setH1(b.dataset.s));setH1('ok');
+startDeck();
+})();
+</script>

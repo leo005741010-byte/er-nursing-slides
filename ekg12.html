@@ -1,0 +1,1425 @@
+<meta charset="utf-8">
+<title>胸痛十分鐘</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script>/* iPhone 防放大（全 App 統一，主任 2026-10-17）：iPhone／iPad 點輸入框不自動放大，兩指放大照常；Android 不加 maximum-scale（會連兩指放大都鎖掉） */
+(function(){var m=document.querySelector('meta[name=viewport]');if(m&&(/iP(hone|ad|od)/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))&&m.content.indexOf('maximum-scale')<0)m.content+=',maximum-scale=1';})();</script>
+<style>html,body,*{touch-action:manipulation}/* 連點兩下不放大，兩指放大照常 */</style>
+<meta name="description" content="急診護理在職教育：12 導程心電圖（電極位置、ST 判讀、胸痛十分鐘流程）互動投影片">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Huninn&family=IBM+Plex+Mono:wght@500;600&family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
+<style>
+:root{
+  --paper:#F2F4F0; --paper-2:#E5EAE3; --frame:#CDD5CC; --ink:#172421; --muted:#5B6A64; --line:#C9D1C8;
+  --red:#D9412B; --red-soft:#F8DCD4;
+  --green:#2F9A5A; --green-soft:#D5ECDD;
+  --blue:#2E5BC9; --blue-soft:#D9E2F7;
+  --purple:#6A4BC4; --purple-soft:#E6DFF6;
+  --amber:#B06A08; --amber-soft:#F5E5C8;
+  --teal:#1F7A80; --teal-soft:#D3E9EA;
+  --slip:#FFFFFF; --screen:#0F1916;
+  --f-display:"Huninn","Chiron GoRound TC","Microsoft JhengHei","PingFang TC",sans-serif;
+  --f-body:"Noto Sans TC","Microsoft JhengHei","PingFang TC",sans-serif;
+  --f-mono:"IBM Plex Mono",Consolas,"Courier New",monospace;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--frame);color:var(--ink);font-family:var(--f-body);overflow:hidden;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;cursor:pointer}
+button:disabled{opacity:.4;cursor:default}
+input[type=number]{font:inherit}
+:focus-visible{outline:4px solid var(--blue);outline-offset:3px}
+
+#stage{position:absolute;left:50%;top:50%;width:1600px;height:900px;background:var(--paper);transform-origin:center;transform:translate(-50%,-50%);overflow:hidden;box-shadow:0 20px 60px -30px rgba(23,36,33,.45)}
+
+/* ---------- slide shell ---------- */
+.slide{position:absolute;inset:0 0 72px 0;padding:58px 96px 30px;display:flex;flex-direction:column;gap:28px;opacity:0;visibility:hidden;transform:translateX(30px);transition:opacity .35s ease,transform .35s ease,visibility 0s .35s}
+.slide.past{transform:translateX(-30px)}
+.slide.active{opacity:1;visibility:visible;transform:none;transition:opacity .35s ease,transform .35s ease}
+.head{display:flex;flex-direction:column;gap:6px}
+.eyebrow{margin:0;font-size:21px;font-weight:700;letter-spacing:.14em;color:var(--sec)}
+h2{margin:0;font-family:var(--f-display);font-weight:400;font-size:62px;line-height:1.12;text-wrap:balance;letter-spacing:.01em}
+h3{margin:0;font-family:var(--f-display);font-weight:400;font-size:36px;line-height:1.2}
+p{margin:0}
+.body{flex:1;min-height:0}
+.muted{color:var(--muted)}
+.notes{display:none}
+.c-red{color:var(--red)} .c-blue{color:var(--blue)} .c-green{color:var(--green)} .c-purple{color:var(--purple)} .c-amber{color:var(--amber)} .c-teal{color:var(--teal)}
+sub,sup{line-height:0}
+.mono{font-family:var(--f-mono)}
+
+/* ---------- bottom bar ---------- */
+.bar{position:absolute;left:0;right:0;bottom:0;height:72px;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 40px 0 96px;background:var(--paper)}
+.secs{display:flex;gap:34px;list-style:none;margin:0;padding:0}
+.secs button{background:none;border:0;padding:8px 0;font-size:20px;color:var(--muted);display:flex;align-items:center;gap:10px;border-bottom:3px solid transparent}
+.secs button i{width:10px;height:10px;border-radius:50%;background:var(--c)}
+.secs button.on{color:var(--ink);font-weight:700;border-bottom-color:var(--c)}
+.ctrl{display:flex;align-items:center;gap:10px}
+.count{font-family:var(--f-mono);font-size:19px;color:var(--muted);min-width:78px;text-align:right;margin-right:8px;font-variant-numeric:tabular-nums}
+.ibtn{height:44px;min-width:44px;padding:0 14px;border:1.5px solid var(--line);background:var(--paper);border-radius:8px;font-size:18px;color:var(--ink)}
+.ibtn:hover{background:var(--paper-2)}
+
+#notes{position:fixed;left:0;right:0;bottom:0;max-height:34vh;overflow:auto;background:var(--screen);color:#E8EEE9;font:16px/1.7 var(--f-body);padding:16px 28px 20px;z-index:10}
+#notes b{color:#F4C77A;font-weight:700;margin-right:10px}
+
+/* ---------- cover ---------- */
+.cover{justify-content:space-between;padding-top:76px}
+.cover-title{margin:14px 0 18px;font-family:var(--f-display);font-weight:400;font-size:150px;line-height:1;letter-spacing:.02em}
+.cover-title span{color:var(--accent)}
+.cover-sub{font-size:34px;color:var(--ink);max-width:32em}
+.byline{font-size:22px;color:var(--muted)}
+.mascot{display:block;width:100%;height:auto;overflow:visible}
+.m-label{font-family:var(--f-display);fill:#fff}
+.bubble{position:absolute;white-space:nowrap;background:var(--slip);border:2px solid var(--ink);border-radius:18px;padding:8px 16px;font-size:22px}
+@media (prefers-reduced-motion:no-preference){
+  .bob{animation:bob 2.6s ease-in-out infinite}
+  @keyframes bob{50%{transform:translateY(-8px)}}
+}
+
+/* ---------- chips ---------- */
+.chip{display:inline-flex;align-items:center;gap:10px;padding:8px 20px;border-radius:999px;font-size:28px;font-weight:700;background:var(--c-soft);color:var(--c);white-space:nowrap}
+.chip.red{--c:var(--red);--c-soft:var(--red-soft)} .chip.green{--c:var(--green);--c-soft:var(--green-soft)} .chip.blue{--c:var(--blue);--c-soft:var(--blue-soft)}
+.chip.amber{--c:var(--amber);--c-soft:var(--amber-soft)} .chip.purple{--c:var(--purple);--c-soft:var(--purple-soft)} .chip.teal{--c:var(--teal);--c-soft:var(--teal-soft)}
+.chip.sm{font-size:21px;padding:5px 14px}
+
+/* ---------- poll ---------- */
+.poll{display:grid;grid-template-columns:auto 1fr;gap:64px;align-items:center}
+.opts{display:flex;flex-direction:column;gap:16px}
+.vote{position:relative;display:grid;grid-template-columns:52px 1fr 70px;align-items:center;gap:18px;text-align:left;background:var(--slip);border:2px solid var(--line);border-radius:12px;padding:18px 22px;font-size:28px;overflow:hidden}
+.vote:hover{border-color:var(--ink)}
+.vote .k{font-family:var(--f-display);font-size:30px;width:52px;height:52px;border-radius:50%;display:grid;place-items:center;background:var(--paper-2)}
+.vote .fill{position:absolute;left:0;top:0;bottom:0;background:var(--green-soft);width:0;transition:width .3s ease;z-index:0}
+.vote>*:not(.fill){position:relative;z-index:1}
+.vote .n{font-family:var(--f-mono);font-size:30px;text-align:right;font-variant-numeric:tabular-nums}
+.vote .ghost{position:absolute;left:0;bottom:0;height:6px;background:var(--muted);opacity:.45;width:0;z-index:1;transition:width .3s}
+.tiny{background:none;border:0;padding:4px 0;color:var(--muted);font-size:18px;text-decoration:underline;text-underline-offset:4px;align-self:flex-start}
+
+/* ---------- ABG slip (thermal paper) ---------- */
+.slip-wrap{filter:drop-shadow(0 14px 18px rgba(23,36,33,.18));width:max-content}
+.slip{background:var(--slip);font-family:var(--f-mono);padding:22px 30px 34px;width:380px;
+  -webkit-mask:conic-gradient(from -45deg at bottom,#0000,#000 1deg 89deg,#0000 90deg) 50%/18px 100%;
+          mask:conic-gradient(from -45deg at bottom,#0000,#000 1deg 89deg,#0000 90deg) 50%/18px 100%}
+.slip-h{display:flex;justify-content:space-between;font-size:16px;color:var(--muted);letter-spacing:.08em;border-bottom:2px dashed var(--line);padding-bottom:10px;margin-bottom:8px}
+.slip-r{display:grid;grid-template-columns:110px 1fr 82px 30px;align-items:baseline;padding:5px 0;font-size:22px}
+.slip-r span{color:var(--muted);font-size:20px}
+.slip-r b{font-size:36px;font-weight:600;text-align:right;padding-right:12px;font-variant-numeric:tabular-nums}
+.slip-r i{font-style:normal;font-size:16px;color:var(--muted)}
+.slip-r em{font-style:normal;font-weight:600;font-size:20px;text-align:right}
+.slip-r em.L{color:var(--blue)} .slip-r em.H{color:var(--red)}
+.slip-f{margin-top:8px;font-size:14px;color:var(--muted);letter-spacing:.1em}
+
+/* ---------- monitor ---------- */
+.monitor{background:var(--screen);border-radius:16px;padding:18px 26px;color:#DDE6E1;font-family:var(--f-mono);box-shadow:inset 0 0 0 6px #25332E}
+.mrow{display:flex;justify-content:space-between;align-items:baseline;padding:9px 0;border-bottom:1px solid #26352F}
+.mrow:last-child{border:0}
+.mrow span{font-size:20px;letter-spacing:.06em}
+.mrow b{font-size:58px;font-weight:600;line-height:1;font-variant-numeric:tabular-nums;transition:color .3s}
+.m-o2{color:#5BE08A} .m-hr{color:#7FD3F0} .m-bp{color:#F28B82} .m-rr{color:#F2B84B} .m-w{color:#E8EEE9}
+
+/* ---------- definition strip ---------- */
+.def{display:flex;align-items:center;gap:22px;font-size:30px;flex-wrap:wrap}
+.def .tag{font-family:var(--f-mono);font-weight:600;font-size:28px;padding:6px 16px;border-radius:8px;background:var(--slip);border:2px solid var(--ink)}
+
+/* ---------- flip cards ---------- */
+.flips{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:6px}
+.flip{perspective:1400px;background:none;border:0;padding:0;height:372px;text-align:left;--fc:var(--sec)}
+.flip-in{position:relative;width:100%;height:100%;transition:transform .55s cubic-bezier(.3,.7,.2,1);transform-style:preserve-3d}
+.flip.on .flip-in{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;border-radius:14px;padding:26px;backface-visibility:hidden;-webkit-backface-visibility:hidden;display:flex;flex-direction:column;gap:12px}
+.front{background:var(--fs,var(--paper-2));border:2px solid transparent}
+.flip:hover .front{border-color:var(--fc)}
+.front small{font-size:19px;letter-spacing:.12em;color:var(--fc);font-weight:700}
+.front h3{font-size:44px;margin-top:auto}
+.front .hint{font-size:19px;color:var(--muted)}
+.back{background:var(--slip);border:2px solid var(--fc);transform:rotateY(180deg)}
+.back h4{margin:0;font-size:24px;color:var(--fc)}
+.back ul{margin:0;padding-left:1.1em;font-size:24px;line-height:1.55}
+.back p{font-size:23px;line-height:1.55}
+
+/* ---------- stepper ---------- */
+.track{position:relative;display:grid;grid-template-columns:repeat(var(--n,4),1fr);margin-top:12px}
+.track::before{content:"";position:absolute;left:0;right:calc(100% / var(--n,4) - 78px);top:34px;height:10px;border-radius:5px;background:var(--trackbg,linear-gradient(90deg,#D9A22A,#E0672C 45%,#B8322B))}
+.stop{position:relative;background:none;border:0;padding:0;display:flex;flex-direction:column;align-items:flex-start;gap:14px}
+.stop i{width:78px;height:78px;border-radius:50%;background:var(--paper);border:4px solid var(--ink);display:grid;place-items:center;font-style:normal;font-family:var(--f-mono);font-weight:600;font-size:24px;transition:background .2s,color .2s}
+.stop.on i{background:var(--ink);color:var(--paper)}
+.stop span{font-size:20px;color:var(--muted)}
+.state{margin-top:26px;padding:24px 30px;border-left:6px solid var(--sec);background:var(--slip);min-height:180px}
+.state h3{font-size:40px;margin-bottom:10px}
+.state p{font-size:26px;line-height:1.6}
+.fine{font-size:19px;color:var(--muted);margin-top:14px;line-height:1.5}
+
+/* ---------- checklist ---------- */
+.checks{display:grid;grid-template-columns:1fr 1fr;gap:18px 46px;margin-top:4px;align-content:start}
+.chk{display:grid;grid-template-columns:44px 1fr;gap:18px;align-items:start;text-align:left;background:none;border:0;padding:14px 0;border-bottom:1px solid var(--line)}
+.chk .box{width:40px;height:40px;border:3px solid var(--ink);border-radius:8px;margin-top:4px;display:grid;place-items:center;transition:background .15s}
+.chk .box svg{width:26px;height:26px;opacity:0;transform:scale(.4);transition:all .2s}
+.chk[aria-pressed="true"] .box{background:var(--sec);border-color:var(--sec)}
+.chk[aria-pressed="true"] .box svg{opacity:1;transform:none}
+.chk strong{display:block;font-size:31px;font-weight:700;line-height:1.3}
+.chk span{display:block;font-size:24px;color:var(--muted);line-height:1.5;margin-top:4px}
+
+/* ---------- case / quiz ---------- */
+.case{display:grid;grid-template-columns:460px 1fr;gap:60px;align-items:start}
+.story{font-size:27px;line-height:1.6;margin-bottom:24px}
+.story b{font-weight:700}
+.q{font-size:32px;font-weight:700;margin-bottom:18px;line-height:1.4}
+.qopts{display:flex;flex-direction:column;gap:12px}
+.qo{display:grid;grid-template-columns:48px 1fr;gap:16px;align-items:center;text-align:left;background:var(--slip);border:2px solid var(--line);border-radius:12px;padding:14px 20px;font-size:25px;line-height:1.4}
+.qo:hover{border-color:var(--ink)}
+.qo .k{font-family:var(--f-display);font-size:26px;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;background:var(--paper-2)}
+.qo.right{border-color:var(--green);background:var(--green-soft)} .qo.right .k{background:var(--green);color:#fff}
+.qo.wrong{border-color:var(--red);background:var(--red-soft)} .qo.wrong .k{background:var(--red);color:#fff}
+.explain{margin-top:18px;font-size:24px;line-height:1.6;padding:14px 22px;border-left:6px solid var(--green);background:var(--slip)}
+
+/* ---------- vitals card ---------- */
+.vitals{display:grid;grid-template-columns:1fr 1fr;gap:0;background:var(--screen);border-radius:14px;padding:10px 22px;font-family:var(--f-mono);box-shadow:inset 0 0 0 5px #25332E;width:440px}
+.vitals div{display:flex;flex-direction:column;padding:10px 4px;border-bottom:1px solid #26352F}
+.vitals div:nth-last-child(-n+2){border-bottom:0}
+.vitals span{font-size:17px;letter-spacing:.06em;color:#9FB0A8}
+.vitals b{font-size:44px;font-weight:600;line-height:1.1;font-variant-numeric:tabular-nums}
+
+/* ---------- tiles ---------- */
+.tiles{display:grid;grid-template-columns:repeat(var(--cols,4),1fr);gap:16px}
+.tile{background:var(--ts,var(--paper-2));border:2px solid transparent;border-radius:14px;padding:18px 20px;text-align:left;min-height:var(--th,260px);display:flex;flex-direction:column;gap:8px;--tc:var(--sec)}
+.tile:hover{border-color:var(--tc)}
+.tile .ch{font-family:var(--f-display);font-size:64px;line-height:1;color:var(--tc)}
+.tile .nm{font-size:27px;font-weight:700;line-height:1.3}
+.tile .dt{font-size:21px;line-height:1.5;color:var(--ink);opacity:0;transform:translateY(8px);transition:all .3s}
+.tile .tp{font-size:18px;color:var(--muted);margin-top:auto}
+.tile.on{background:var(--slip);border-color:var(--tc)}
+.tile.on .dt{opacity:1;transform:none}
+.tile.on .tp{display:none}
+
+/* ---------- reveal steps ---------- */
+.steps{display:grid;grid-template-columns:var(--lead,380px) repeat(3,1fr);gap:28px;align-items:stretch}
+.step{border-top:6px solid var(--stc,var(--ink));padding-top:18px;display:flex;flex-direction:column;gap:10px}
+.step .no{font-family:var(--f-mono);font-size:22px;color:var(--muted)}
+.step h3{font-size:38px}
+.step p{font-size:24px;line-height:1.55}
+.res{margin-top:auto;padding:14px 18px;border-radius:10px;background:var(--paper-2);font-size:23px;line-height:1.5;min-height:120px;color:transparent;transition:color .3s,background .3s}
+.res:not(.show),.res:not(.show) *{color:transparent!important}
+.res.show{background:var(--slip);color:var(--ink);box-shadow:inset 0 0 0 2px var(--ink)}
+
+/* ---------- game ---------- */
+.gtop{display:flex;justify-content:space-between;align-items:flex-end}
+.score{display:flex;gap:18px}
+.team{display:grid;grid-template-columns:auto auto auto auto;align-items:center;gap:10px;background:var(--slip);border:2px solid var(--line);border-radius:12px;padding:8px 14px}
+.team .tn{font-size:22px;font-weight:700;padding-right:6px}
+.team .ts{font-family:var(--f-mono);font-size:40px;font-weight:600;min-width:52px;text-align:center;font-variant-numeric:tabular-nums}
+.team button{width:40px;height:40px;border-radius:8px;border:1.5px solid var(--line);background:var(--paper);font-size:24px;line-height:1}
+.team.red .tn{color:var(--red)} .team.blue .tn{color:var(--blue)}
+.game{display:grid;grid-template-columns:var(--gl,470px) 1fr;gap:52px;align-items:start}
+.gno{font-family:var(--f-mono);font-size:22px;color:var(--muted);margin-bottom:10px}
+.gopts{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.gopts .qo{font-size:27px;padding:18px 20px}
+.gnav{display:flex;gap:12px;margin-top:18px;align-items:center}
+.gbtn{border:2px solid var(--ink);background:var(--slip);border-radius:10px;padding:10px 24px;font-size:22px}
+.gbtn.pri{background:var(--ink);color:var(--paper)}
+.gdots{display:flex;gap:8px;align-items:center;margin-left:auto}
+.gdots i{width:14px;height:14px;border-radius:50%;background:var(--line)}
+.gdots i.on{background:var(--ink)}
+
+/* ---------- true/false ---------- */
+.tf{display:grid;grid-template-columns:1fr 360px;gap:60px;align-items:center}
+.tf .ring{margin:0 auto}
+.tfbtns .gbtn{padding:10px 18px;white-space:nowrap}
+.tfq{font-family:var(--f-display);font-size:60px;line-height:1.3;text-wrap:balance;min-height:260px;display:flex;align-items:center}
+.tfa{display:flex;align-items:center;gap:26px;min-height:120px;font-size:28px;line-height:1.55}
+.tfa .mark{flex:none;width:110px;height:110px;border-radius:50%;display:grid;place-items:center;font-family:var(--f-display);font-size:78px;color:#fff}
+.tfa .mark.o{background:var(--green)} .tfa .mark.x{background:var(--red)}
+.ring{position:relative;width:260px;height:260px}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring .t{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--f-mono);font-weight:600;font-size:96px;font-variant-numeric:tabular-nums}
+.tfbtns{display:flex;gap:12px;margin-top:24px;justify-content:center}
+
+/* ---------- wrap ---------- */
+.wrapg{display:grid;grid-template-columns:1fr 520px;gap:70px;align-items:start}
+.take{display:flex;flex-direction:column;gap:0;border-top:2px solid var(--ink)}
+.take div{padding:20px 0;border-bottom:1px solid var(--line);display:grid;grid-template-columns:130px 1fr;gap:20px;align-items:baseline}
+.take b{font-family:var(--f-display);font-weight:400;font-size:32px;color:var(--c)}
+.take p{font-size:28px;line-height:1.5}
+.post h3{font-size:32px;margin-bottom:6px}
+.post .opts{gap:12px;margin-top:14px}
+.post .vote{font-size:23px;padding:14px 18px;grid-template-columns:44px 1fr 56px}
+.post .vote .k{width:44px;height:44px;font-size:24px}
+.legend{font-size:18px;color:var(--muted);display:flex;gap:18px;align-items:center}
+.legend i{display:inline-block;width:26px;height:6px;background:var(--muted);opacity:.45;vertical-align:middle;margin-right:6px}
+.thanks{font-family:var(--f-display);font-size:40px;margin-top:26px}
+
+/* ---------- sliders ---------- */
+.sl{display:flex;flex-direction:column;gap:6px;margin-top:18px}
+.sl label{display:flex;justify-content:space-between;align-items:baseline;font-size:24px}
+.sl label b{font-family:var(--f-mono);font-size:30px;font-variant-numeric:tabular-nums}
+.sl input{width:100%;accent-color:var(--ink);height:28px}
+.presets{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.pbtn{border:1.5px solid var(--line);background:var(--slip);border-radius:999px;padding:8px 18px;font-size:20px}
+.pbtn:hover{border-color:var(--ink)}
+.pbtn.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.seg{display:flex;gap:10px;flex-wrap:wrap}
+.sbtn{border:2px solid var(--line);background:var(--slip);border-radius:10px;padding:12px 20px;font-size:23px}
+.sbtn.on{border-color:var(--ink);background:var(--ink);color:var(--paper)}
+.big{font-family:var(--f-mono);font-weight:600;font-size:120px;line-height:1;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.note{font-size:19px;color:var(--muted);line-height:1.5}
+.warnbox{padding:14px 20px;border-radius:10px;background:var(--red-soft);color:var(--ink);font-size:23px;line-height:1.5;border-left:6px solid var(--red)}
+.keybox{padding:14px 20px;border-radius:10px;background:var(--slip);font-size:23px;line-height:1.5;border-left:6px solid var(--sec)}
+.bnum{font-family:var(--f-mono);font-weight:600;font-size:110px;line-height:1;font-variant-numeric:tabular-nums}
+.bnum.sm{font-size:72px}
+[hidden]{display:none!important}
+
+/* ---------- phone reading mode (html.m; decks opt in with DECK.mobile) ---------- */
+.mnotes{display:none}
+html.m,html.m body{height:auto}
+html.m body{overflow:visible;background:var(--paper)}
+html.m #stage{position:static;width:auto;height:auto;transform:none!important;box-shadow:none;overflow:visible;overflow-x:clip;zoom:var(--mz,.7)}
+html.m .slide{position:relative;inset:auto;opacity:1;visibility:visible;transform:none;transition:none;padding:44px 24px 40px;gap:22px;border-top:1px solid var(--line)}
+html.m .slide:first-child{border-top:0}
+html.m .body{flex:none}
+html.m h2{font-size:44px}
+html.m .cover{padding-top:48px;gap:34px}
+html.m .cover-title{font-size:92px}
+html.m .cover-sub{font-size:28px}
+html.m .poll,html.m .case,html.m .game,html.m .tf,html.m .wrapg,html.m .checks,html.m .steps{grid-template-columns:1fr;gap:26px}
+html.m .tiles{grid-template-columns:1fr 1fr!important}
+html.m .tile{min-height:0}
+html.m .tile .dt{display:none}
+html.m .tile.on .dt{display:block}
+html.m .flips{grid-template-columns:1fr 1fr}
+html.m .gopts{grid-template-columns:1fr}
+html.m .gtop{flex-wrap:wrap;gap:16px}
+html.m .tfq{font-size:40px;min-height:0}
+html.m .ring{width:190px;height:190px}
+html.m .ring .t{font-size:70px}
+html.m .story{margin-bottom:16px}
+html.m .bar{position:sticky;bottom:0;height:auto;padding:12px 24px;z-index:5}
+html.m .ctrl{display:none}
+html.m .secs{overflow-x:auto;gap:26px;scrollbar-width:none}
+html.m .secs button{white-space:nowrap}
+html.m #notes{display:none!important}
+html.m .mnotes{display:block;background:var(--paper-2);border-radius:12px;padding:12px 18px;font-size:21px;line-height:1.6;color:var(--muted)}
+html.m .mnotes summary{cursor:pointer;font-weight:700;color:var(--ink)}
+html.m .mnotes div{margin-top:8px}
+
+:root{--accent:var(--red);--brown:#8B5A2B}
+
+/* ---------- ECG drawing ---------- */
+.k-ecg{border-radius:12px;overflow:hidden;width:max-content;max-width:100%}
+.k-svg{display:block;max-width:100%;height:auto}
+.k-svg text{font-family:var(--f-mono)}
+.k-lbl{font-size:19px;font-weight:600;fill:var(--ink)}
+.k-ln{font-size:17px;font-weight:600;fill:var(--ink)}
+.k-ln.up{fill:var(--red)} .k-ln.down{fill:var(--blue)}
+.k-fr{fill:none;stroke-width:3}
+.k-fr.up{stroke:var(--red);fill:rgba(217,65,43,.08)}
+.k-fr.down{stroke:var(--blue);stroke-dasharray:9 6;fill:rgba(46,91,201,.06)}
+.k-sweep{animation:ksweep var(--d) linear infinite}
+@keyframes ksweep{to{transform:translateX(calc(var(--w) * -1px))}}
+@media (prefers-reduced-motion:reduce){.k-sweep{animation:none}}
+.k-legend{display:flex;gap:26px;font-size:20px;color:var(--muted);align-items:center;margin-top:10px}
+.k-legend i{display:inline-block;width:30px;height:18px;border-radius:4px;vertical-align:-3px;margin-right:8px}
+.k-legend .u{border:3px solid var(--red);background:rgba(217,65,43,.08)}
+.k-legend .d{border:3px dashed var(--blue);background:rgba(46,91,201,.06)}
+
+/* ---------- cover ---------- */
+.k-cov{position:relative}
+.k-cov .m-wrap{position:absolute;right:40px;top:-160px;width:140px}
+.k-cov .bubble{right:150px;top:16px}
+
+.k-poll{grid-template-columns:1fr 360px}
+.k-poll>*,.k-ang>*,.k-place>*,.k-limb>*,.k-st>*,.k-terr>*,.k-xtra>*,.k-case>*,.k-game>*{min-width:0}
+.k-pollm{position:relative;padding-top:90px}
+.k-pollm .m-wrap{width:220px;margin:0 auto}
+.k-pollm .bubble{position:absolute;top:-84px;left:50%;transform:translateX(-50%);font-size:26px}
+html.m .k-pollm{display:none}
+
+/* ---------- 12 angles ---------- */
+.k-ang{display:grid;grid-template-columns:700px 1fr;gap:56px;align-items:start}
+.k-map{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.k-map button{height:96px;border-radius:12px;border:2px solid transparent;background:var(--bg);color:var(--fg);font:600 34px var(--f-mono);transition:opacity .25s,background .25s,color .25s}
+.k-map button.dim{opacity:.28}
+.k-map button.sel{background:var(--fg);color:#fff}
+.k-mn{margin-top:20px;display:grid;grid-template-columns:1fr 1fr;gap:10px 24px;font-size:25px}
+.k-mn span{display:flex;align-items:center;gap:12px}
+.k-mn i{width:16px;height:16px;border-radius:50%;background:var(--c);flex:none}
+.k-heart{display:block;width:100%;max-width:470px;height:auto;margin:0 auto}
+.k-heart text{font-family:var(--f-body);font-weight:700}
+.k-heart .rg{transition:fill .3s,stroke .3s}
+.k-acap{margin-top:8px;min-height:150px;padding:14px 22px;border-left:6px solid var(--pc,var(--ink));background:var(--slip);font-size:24px;line-height:1.6}
+.k-acap h3{font-size:34px;color:var(--pc,var(--ink));margin-bottom:4px}
+.k-acap b{font-weight:700}
+
+/* ---------- electrode placement ---------- */
+.k-place{display:grid;grid-template-columns:780px 1fr;gap:44px;align-items:start}
+.k-torso{display:block;width:100%;height:auto;background:var(--slip);border-radius:16px}
+.k-torso text{font-family:var(--f-body)}
+.k-spot{cursor:pointer}
+.k-spot .hit{fill:transparent}
+.k-spot .dot{fill:#fff;stroke:#7C8A83;stroke-width:2.5;stroke-dasharray:4 3;transition:all .15s}
+.k-spot:hover .dot{stroke:var(--ink);stroke-dasharray:none;fill:var(--paper-2)}
+.k-el{pointer-events:none}
+.k-el text{font:700 14px var(--f-mono)}
+.k-chips{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.k-chip{display:flex;align-items:center;gap:12px;padding:12px 16px;border:2px solid var(--line);border-radius:12px;background:var(--slip);font:600 26px var(--f-mono)}
+.k-chip i{width:30px;height:30px;border-radius:50%;background:var(--c);flex:none;box-shadow:inset 0 0 0 2px rgba(0,0,0,.12)}
+.k-chip em{font-style:normal;margin-left:auto;font-size:24px}
+.k-chip.on{border-color:var(--ink);box-shadow:0 0 0 3px var(--ink)}
+.k-chip.ok em{color:var(--green)} .k-chip.bad em{color:var(--red)}
+.k-msg{margin-top:18px;min-height:170px;padding:16px 22px;border-radius:12px;background:var(--slip);border-left:6px solid var(--line);font-size:24px;line-height:1.6}
+.k-msg.ok{border-color:var(--green)} .k-msg.bad{border-color:var(--red)}
+.k-msg b{font-weight:700}
+.k-prow{display:flex;gap:12px;align-items:center;margin-top:16px}
+.k-prow .k-cnt{margin-left:auto;font:600 24px var(--f-mono)}
+.k-how{margin-top:16px;font-size:21px;line-height:1.6;color:var(--muted)}
+
+/* ---------- limb leads ---------- */
+.k-limb{display:grid;grid-template-columns:330px 1fr;gap:44px;align-items:start}
+.k-fig{display:block;width:100%;height:auto}
+.k-fig text{font-family:var(--f-body)}
+.k-six{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.k-lcap{margin-top:16px;font-size:24px;line-height:1.6;padding:14px 22px;border-left:6px solid var(--pc,var(--green));background:var(--slip);min-height:118px}
+.k-lcap b{font-weight:700}
+
+/* ---------- artifacts ---------- */
+.k-artcap{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:18px}
+.k-artcap h3{font-size:36px;margin-bottom:6px}
+.k-artcap p{font-size:25px;line-height:1.6}
+.k-artcap .lb{font-size:21px;color:var(--muted);margin-bottom:2px}
+
+/* ---------- ST ---------- */
+.k-st{display:grid;grid-template-columns:860px 1fr;gap:48px;align-items:start}
+.k-stv{font-family:var(--f-mono);font-weight:600;font-size:96px;line-height:1;margin-top:14px;font-variant-numeric:tabular-nums}
+.k-stv small{font-size:34px;font-family:var(--f-body);font-weight:700;margin-left:10px}
+.k-stcap{margin-top:16px;padding:16px 22px;border-left:6px solid var(--pc,var(--ink));background:var(--slip);font-size:24px;line-height:1.6;min-height:190px}
+.k-stcap b{font-weight:700}
+.k-rule{margin-top:14px;font-size:21px;line-height:1.6;color:var(--muted)}
+
+/* ---------- territory ---------- */
+.k-terr{display:grid;grid-template-columns:1000px 1fr;gap:40px;align-items:start}
+.k-terr .seg{margin-bottom:14px}
+#terHeart .k-heart{max-width:290px}
+.k-tcap{font-size:22px;line-height:1.55;padding:12px 18px;border-left:6px solid var(--pc,var(--ink));background:var(--slip);margin-top:6px}
+.k-tcap h3{font-size:32px;color:var(--pc,var(--ink));margin-bottom:4px}
+.k-tcap p+p{margin-top:4px}
+.k-tcap b{font-weight:700}
+
+/* ---------- extra leads ---------- */
+.k-xtra{display:grid;grid-template-columns:600px 1fr;gap:48px;align-items:start}
+.k-xtra .seg{margin-bottom:14px}
+.k-xrow{display:grid;grid-template-columns:110px 1fr;gap:16px;padding:12px 0;border-bottom:1px solid var(--line);font-size:24px;line-height:1.55}
+.k-xrow:first-child{border-top:2px solid var(--ink)}
+.k-xrow>span{font-weight:700;color:var(--sec)}
+.k-xrow b{font-weight:700}
+.k-xstrip{margin-top:16px}
+
+/* ---------- timeline ---------- */
+.k-tl .track{--n:5;--trackbg:linear-gradient(90deg,var(--teal),#2C8F6A 50%,var(--green))}
+.k-tl .stop i{font-size:22px}
+.k-tl .stop span{font-size:22px;color:var(--ink);font-weight:700}
+.k-tl .state{min-height:300px}
+.k-tl .state ul{margin:0;padding-left:1.2em;font-size:26px;line-height:1.6}
+.k-tl .state li+li{margin-top:4px}
+
+/* ---------- tiles ---------- */
+.k-tiles .ch{line-height:0}
+.k-tiles .ch svg{border-radius:8px;width:100%;max-width:240px;height:auto}
+
+/* ---------- cases & game ---------- */
+.k-case{display:grid;grid-template-columns:760px 1fr;gap:48px;align-items:start}
+.k-case .story{margin-bottom:14px;font-size:26px}
+.k-case .seg{margin-bottom:12px}
+.k-case .q{font-size:29px}
+.k-case .qo{font-size:23px;padding:12px 18px}
+.k-case .explain{font-size:22px}
+.k-game{display:grid;grid-template-columns:860px 1fr;gap:44px;align-items:start}
+.k-game .story{font-size:24px;margin:12px 0 0}
+.k-game .explain{font-size:22px;margin-top:10px}
+.k-game .q{font-size:28px;margin-bottom:12px}
+.k-gopts{grid-template-columns:1fr}
+.k-gopts .qo{font-size:24px;padding:14px 18px}
+
+/* ---------- phone reading mode ---------- */
+html.m .k-cov .m-wrap{position:relative;right:auto;top:auto;width:96px;margin:0 0 12px auto}
+html.m .k-cov .bubble{right:112px;top:18px;font-size:20px}
+html.m .k-poll,html.m .k-ang,html.m .k-place,html.m .k-limb,html.m .k-st,html.m .k-terr,html.m .k-xtra,html.m .k-case,html.m .k-game,html.m .k-artcap{grid-template-columns:1fr;gap:24px}
+html.m .k-ecg{width:auto}
+html.m .k-fig{max-width:300px;margin:0 auto}
+html.m .k-six{grid-template-columns:1fr}
+html.m .k-mn{grid-template-columns:1fr}
+html.m .k-chips{grid-template-columns:repeat(3,1fr)}
+html.m .k-tl .stop span{font-size:18px}
+html.m .k-tl .stop i{width:64px;height:64px;font-size:19px}
+html.m .k-tl .track::before{top:27px}
+html.m .k-stv{font-size:72px}
+</style>
+
+<div id="stage" role="region" aria-label="投影片">
+
+<!-- 1 封面 -->
+<section class="slide cover active" data-sec="0">
+  <div>
+    <p class="eyebrow">急診護理在職教育　約 25 分鐘</p>
+    <h1 class="cover-title">胸痛<span>十分鐘</span></h1>
+    <p class="cover-sub">12 導程心電圖——貼對、看懂、馬上交給醫師</p>
+  </div>
+  <div class="k-cov">
+    <div class="m-wrap bob" data-mascot="worried" data-label="♥" data-color="#D9412B"><div class="bubble">胸口好悶……</div></div>
+    <div class="k-ecg" id="covEcg"></div>
+  </div>
+  <p class="byline">天晟醫院 急診科　陳孝綱</p>
+  <aside class="notes"><b>0:30</b>開場。上一堂「致命心律辨識」看的是監視器上的一條線；今天看的是 12 導程——胸痛病人進門十分鐘內要做完、要交到醫師手上的那一張。螢幕上這條 II 導程的 ST 段是翹起來的，等一下大家就會看得出來。操作：← → 或翻頁器換頁，F 全螢幕，N 開關講稿。</aside>
+</section>
+
+<!-- 2 暖身投票 -->
+<section class="slide" data-sec="0">
+  <div class="head"><p class="eyebrow">暖身 · 舉手投票</p><h2>胸痛病人到院，12 導程最慢要在幾分鐘內做完、交給醫師？</h2></div>
+  <div class="body poll k-poll">
+    <div class="opts" data-poll="pre">
+      <button class="vote" data-i="0"><span class="fill"></span><span class="k">A</span><span>30 分鐘內</span><span class="n">0</span></button>
+      <button class="vote" data-i="1"><span class="fill"></span><span class="k">B</span><span>10 分鐘內</span><span class="n">0</span></button>
+      <button class="vote" data-i="2"><span class="fill"></span><span class="k">C</span><span>等醫師看過病人、開單之後再做</span><span class="n">0</span></button>
+      <button class="tiny" data-reset="pre">票數歸零</button>
+    </div>
+    <div class="k-pollm"><div class="m-wrap bob" data-mascot="worried" data-label="72歲" data-color="#E0672C"><div class="bubble">我胃不舒服……</div></div></div>
+  </div>
+  <aside class="notes"><b>1:00</b>請大家舉手，每舉一隻手點一下計票。先不公布答案。追問：「胸痛」包括哪些人？上腹痛、喘、冒冷汗、昏倒的老人家算不算？最後一頁會再投一次。</aside>
+</section>
+
+<!-- 3 12 個角度 -->
+<section class="slide" data-sec="0">
+  <div class="head"><p class="eyebrow">基礎 · 點點看</p><h2>10 個電極，從 12 個角度看心臟</h2></div>
+  <div class="body k-ang">
+    <div>
+      <div class="seg" id="terrSeg" style="margin-bottom:16px">
+        <button class="sbtn on" data-t="all">全部</button>
+        <button class="sbtn" data-t="inf">下壁</button>
+        <button class="sbtn" data-t="sep">中膈</button>
+        <button class="sbtn" data-t="ant">前壁</button>
+        <button class="sbtn" data-t="lat">側壁</button>
+      </div>
+      <div class="k-map" id="leadMap"></div>
+      <div class="k-mn">
+        <span style="--c:var(--amber)"><i></i>II、III、aVF 看下面</span>
+        <span style="--c:var(--purple)"><i></i>V1、V2 看中膈</span>
+        <span style="--c:var(--red)"><i></i>V3、V4 看前面</span>
+        <span style="--c:var(--blue)"><i></i>I、aVL、V5、V6 看左邊</span>
+      </div>
+    </div>
+    <div>
+      <div id="angHeart"></div>
+      <div class="k-acap" id="angCap"></div>
+    </div>
+  </div>
+  <aside class="notes"><b>1:30</b>12 導程印出來就是左邊這個排法：四欄三列。每個導程像一台攝影機，從不同方向看心臟。點「下壁」：II、III、aVF 亮起來，右邊心臟底部變色——這三個導程同時出事，就是下壁。aVR 從右肩往心臟裡面看，平常就是倒的，先不用管。記口訣就好：2、3、F 看下面；1、L、5、6 看左邊；V1 到 V4 看前面。</aside>
+</section>
+
+<!-- 4 胸前電極 -->
+<section class="slide" data-sec="1">
+  <div class="head"><p class="eyebrow">貼對電極 · 動手貼貼看</p><h2>V1 到 V6，貼在哪裡？</h2></div>
+  <div class="body k-place">
+    <div id="plSvg"></div>
+    <div>
+      <div class="k-chips" id="plChips"></div>
+      <div class="k-msg" id="plMsg"></div>
+      <div class="k-prow">
+        <button class="gbtn" id="plReset">重來</button>
+        <button class="gbtn" id="plShow">看答案</button>
+        <span class="k-cnt" id="plCnt">0 / 6</span>
+      </div>
+      <p class="k-how">找第 4 肋間：先摸胸骨上那條橫的突起（胸骨角）→ 旁邊是第 2 肋骨 → 下面是第 2 肋間 → 往下數到第 4 肋間。</p>
+    </div>
+  </div>
+  <aside class="notes"><b>2:00</b>先點右邊的電極（V1），再點胸前的圓圈；點錯會說明錯在哪。請台下輪流上來點。最常見的兩個錯：V1、V2 貼太高（貼到第 2、3 肋間），R 波會變小，看起來像前壁梗塞；V5、V6 沿著肋骨往下斜，其實要和 V4 同一個高度水平往外。女性：把乳房輕輕托起，V4–V6 貼在乳房下方，不要貼在乳房上。電極顏色以本院機器導線上的標示為準。</aside>
+</section>
+
+<!-- 5 四肢導線 -->
+<section class="slide" data-sec="1">
+  <div class="head"><p class="eyebrow">貼對電極 · 四肢導線</p><h2>Lead I 整個倒過來？先檢查手</h2></div>
+  <div class="body k-limb">
+    <div id="limbFig"></div>
+    <div>
+      <div class="seg" id="limbSeg" style="margin-bottom:14px">
+        <button class="sbtn on" data-m="ok">接對了</button>
+        <button class="sbtn" data-m="swap">左右手接反</button>
+      </div>
+      <div class="k-six" id="limbStrips"></div>
+      <div class="k-lcap" id="limbCap"></div>
+    </div>
+  </div>
+  <aside class="notes"><b>1:30</b>四肢電極貼在手腕、腳踝內側，避開骨頭突起；病人截肢或包紮時可以往近端移，但左右要對稱。不要用監視器那種貼在胸前肚子上的位置做 12 導程，波形會變。切到「左右手接反」：Lead I 的 P、QRS、T 全部倒過來，aVR 反而變正的，II 跟 III 對調——胸前導程完全不受影響。看到這樣，先重接再做一張，不要拿去給醫師判讀成側壁梗塞。</aside>
+</section>
+
+<!-- 6 干擾 -->
+<section class="slide" data-sec="1">
+  <div class="head"><p class="eyebrow">貼對電極 · 干擾</p><h2>線毛毛的，不一定是心臟的問題</h2></div>
+  <div class="body">
+    <div class="seg" id="artSeg" style="margin-bottom:14px">
+      <button class="sbtn on" data-a="clean">乾淨</button>
+      <button class="sbtn" data-a="tremor">肌肉顫抖</button>
+      <button class="sbtn" data-a="ac">交流電干擾</button>
+      <button class="sbtn" data-a="wander">基準線飄移</button>
+      <button class="sbtn" data-a="loose">接觸不良</button>
+    </div>
+    <div class="k-ecg" id="artEcg"></div>
+    <div class="k-artcap" id="artCap"></div>
+  </div>
+  <aside class="notes"><b>1:30</b>依序切換。干擾大多數是我們可以修的：冷就蓋被、緊張就先安撫、旁邊的插頭拔掉、電極換新。帕金森氏症病人手一直抖，四肢電極可以改貼在上臂、大腿，並在紙上註明。修好再印，一張乾淨的心電圖比三張毛毛的有用。</aside>
+</section>
+
+<!-- 7 好的 12 導程 -->
+<section class="slide" data-sec="1">
+  <div class="head"><p class="eyebrow">貼對電極 · 做之前、做之後</p><h2>一張好的 12 導程，六個步驟</h2></div>
+  <div class="body checks">
+    <button class="chk"><span><strong>平躺、放鬆、不講話</strong><span>手放身體兩側，冷的話先蓋被子</span></span></button>
+    <button class="chk"><span><strong>皮膚擦乾、必要時剃毛</strong><span>流汗、乳液、胸毛都會讓電極貼不牢</span></span></button>
+    <button class="chk"><span><strong>四肢貼手腕、腳踝內側</strong><span>避開骨頭突起，左右對稱</span></span></button>
+    <button class="chk"><span><strong>胸前用胸骨角數肋間</strong><span>V1、V2 在第 4 肋間；V4–V6 同一個高度</span></span></button>
+    <button class="chk"><span><strong>確認紙速與校正</strong><span>25 mm/秒、10 mm/mV；姓名、病歷號、時間要對</span></span></button>
+    <button class="chk"><span><strong>做完立刻交給醫師</strong><span>不要先夾進病歷；有舊的心電圖一起拿出來比</span></span></button>
+  </div>
+  <aside class="notes"><b>1:00</b>每講一項打一個勾。第五點：機器設定被別人改過（例如紙速 50、增益 5）時，整張波形都會變形，醫師會誤判；印出來先看左下角。第六點最重要：做完的心電圖放在桌上沒人看，等於沒做。</aside>
+</section>
+
+<!-- 8 ST 段 -->
+<section class="slide" data-sec="2">
+  <div class="head"><p class="eyebrow">看懂 ST · 拉拉看</p><h2>ST 段跟基準線比，高出幾小格？</h2></div>
+  <div class="body k-st">
+    <div class="k-ecg" id="stSvg"></div>
+    <div>
+      <div class="sl"><label for="stR"><span>ST 位移（小格）</span><b id="stV">0</b></label><input type="range" id="stR" min="-3" max="4" step="0.5" value="0"></div>
+      <p class="k-stv" id="stBig">0<small>小格</small></p>
+      <div class="k-stcap" id="stCap"></div>
+      <p class="k-rule">1 小格＝1 mm＝0.1 mV。基準線用 PR 段（P 波結束到 QRS 開始那一段）；量 QRS 剛結束的地方（J 點）。</p>
+    </div>
+  </div>
+  <aside class="notes"><b>1:30</b>拉桿往右是上升、往左是下降。藍色虛線是基準線，橘色點是 J 點。標準：相鄰兩個導程都上升 ≥ 1 小格；V2、V3 標準比較高——40 歲以上男性 ≥ 2 小格、40 歲以下男性 ≥ 2.5 小格、女性 ≥ 1.5 小格。護理端不用背到這麼細：看到 ST 翹起來，就是立刻拿給醫師。下降 ≥ 0.5 小格可能是缺血，也要給醫師看。</aside>
+</section>
+
+<!-- 9 哪一面 -->
+<section class="slide" data-sec="2">
+  <div class="head"><p class="eyebrow">看懂 ST · 哪一面出事</p><h2>上升的導程在哪一組，梗塞就在哪一面</h2></div>
+  <div class="body k-terr">
+    <div>
+      <div class="seg" id="terSeg">
+        <button class="sbtn on" data-p="norm">正常</button>
+        <button class="sbtn" data-p="inf">下壁</button>
+        <button class="sbtn" data-p="ant">前壁</button>
+        <button class="sbtn" data-p="lat">側壁</button>
+        <button class="pbtn" id="terMark" style="margin-left:auto;align-self:center">標出變化</button>
+      </div>
+      <div class="k-ecg" id="ter12"></div>
+      <p class="k-legend"><span><i class="u"></i>ST 上升</span><span><i class="d"></i>對側 ST 下降（鏡像）</span></p>
+    </div>
+    <div>
+      <div id="terHeart"></div>
+      <div class="k-tcap" id="terCap"></div>
+    </div>
+  </div>
+  <aside class="notes"><b>2:00</b>先切「下壁」，不要按「標出變化」，請台下找哪幾個導程翹起來；再按「標出變化」對答案。紅框是上升，藍色虛線框是對側的鏡像下降——有鏡像，更確定是真的梗塞。下壁要想到右心室（下一頁），也容易心跳變慢；前壁範圍最大，容易心衰竭、VF；側壁變化小，最容易漏看。</aside>
+</section>
+
+<!-- 10 右側、後側 -->
+<section class="slide" data-sec="2">
+  <div class="head"><p class="eyebrow">看懂 ST · 加做導程</p><h2>標準 12 導程看不到的地方：右邊和背面</h2></div>
+  <div class="body k-xtra">
+    <div>
+      <div class="seg" id="xSeg">
+        <button class="sbtn on" data-x="right">右側 V4R</button>
+        <button class="sbtn" data-x="back">後側 V7–V9</button>
+      </div>
+      <div id="xSvg"></div>
+    </div>
+    <div>
+      <div id="xCap"></div>
+      <div class="k-ecg k-xstrip" id="xStrip"></div>
+    </div>
+  </div>
+  <aside class="notes"><b>1:30</b>兩種情況要主動問醫師要不要加做：下壁梗塞 → 右側 V4R；V1–V3 ST 下降、R 波變高，或胸痛很典型但 12 導程看起來沒事 → 後側 V7–V9。做法是把胸前導線移過去貼，機器還是會印 V4、V5、V6，所以一定要在紙上手寫改名和時間，不然醫師會看錯。右邊、背面離心臟比較遠，波比較小，ST 上升 ≥ 0.5 小格就有意義。</aside>
+</section>
+
+<!-- 11 胸痛十分鐘 -->
+<section class="slide k-tl" data-sec="3">
+  <div class="head"><p class="eyebrow">流程 · 點每一站</p><h2>從進門到打通血管</h2></div>
+  <div class="body">
+    <div class="track" id="tlTrack"></div>
+    <div class="state" id="tlState"></div>
+  </div>
+  <aside class="notes"><b>1:30</b>依序點五站。第一站強調非典型：老人、女性、糖尿病常常只說胃不舒服、很累、喘。第三站：第一張正常不代表沒事，症狀持續 15–30 分鐘重做。第四站的藥物都依醫囑；NTG 前一定量血壓、問有沒有吃威而鋼類的藥。啟動心導管或轉院依本院胸痛流程。</aside>
+</section>
+
+<!-- 12 馬上給醫師 -->
+<section class="slide" data-sec="3">
+  <div class="head"><p class="eyebrow">流程 · 看到就喊</p><h2>這六種，做完馬上交給醫師</h2></div>
+  <div class="body">
+    <div class="tiles k-tiles" style="--cols:3;--th:262px">
+      <button class="tile" style="--ts:var(--red-soft);--tc:var(--red)"><span class="ch" data-mini="ste"></span><span class="nm">ST 上升</span><span class="dt">相鄰兩個導程翹起來 → 可能 STEMI，準備啟動流程</span><span class="tp">點我</span></button>
+      <button class="tile" style="--ts:var(--red-soft);--tc:var(--red)"><span class="ch" data-mini="std"></span><span class="nm">ST 下降、T 波倒</span><span class="dt">可能缺血（NSTEMI）；還在痛 → 15–30 分鐘重做</span><span class="tp">點我</span></button>
+      <button class="tile" style="--ts:var(--purple-soft);--tc:var(--purple)"><span class="ch" data-mini="hyk"></span><span class="nm">T 波又高又尖</span><span class="dt">想到高血鉀：洗腎、腎衰竭 → 抽血、備鈣劑</span><span class="tp">點我</span></button>
+      <button class="tile" style="--ts:var(--purple-soft);--tc:var(--purple)"><span class="ch" data-mini="wide"></span><span class="nm">QRS 變寬</span><span class="dt">跟舊的比是新的，又胸痛或血壓低 → 馬上給醫師</span><span class="tp">點我</span></button>
+      <button class="tile" style="--ts:var(--blue-soft);--tc:var(--blue)"><span class="ch" data-mini="slow"></span><span class="nm">太慢或太快</span><span class="dt">&lt; 50 或 &gt; 150 → 先看病人穩不穩（致命心律那堂）</span><span class="tp">點我</span></button>
+      <button class="tile" style="--ts:var(--amber-soft);--tc:var(--amber)"><span class="ch" data-mini="norm"></span><span class="nm">機器寫「正常」</span><span class="dt">機器會漏判。病人還在痛，一樣交給醫師、再做一張</span><span class="tp">點我</span></button>
+    </div>
+  </div>
+  <aside class="notes"><b>1:00</b>先讓台下猜每張圖代表什麼，再翻開。最後一張最重要：自動判讀只是參考，病人說還在痛，比機器那一行字重要。</aside>
+</section>
+
+<!-- 13 情境 1 -->
+<section class="slide" data-sec="4">
+  <div class="head"><p class="eyebrow">情境劇場 1</p><h2>胸悶、冒冷汗，血壓偏低</h2></div>
+  <div class="body k-case">
+    <div>
+      <p class="story"><b>58 歲男性，胸悶冒冷汗 30 分鐘。</b>BP 92/58、HR 54。到院 6 分鐘做完 12 導程，醫師判讀為下壁 STEMI。</p>
+      <div class="k-ecg" id="c1Ecg"></div>
+    </div>
+    <div class="quiz">
+      <p class="q">接下來護理端最該做的是？</p>
+      <div class="qopts">
+        <button class="qo"><span class="k">A</span><span>先依常規給 NTG 舌下止痛</span></button>
+        <button class="qo" data-ok><span class="k">B</span><span>加做右側 V4R 並寫上時間；給 NTG 前先確認醫囑與血壓</span></button>
+        <button class="qo"><span class="k">C</span><span>先抽 Troponin，等報告出來再通知心臟科</span></button>
+        <button class="qo"><span class="k">D</span><span>病人還能走，請他自己去照胸部 X 光</span></button>
+      </div>
+      <p class="explain" hidden>II、III、aVF 上升，I、aVL 鏡像下降 → <b>下壁 STEMI</b>。下壁要想到<b>右心室梗塞</b>：加做 V4R；右心室梗塞加上血壓偏低，NTG 可能讓血壓垮掉。STEMI 看心電圖就啟動流程，不等抽血報告。</p>
+    </div>
+  </div>
+  <aside class="notes"><b>1:30</b>先請大家說出哪幾個導程上升、是哪一面（回扣上一段），再選處置。延伸：心跳 54 也是下壁梗塞常見的表現，要注意房室傳導阻滯，電擊貼片備著。</aside>
+</section>
+
+<!-- 14 情境 2 -->
+<section class="slide" data-sec="4">
+  <div class="head"><p class="eyebrow">情境劇場 2</p><h2>第一張正常，可是她還在痛</h2></div>
+  <div class="body k-case">
+    <div>
+      <p class="story"><b>68 歲女性，糖尿病。</b>上腹悶、噁心、很累。第一張 12 導程機器判讀「正常」，她說胸口還是悶悶的。</p>
+      <div class="seg" id="c2Seg">
+        <button class="sbtn on" data-k="1">第 1 張（到院 6 分）</button>
+        <button class="sbtn" data-k="2">第 2 張（到院 25 分）</button>
+      </div>
+      <div class="k-ecg" id="c2Ecg"></div>
+    </div>
+    <div class="quiz">
+      <p class="q">第一張正常，你會怎麼做？</p>
+      <div class="qopts">
+        <button class="qo"><span class="k">A</span><span>告訴她心電圖正常，先打止吐針</span></button>
+        <button class="qo" data-ok><span class="k">B</span><span>第 1 張交給醫師，15–30 分鐘內重做；症狀變化時立刻再做</span></button>
+        <button class="qo"><span class="k">C</span><span>等抽血報告出來再說</span></button>
+        <button class="qo"><span class="k">D</span><span>機器說正常，可以不用再做</span></button>
+      </div>
+      <p class="explain" hidden>梗塞早期心電圖可能正常；女性、糖尿病、老人常常只說胃不舒服。<b>症狀持續就 15–30 分鐘重做</b>——第 2 張 V1–V4 已經翹起來，是<b>前壁 STEMI</b>。回頭看第 1 張，V2、V3 的 T 波其實已經偏高了。</p>
+    </div>
+  </div>
+  <aside class="notes"><b>1:30</b>先只看第 1 張，讓大家選完答案，再切到第 2 張。重點：重做的那一張要和第一張並排比，醫師最需要的是「變化」。也提醒機器判讀「正常」不能當成排除。</aside>
+</section>
+
+<!-- 15 搶答 -->
+<section class="slide" data-sec="4">
+  <div class="gtop">
+    <div class="head"><p class="eyebrow">實戰 · 分組搶答</p><h2>12 導程偵探</h2></div>
+    <div class="score">
+      <div class="team red"><span class="tn">紅隊</span><button data-t="0" data-d="-1" aria-label="紅隊減一分">−</button><span class="ts" id="ts0">0</span><button data-t="0" data-d="1" aria-label="紅隊加一分">+</button></div>
+      <div class="team blue"><span class="tn">藍隊</span><button data-t="1" data-d="-1" aria-label="藍隊減一分">−</button><span class="ts" id="ts1">0</span><button data-t="1" data-d="1" aria-label="藍隊加一分">+</button></div>
+    </div>
+  </div>
+  <div class="body k-game">
+    <div><p class="gno" id="gNo">第 1 / 6 題</p><div id="gVis"></div><p class="story" id="gStory"></p><p class="explain" id="gWhy" hidden></p></div>
+    <div>
+      <p class="q">這張 12 導程，你會怎麼說？</p>
+      <div class="gopts k-gopts" id="gOpts"></div>
+      <div class="gnav"><button class="gbtn" id="gPrev">上一題</button><button class="gbtn pri" id="gNext">下一題</button><span class="gdots" id="gDots"></span></div>
+    </div>
+  </div>
+  <aside class="notes"><b>2:30</b>分兩隊，看 12 導程＋故事搶答，答對按右上角「+」。答完再追問一題加一分：「這一題護理端要多做什麼？」（加做 V4R、貼電擊貼片、抽血備鈣劑、重接導線、加做 V7–V9）。← → 仍然是換投影片，題目用「下一題」切換。</aside>
+</section>
+
+<!-- 16 是非 -->
+<section class="slide" data-sec="4">
+  <div class="head"><p class="eyebrow">實戰 · 快問快答 ○ ✕</p><h2 id="tfNo">第 1 / 5 題</h2></div>
+  <div class="body tf">
+    <div><p class="tfq" id="tfQ"></p><div class="tfa" id="tfA"></div></div>
+    <div>
+      <div class="ring"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="52" fill="none" stroke="#E5EAE3" stroke-width="12"/><circle id="tfArc" cx="60" cy="60" r="52" fill="none" stroke="#172421" stroke-width="12" stroke-linecap="round" stroke-dasharray="326.7" stroke-dashoffset="0"/></svg><span class="t" id="tfT">10</span></div>
+      <div class="tfbtns"><button class="gbtn" id="tfGo">倒數</button><button class="gbtn pri" id="tfShow">揭曉</button><button class="gbtn" id="tfNext">下一題</button></div>
+    </div>
+  </div>
+  <aside class="notes"><b>1:00</b>唸題目 → 按「倒數」給 10 秒，大家用手比 ○ 或 ✕ → 按「揭曉」。</aside>
+</section>
+
+<!-- 17 總結 -->
+<section class="slide" data-sec="5">
+  <div class="head"><p class="eyebrow">總結 · 帶走三句話</p><h2>下一個胸痛病人進門，你會怎麼做？</h2></div>
+  <div class="body wrapg">
+    <div>
+      <div class="take">
+        <div style="--c:var(--red)"><b>十分鐘</b><p>胸痛（含胃不舒服、喘、冒冷汗）十分鐘內做完，立刻交給醫師</p></div>
+        <div style="--c:var(--blue)"><b>貼對</b><p>胸骨角數到第 4 肋間；V4–V6 同一高度；Lead I 倒了先查手</p></div>
+        <div style="--c:var(--amber)"><b>看面</b><p>2、3、F 看下面（加做 V4R）；V1–V4 看前面；1、L、5、6 看左邊</p></div>
+      </div>
+      <p class="thanks">謝謝大家，有問題現在問</p>
+    </div>
+    <div class="post">
+      <h3>再投一次：12 導程最慢幾分鐘內？</h3>
+      <p class="legend"><span><i></i>課前票數</span><span>底色：課後票數</span></p>
+      <div class="opts" data-poll="post">
+        <button class="vote" data-i="0"><span class="fill"></span><span class="ghost"></span><span class="k">A</span><span>30 分鐘內</span><span class="n">0</span></button>
+        <button class="vote" data-i="1"><span class="fill"></span><span class="ghost"></span><span class="k">B</span><span>10 分鐘內</span><span class="n">0</span></button>
+        <button class="vote" data-i="2"><span class="fill"></span><span class="ghost"></span><span class="k">C</span><span>等醫師看過病人、開單之後再做</span><span class="n">0</span></button>
+        <button class="tiny" data-reset="post">票數歸零</button>
+      </div>
+    </div>
+  </div>
+  <aside class="notes"><b>0:45</b>三句話請大家跟著念。右邊再投一次，細灰線是課前票數，看 B 有沒有變多。補充：10 分鐘是從病人進門算，不是從醫師開單算；依本院胸痛流程，檢傷護理師可以直接先做。</aside>
+</section>
+
+<nav class="bar" aria-label="投影片導覽">
+  <ul class="secs" id="secs"></ul>
+  <div class="ctrl">
+    <span class="count" id="count">1 / 1</span>
+    <button class="ibtn" id="prev" aria-label="上一張">←</button>
+    <button class="ibtn" id="next" aria-label="下一張">→</button>
+    <button class="ibtn" id="noteBtn" title="講稿（N）">講稿</button>
+    <button class="ibtn" id="fsBtn" title="全螢幕（F）">全螢幕</button>
+  </div>
+</nav>
+</div>
+<div id="notes" hidden></div>
+
+<script>
+window.DECK={key:'ekg12',mobile:true,secs:[['基礎','var(--ink)'],['貼對電極','var(--blue)'],['看懂 ST','var(--red)'],['流程','var(--teal)'],['實戰','var(--amber)'],['總結','var(--green)']]};
+window.TF=[
+  {q:'機器判讀寫「正常心電圖」，可以先夾進病歷，等醫師有空再看。',a:false,w:'機器會漏判。做完一律立刻交給醫師；病人還在痛，15–30 分鐘重做。'},
+  {q:'下壁 STEMI 的病人，要加做右側導程 V4R。',a:true,w:'下壁梗塞常合併右心室梗塞；右心室梗塞時 NTG 可能讓血壓垮掉。'},
+  {q:'V5、V6 要沿著第 5 肋間，往外下方斜著貼。',a:false,w:'V5、V6 要和 V4 同一個高度，水平往外貼到前腋線、中腋線。'},
+  {q:'Lead I 整個倒過來、aVR 變成朝上，最可能是左右手導線接反。',a:true,w:'胸前導程不受影響。重接再做一張，不要誤判成側壁梗塞。'},
+  {q:'第一張 12 導程正常，就可以排除心肌梗塞。',a:false,w:'梗塞早期可能正常。症狀持續要 15–30 分鐘重做，並與第一張比較。'}
+];
+</script>
+<script>
+(function(){
+const $=s=>document.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const D=window.DECK;
+const stage=$('#stage'), slides=$$('.slide');
+let cur=0;
+window.$=$;window.$$=$$;
+window.reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---------- mascot ---------- */
+const MOUTH={happy:'M-20 18 Q0 38 20 18',worried:'M-20 30 Q0 14 20 30',dizzy:'M-24 24 q6 -8 12 0 t12 0 t12 0 t12 0',flat:'M-18 24 L18 24'};
+window.MOUTH=MOUTH;
+window.mascot=function(label,mood,color){
+  const fs=label.length>2?24:30;
+  return `<svg class="mascot" viewBox="-75 -75 150 150" aria-hidden="true">
+  <ellipse cx="0" cy="68" rx="42" ry="6" fill="rgba(23,36,33,.14)"/>
+  <circle class="m-body" r="58" fill="${color}"/>
+  <text class="m-label" x="0" y="-22" text-anchor="middle" font-size="${fs}">${label}</text>
+  <circle cx="-20" cy="2" r="7.5" fill="#172421"/><circle cx="20" cy="2" r="7.5" fill="#172421"/>
+  <circle cx="-17.5" cy="-.5" r="2.5" fill="#fff"/><circle cx="22.5" cy="-.5" r="2.5" fill="#fff"/>
+  <path class="m-mouth" d="${MOUTH[mood]}" fill="none" stroke="#172421" stroke-width="6" stroke-linecap="round"/>
+  <path class="m-sweat" d="M50 -36 q9 15 0 22 q-9 -7 0 -22z" fill="#9CCBEB" opacity="${mood==='worried'?1:0}"/></svg>`;
+};
+window.setMascot=function(el,mood,color){
+  if(color)el.querySelector('.m-body').setAttribute('fill',color);
+  el.querySelector('.m-mouth').setAttribute('d',MOUTH[mood]);
+  el.querySelector('.m-sweat').setAttribute('opacity',mood==='worried'?1:0);
+};
+$$('[data-mascot]').forEach(el=>el.insertAdjacentHTML('afterbegin',mascot(el.dataset.label||'',el.dataset.mascot,el.dataset.color)));
+
+/* ---------- lab slip ---------- */
+// rows: [[name,value,unit,lo,hi,decimals]]
+window.slip=function(rows,head,foot){
+  const f=(v,lo,hi)=>lo==null?'<em></em>':v<lo?'<em class="L">L</em>':v>hi?'<em class="H">H</em>':'<em></em>';
+  return `<div class="slip"><div class="slip-h"><span>${head||'LAB'}</span><span>STAT</span></div>
+  ${rows.map(([n,v,u,lo,hi,dp])=>`<div class="slip-r"><span>${n}</span><b>${typeof v==='number'?v.toFixed(dp||0):v}</b><i>${u||''}</i>${f(v,lo,hi)}</div>`).join('')}
+  <div class="slip-f">${foot||''}</div></div>`;
+};
+window.vitals=function(v){return `<div class="vitals">${v.map(([n,val,cls])=>`<div><span>${n}</span><b class="${cls||'m-w'}">${val}</b></div>`).join('')}</div>`};
+
+/* ---------- navigation ---------- */
+const secs=$('#secs');
+D.secs.forEach(([n,c],i)=>{const li=document.createElement('li');li.innerHTML=`<button style="--c:${c}"><i></i>${n}</button>`;
+  li.firstChild.onclick=()=>go(slides.findIndex(s=>+s.dataset.sec===i));secs.appendChild(li)});
+slides.forEach(s=>s.style.setProperty('--sec',D.secs[+s.dataset.sec][1]));
+const notes=$('#notes');
+const hooks=[];window.onSlide=fn=>hooks.push(fn);
+/* ---------- phone reading mode (opt-in: DECK.mobile) ---------- */
+const mq=matchMedia('(max-width: 820px), (max-height: 520px)');
+let mobile=false;
+function setMobile(){const was=mobile;mobile=!!D.mobile&&mq.matches;
+  document.documentElement.classList.toggle('m',mobile);
+  stage.style.setProperty('--mz',Math.min(.85,Math.max(.55,innerWidth/560)).toFixed(3));
+  if(was!==mobile){slides.forEach((s,k)=>s.toggleAttribute('inert',!mobile&&k!==cur));if(!mobile)go(cur,false)}}
+window.isMobile=()=>mobile;
+if(D.mobile){
+  slides.forEach(s=>{const n=s.querySelector('.notes');if(!n)return;const d=document.createElement('details');d.className='mnotes';
+    d.innerHTML='<summary>講師講稿</summary><div>'+n.innerHTML.replace(/^\s*<b>[^<]*<\/b>/,'')+'</div>';s.appendChild(d)});
+  const io=new IntersectionObserver(es=>{if(!mobile)return;es.forEach(e=>{if(!e.isIntersecting)return;const k=slides.indexOf(e.target);cur=k;
+    $$('#secs button').forEach((b,j)=>b.classList.toggle('on',j===+slides[k].dataset.sec))})},{rootMargin:'-45% 0px -50% 0px'});
+  slides.forEach(s=>io.observe(s));
+}
+function go(i,scroll){
+  i=Math.max(0,Math.min(slides.length-1,i));
+  slides.forEach((s,k)=>{s.classList.toggle('active',k===i);s.classList.toggle('past',k<i);s.toggleAttribute('inert',!mobile&&k!==i)});
+  if(mobile&&scroll!==false)slides[i].scrollIntoView({block:'start'});
+  cur=i;
+  $('#count').textContent=`${i+1} / ${slides.length}`;
+  $$('#secs button').forEach((b,k)=>b.classList.toggle('on',k===+slides[i].dataset.sec));
+  const n=slides[i].querySelector('.notes');notes.innerHTML=n?n.innerHTML:'';
+  try{history.replaceState(null,'','#'+(i+1))}catch(e){}
+  if(slides[i].querySelector('[data-poll="post"]'))renderPoll('post');
+  hooks.forEach(fn=>fn(slides[i],i));
+}
+window.go=go;
+function fit(){const s=Math.min(innerWidth/1600,innerHeight/900);stage.style.transform=`translate(-50%,-50%) scale(${s})`}
+addEventListener('resize',()=>{fit();setMobile()});mq.addEventListener?.('change',setMobile);fit();setMobile();
+$('#prev').onclick=()=>go(cur-1);$('#next').onclick=()=>go(cur+1);
+function toggleNotes(){notes.hidden=!notes.hidden}
+function toggleFS(){if(!document.fullscreenElement)document.documentElement.requestFullscreen?.().catch(()=>{});else document.exitFullscreen?.()}
+$('#noteBtn').onclick=toggleNotes;$('#fsBtn').onclick=toggleFS;
+addEventListener('keydown',e=>{
+  const t=e.target, isField=t.type==='range'||t.type==='number'||t.tagName==='SELECT';
+  if(e.key==='PageDown'){e.preventDefault();t.blur?.();go(cur+1);return}
+  if(e.key==='PageUp'){e.preventDefault();t.blur?.();go(cur-1);return}
+  if(isField)return;
+  if(e.key==='ArrowRight'){go(cur+1)}
+  else if(e.key==='ArrowLeft'){go(cur-1)}
+  else if(e.key===' '&&t.tagName!=='BUTTON'){e.preventDefault();go(cur+1)}
+  else if(e.key==='Home')go(0); else if(e.key==='End')go(slides.length-1);
+  else if(e.key==='f'||e.key==='F')toggleFS();
+  else if(e.key==='n'||e.key==='N')toggleNotes();
+});
+let tx=null;
+stage.addEventListener('touchstart',e=>{tx=(mobile||e.target.closest('input,button'))?null:e.touches[0].clientX},{passive:true});
+stage.addEventListener('touchend',e=>{if(tx==null)return;const d=e.changedTouches[0].clientX-tx;if(Math.abs(d)>60)go(cur+(d<0?1:-1));tx=null});
+
+/* ---------- polls ---------- */
+const store={get(k,d){try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const nOpt=$$('[data-poll="pre"] .vote').length||3;
+const polls={pre:store.get(D.key+'-poll-pre',Array(nOpt).fill(0)),post:store.get(D.key+'-poll-post',Array(nOpt).fill(0))};
+function renderPoll(k){
+  const box=document.querySelector(`[data-poll="${k}"]`);if(!box)return;const v=polls[k];const max=Math.max(1,...v,...(k==='post'?polls.pre:[]));
+  $$('.vote',box).forEach((b,i)=>{b.querySelector('.n').textContent=v[i];b.querySelector('.fill').style.width=(v[i]/max*100)+'%';
+    const g=b.querySelector('.ghost');if(g)g.style.width=(polls.pre[i]/max*100)+'%'});
+}
+$$('[data-poll]').forEach(box=>{const k=box.dataset.poll;
+  $$('.vote',box).forEach(b=>b.onclick=()=>{polls[k][+b.dataset.i]++;store.set(D.key+'-poll-'+k,polls[k]);renderPoll(k)});
+  renderPoll(k)});
+$$('[data-reset]').forEach(b=>b.onclick=()=>{const k=b.dataset.reset;polls[k]=Array(nOpt).fill(0);store.set(D.key+'-poll-'+k,polls[k]);renderPoll(k)});
+
+/* ---------- flips / tiles / checklist ---------- */
+$$('.flip').forEach(b=>b.onclick=()=>{b.classList.toggle('on');b.setAttribute('aria-pressed',b.classList.contains('on'))});
+$$('.tile').forEach(b=>b.onclick=()=>b.classList.toggle('on'));
+const CHECK='<svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+$$('.chk').forEach(b=>{b.setAttribute('aria-pressed','false');b.insertAdjacentHTML('afterbegin',`<span class="box">${CHECK}</span>`);
+  b.onclick=()=>b.setAttribute('aria-pressed',b.getAttribute('aria-pressed')!=='true')});
+
+/* ---------- case quizzes ---------- */
+$$('.quiz').forEach(qz=>{const ex=qz.querySelector('.explain');
+  $$('.qo',qz).forEach(o=>o.onclick=()=>{
+    $$('.qo',qz).forEach(x=>x.classList.remove('right','wrong'));
+    if(o.hasAttribute('data-ok'))o.classList.add('right');else{o.classList.add('wrong');qz.querySelector('[data-ok]').classList.add('right')}
+    ex.hidden=false})});
+
+/* ---------- reveal steps ---------- */
+$$('[data-reveal]').forEach(btn=>{
+  const scope=btn.closest('.slide');let n=0;const label=btn.textContent;
+  btn.onclick=()=>{const r=$$('.res',scope);
+    if(n>=r.length){r.forEach(x=>x.classList.remove('show'));n=0;btn.textContent=label;return}
+    r[n++].classList.add('show');if(n>=r.length)btn.textContent='重來一次'}});
+
+/* ---------- game ---------- */
+function initExtras(){
+if(window.GAME&&$('#gOpts')){
+  let gi=0;const gOpts=$('#gOpts'),gWhy=$('#gWhy');
+  function renderGame(){
+    const g=GAME[gi],opts=g.o||D.gameOpts;$('#gNo').textContent=`第 ${gi+1} / ${GAME.length} 題`;$('#gStory').innerHTML=g.s;
+    $('#gVis').innerHTML=g.v?g.v(gi):'';
+    gOpts.innerHTML=opts.map((o,i)=>`<button class="qo" data-i="${i}"><span class="k">${'ABCD'[i]}</span><span>${o}</span></button>`).join('');
+    gWhy.hidden=true;gWhy.innerHTML=g.w;
+    $$('.qo',gOpts).forEach(b=>b.onclick=()=>{$$('.qo',gOpts).forEach(x=>x.classList.remove('right','wrong'));
+      const i=+b.dataset.i;if(i===g.ok)b.classList.add('right');else{b.classList.add('wrong');gOpts.children[g.ok].classList.add('right')}gWhy.hidden=false});
+    $('#gDots').innerHTML=GAME.map((_,i)=>`<i class="${i===gi?'on':''}"></i>`).join('');
+    $('#gPrev').disabled=gi===0;$('#gNext').textContent=gi===GAME.length-1?'回第 1 題':'下一題';
+    if(D.afterGame)D.afterGame(gi);
+  }
+  $('#gPrev').onclick=()=>{if(gi>0){gi--;renderGame()}};$('#gNext').onclick=()=>{gi=(gi+1)%GAME.length;renderGame()};renderGame();
+  const scores=[0,0];
+  $$('.team button').forEach(b=>b.onclick=()=>{const t=+b.dataset.t;scores[t]=Math.max(0,scores[t]+ +b.dataset.d);$('#ts'+t).textContent=scores[t]});
+}
+
+/* ---------- true / false ---------- */
+if(window.TF&&$('#tfQ')){
+  let ti=0,timer=null;const arc=$('#tfArc'),C=326.7;
+  const stopT=()=>{clearInterval(timer);timer=null};
+  function renderTF(){stopT();const t=TF[ti];$('#tfNo').textContent=`第 ${ti+1} / ${TF.length} 題`;$('#tfQ').textContent=t.q;$('#tfA').innerHTML='';
+    $('#tfT').textContent='10';arc.style.transition='none';arc.setAttribute('stroke-dashoffset',0);arc.setAttribute('stroke','#172421')}
+  $('#tfGo').onclick=()=>{stopT();let s=10;$('#tfT').textContent=s;arc.style.transition='stroke-dashoffset 1s linear';arc.setAttribute('stroke-dashoffset',0);
+    timer=setInterval(()=>{s--;$('#tfT').textContent=s;arc.setAttribute('stroke-dashoffset',C*(10-s)/10);if(s<=3)arc.setAttribute('stroke','#D9412B');if(s<=0)stopT()},1000)};
+  $('#tfShow').onclick=()=>{stopT();const t=TF[ti];$('#tfA').innerHTML=`<span class="mark ${t.a?'o':'x'}">${t.a?'○':'✕'}</span><span>${t.w}</span>`};
+  $('#tfNext').onclick=()=>{ti=(ti+1)%TF.length;renderTF()};renderTF();
+}
+
+}
+/* ---------- start ---------- */
+window.startDeck=function(){initExtras();const h=parseInt(location.hash.slice(1),10);go(h>0?h-1:0)};
+})();
+
+</script>
+<script>
+/* ---------- ECG waveform generator ---------- */
+const ECG=(()=>{
+  const g=(t,mu,sd)=>Math.exp(-((t-mu)*(t-mu))/(2*sd*sd));
+  const TAU=Math.PI*2;
+  function rnd(seed){let s=seed>>>0||1;return()=>((s=(Math.imul(s,1664525)+1013904223)>>>0)/4294967296)}
+  // one QRS-T complex, t relative to R peak
+  function cx(t,b){
+    if(b.wide){const a=b.a||1,w=b.qw||1;return a*(.95*g(t,0,.036*w)-.6*g(t,.095*w,.04*w))-.38*a*g(t,.34,.08)+(b.u||0)*g(t,.55,.05)}
+    const w=b.qw||1;
+    let y=-.1*g(t,-.028*w,.009*w)+(b.rA??1)*g(t,0,.012*w)-(b.sA??.28)*g(t,.03*w,.011*w)+(b.tA??.3)*g(t,b.tOff??.3,b.tSd??.06);
+    if(b.u)y+=b.u*g(t,(b.tOff??.3)+.2,.05);
+    if(b.st)y+=b.st*g(t,(b.tOff??.3)*.55,.06);
+    return y;
+  }
+  function Y(rh,t){
+    const D=rh.D;let y=rh.cont?rh.cont(((t%D)+D)%D):0;
+    const ks=rh.noWrap?[0]:[-1,0,1,2];
+    for(const k of ks)for(const e of rh.ev){const d=t-(e.t+k*D);if(d<-.25||d>.8)continue;
+      y+=e.k==='P'?(e.a??.12)*g(d,0,.024):cx(d,e.b||{})}
+    if(rh.sine){const m=rh.sine;y=y*(1-m)+m*.75*Math.sin(TAU*Math.round(2*D)*t/D)}
+    return y;
+  }
+  function regular(rate,D,o={}){
+    const n=Math.max(1,Math.round(D*rate/60)),RR=D/n,ev=[],ph=o.ph??RR*.55;
+    const b=Object.assign({tOff:Math.min(.3,RR*.55),tSd:RR<.45?.045:.06},o.b||{});
+    for(let i=0;i<n;i++){const tq=ph+i*RR;if(o.p!==false)ev.push({k:'P',t:tq-(o.pr??.16),a:o.pA});ev.push({k:'Q',t:tq,b})}
+    return {D,ev};
+  }
+  function strict(rate,D,seed){ // non-looping strip with random phase (for counting)
+    const RR=60/rate,r=rnd(seed),ev=[];let tq=.1+r()*RR;
+    const b={tOff:Math.min(.3,RR*.55),tSd:RR<.45?.045:.06};
+    while(tq<D+.5){ev.push({k:'P',t:tq-.16});ev.push({k:'Q',t:tq,b});tq+=RR}
+    return {D,ev,noWrap:true};
+  }
+  function afib(D,seed=7){
+    const r=rnd(seed);let ts=[],t=0;while(t<D-.3){t+=.38+r()*.55;ts.push(t)}
+    const sc=D/t;ts=ts.map(x=>x*sc);ts.pop();ts.unshift(0);
+    const b={tA:.16,tOff:.26,tSd:.05};
+    const k1=Math.round(6.2*D),k2=Math.round(4.4*D),k3=Math.round(8.3*D);
+    return {D,ev:ts.map(x=>({k:'Q',t:x+.2,b})),cont:t=>.05*Math.sin(TAU*k1*t/D)+.035*Math.sin(TAU*k2*t/D+1.3)+.025*Math.sin(TAU*k3*t/D+.4)};
+  }
+  function vf(D,amp=.55,seed=3){
+    const r=rnd(seed),comps=[];for(let i=0;i<9;i++)comps.push([Math.round((2.6+r()*4.6)*D),r()*TAU,.35+r()*.65]);
+    const m1=Math.max(1,Math.round(.35*D)),m2=Math.max(1,Math.round(.9*D)),m3=Math.max(1,Math.round(1.7*D));
+    const f=t=>{let s=0;for(const[k,ph,a]of comps)s+=a*Math.sin(TAU*k*t/D+ph);return amp*(.55+.22*Math.sin(TAU*m1*t/D)+.15*Math.sin(TAU*m2*t/D+2)+.08*Math.sin(TAU*m3*t/D+.7))*s/3.4};
+    return {D,ev:[],cont:f};
+  }
+  function asystole(D){const k=Math.max(1,Math.round(.3*D)),k2=Math.round(2.3*D);return {D,ev:[],cont:t=>.02*Math.sin(TAU*k*t/D)+.008*Math.sin(TAU*k2*t/D)}}
+  function wenck(){const D=6,ev=[],PR=[.18,.28,.38,null];for(let i=0;i<8;i++){const tp=.2+i*.75;ev.push({k:'P',t:tp});const pr=PR[i%4];if(pr)ev.push({k:'Q',t:tp+pr,b:{}})}return {D,ev}}
+  function mobitz2(){const D=6.3,ev=[];for(let i=0;i<9;i++){const tp=.2+i*.7;ev.push({k:'P',t:tp});if(i%3!==2)ev.push({k:'Q',t:tp+.18,b:{qw:1.5,tOff:.32}})}return {D,ev}}
+  function avb3(){const D=7,ev=[];for(let i=0;i<10;i++)ev.push({k:'P',t:.25+i*.7});for(let i=0;i<4;i++)ev.push({k:'Q',t:.9+i*1.75,b:{wide:true,a:.85,qw:.9}});return {D,ev}}
+
+  let uid=0;
+  function svg(rh,o={}){
+    const w=o.w||1400,h=o.h||240,D=rh.D,pps=w/D,mv=pps*.4*(o.gain||1)*(o.scale||1),y0=h*(o.base||(o.style==='monitor'?.56:.62));
+    const span=o.anim?2*D:D,step=D/w*2;let d='';
+    for(let t=0;t<=span+1e-9;t+=step){const x=t*pps,yy=y0-Y(rh,t)*mv;d+=(t?'L':'M')+x.toFixed(1)+' '+Math.max(-50,Math.min(h+50,yy)).toFixed(1)}
+    const id='e'+(++uid),sm=pps*.04,bg=pps*.2,mon=o.style==='monitor';
+    const grid=mon
+      ?`<pattern id="${id}b" width="${bg}" height="${bg}" patternUnits="userSpaceOnUse"><path d="M${bg} 0V${bg}M0 ${bg}H${bg}" stroke="#1B2A25" stroke-width="1.2" fill="none"/></pattern>`
+      :`<pattern id="${id}s" width="${sm}" height="${sm}" patternUnits="userSpaceOnUse"><path d="M${sm} 0V${sm}M0 ${sm}H${sm}" stroke="#F3C9C4" stroke-width="1" fill="none"/></pattern>
+        <pattern id="${id}b" width="${bg}" height="${bg}" patternUnits="userSpaceOnUse"><path d="M${bg} 0V${bg}M0 ${bg}H${bg}" stroke="#E59C94" stroke-width="1.6" fill="none"/></pattern>`;
+    let marks='';
+    if(o.marksP)rh.ev.filter(e=>e.k==='P'&&e.t>=0&&e.t<D).forEach(e=>{const x=e.t*pps;marks+=`<path d="M${(x-9).toFixed(1)} 14h18l-9 14z" fill="#2E5BC9"/>`});
+    if(o.dots){let n=0;rh.ev.filter(e=>e.k==='Q'&&e.t>=0&&e.t<D).forEach(e=>{n++;const x=e.t*pps;marks+=`<circle cx="${x.toFixed(1)}" cy="24" r="17" fill="#D9412B"/><text x="${x.toFixed(1)}" y="31" text-anchor="middle" fill="#fff" font-size="20" font-weight="700" font-family="IBM Plex Mono,Consolas,monospace">${n}</text>`})}
+    if(o.ticks)o.ticks.forEach(s=>{const x=Math.min(w-2,Math.max(2,s*pps));marks+=`<line x1="${x}" y1="${h-26}" x2="${x}" y2="${h}" stroke="#172421" stroke-width="3"/><text x="${Math.min(w-8,Math.max(8,x+6))}" y="${h-8}" font-size="18" fill="#172421" text-anchor="${s===0?'start':s>=D?'end':'start'}" font-family="IBM Plex Mono,Consolas,monospace">${s} 秒</text>`});
+    const stroke=mon?(o.color||'#5BE08A'):'#172421';
+    const path=`<path d="${d}" fill="none" stroke="${stroke}" stroke-width="${mon?3:2.6}" stroke-linejoin="round" stroke-linecap="round"/>`;
+    return `<svg viewBox="0 0 ${w} ${h}" width="${w}" height="${h}" style="display:block;max-width:100%;height:auto" role="img" aria-label="心電圖波形">
+      <defs>${grid}</defs><rect width="${w}" height="${h}" fill="${mon?'#0F1916':'#FFF7F5'}"/>${mon?'':`<rect width="${w}" height="${h}" fill="url(#${id}s)"/>`}<rect width="${w}" height="${h}" fill="url(#${id}b)"/>
+      ${o.anim?`<g class="sweep" style="--w:${w};--d:${D}s">${path}</g>`:path}${marks}</svg>`;
+  }
+  return {g,cx,Y,regular,strict,afib,vf,asystole,wenck,mobitz2,avb3,svg,rnd};
+})();
+function drawECG(el,rh,extra){
+  const o=Object.assign({w:+el.dataset.w||1400,h:+el.dataset.h||240,style:el.dataset.style||'paper',anim:el.hasAttribute('data-anim')},extra||{});
+  el.innerHTML=ECG.svg(rh,o)+(el.dataset.lead?`<span class="lead">${el.dataset.lead}</span>`:'');
+}
+
+(function(){
+/* ---------- waveform model (units: mV, seconds) ---------- */
+const G=ECG.g, sm=x=>x<=0?0:x>=1?1:x*x*(3-2*x), clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+// one beat, d = time from R peak
+function beatY(d,L){
+  const w=L.qw||1;
+  let y=(L.p||0)*G(d,-.165,.022)+(L.p2||0)*G(d,-.135,.018);
+  y+=-(L.q||0)*G(d,-.03*w,.010*w)+(L.r||0)*G(d,0,.0115*w)-(L.s||0)*G(d,.03*w,.011*w);
+  if(L.st)y+=L.st*sm((d-.045*w+.02)/.025)*(1-sm((d-.26)/.16));
+  y+=(L.t||0)*G(d,L.tOff||.29,.06*(L.tw||1));
+  return y;
+}
+function rhythm(L,o={}){
+  const rate=o.rate||75,D=o.D||10,ph=o.ph??.38;let rr=60/rate;
+  if(o.wrap)rr=D/Math.max(1,Math.round(D/rr));
+  const beats=[];for(let t=ph-3*rr;t<(o.wrap?2*D:D)+1;t+=rr)beats.push(t);
+  const f=t=>{let y=0;for(const b of beats){const d=t-b;if(d<-.25||d>.6)continue;y+=beatY(d,L)}return y+(o.noise?o.noise(t):0)};
+  f.beats=beats;return f;
+}
+/* ---------- 12-lead sets ---------- */
+const LI={p:.09,q:.04,r:.65,s:.08,t:.22}, LII={p:.14,q:.05,r:1.0,s:.18,t:.3};
+const PV={V1:{p:.06,p2:-.05,r:.22,s:1.0,t:.08},V2:{p:.07,r:.4,s:1.25,t:.4},V3:{p:.08,r:.75,s:.8,t:.42},V4:{p:.09,r:1.25,s:.4,t:.4},V5:{p:.09,q:.06,r:1.3,s:.2,t:.33},V6:{p:.09,q:.06,r:1.05,s:.1,t:.28}};
+const KEYS=['p','p2','q','r','s','t','st'];
+const add=(a,b)=>{const o={...a};if(b)for(const k in b)o[k]=(o[k]||0)+b[k];return o};
+const lin=(a,x,b,y)=>{const o={};KEYS.forEach(k=>o[k]=(a[k]||0)*x+(b[k]||0)*y);return o};
+function ecg12(m={}){
+  const I=add(LI,m.I),II=add(LII,m.II);
+  let L={I,II,III:lin(II,1,I,-1),aVR:lin(I,-.5,II,-.5),aVL:lin(I,1,II,-.5),aVF:lin(II,1,I,-.5)};
+  for(const k in PV)L[k]=add(PV[k],m[k]);
+  if(m.swap)L=Object.assign({},L,{I:lin(L.I,-1,L.I,0),II:L.III,III:L.II,aVR:L.aVL,aVL:L.aVR});
+  if(m.post)for(const k in L)L[k]=m.post(Object.assign({},L[k]),k);
+  if(m.shared)for(const k in L)Object.assign(L[k],m.shared);
+  return L;
+}
+const PAT={
+  norm:{},
+  inf:{I:{st:-.08,t:-.06},II:{st:.2,t:.12}},
+  ant:{I:{st:.05},II:{st:-.04},V1:{st:.12,r:-.08},V2:{st:.3,t:.25,r:-.15},V3:{st:.32,t:.3,r:-.3},V4:{st:.22,t:.2,r:-.35},V5:{st:.06}},
+  lat:{I:{st:.13,t:.06},II:{st:.02},V4:{st:.04},V5:{st:.14,t:.08},V6:{st:.13,t:.06},V1:{st:-.05},V2:{st:-.06}},
+  post:{II:{st:.03},V1:{r:.4,s:-.55,st:-.14,t:.18},V2:{r:.5,s:-.6,st:-.2,t:.12},V3:{st:-.15}},
+  early:{V2:{t:.25},V3:{t:.25},V4:{t:.12}},
+  hyk:{post:(L,k)=>{L.t=(L.t||0)*(L.t>0?2.7:1.6)+(/V[234]/.test(k)?.25:0);L.p=(L.p||0)*.3;L.p2=(L.p2||0)*.3;return L},shared:{tw:.6,qw:1.25}},
+  swap:{swap:true}
+};
+const HI={
+  inf:{II:'up',III:'up',aVF:'up',I:'down',aVL:'down'},
+  ant:{V1:'up',V2:'up',V3:'up',V4:'up',III:'down',aVF:'down'},
+  lat:{I:'up',aVL:'up',V5:'up',V6:'up',III:'down',aVF:'down'},
+  post:{V1:'down',V2:'down',V3:'down'}
+};
+/* ---------- paper rendering ---------- */
+let KID=0;
+function gridDefs(id,mm){const bg=mm*5;
+  return (mm>=3?`<pattern id="${id}s" width="${mm}" height="${mm}" patternUnits="userSpaceOnUse"><path d="M${mm} 0V${mm}M0 ${mm}H${mm}" stroke="#F4CFCA" stroke-width="1" fill="none"/></pattern>`:'')+
+    `<pattern id="${id}b" width="${bg}" height="${bg}" patternUnits="userSpaceOnUse"><path d="M${bg} 0V${bg}M0 ${bg}H${bg}" stroke="#E7A49B" stroke-width="1.5" fill="none"/></pattern>`}
+function bgRects(id,w,h,mm){return `<rect width="${w}" height="${h}" fill="#FFF7F5"/>${mm>=3?`<rect width="${w}" height="${h}" fill="url(#${id}s)"/>`:''}<rect width="${w}" height="${h}" fill="url(#${id}b)"/>`}
+function trace(f,t0,t1,x0,pps,y0,mv,lo,hi){
+  const ts=[];for(let t=t0;t<=t1+1e-9;t+=1/pps)ts.push(t);
+  (f.beats||[]).forEach(b=>[-.032,-.016,0,.016,.032].forEach(o=>{const t=b+o;if(t>t0&&t<t1)ts.push(t)}));
+  ts.sort((a,b)=>a-b);
+  return ts.map((t,i)=>(i?'L':'M')+(x0+(t-t0)*pps).toFixed(1)+' '+clamp(y0-f(t)*mv,lo,hi).toFixed(1)).join('');
+}
+function strip(el,f,o){
+  const w=o.w,h=o.h,D=o.D,pps=w/D,mm=pps/25,mv=mm*10,id='k'+(++KID);
+  let y0=h*(o.base||.62);
+  if(o.fit){let mx=-9,mn=9;for(let t=0;t<D;t+=.004){const v=f(t);if(v>mx)mx=v;if(v<mn)mn=v}y0=h/2+(mx+mn)/2*mv+(o.fit===true?0:o.fit)}
+  const d=trace(f,0,o.anim?2*D:D,0,pps,y0,mv,-10,h+10);
+  const path=`<path d="${d}" fill="none" stroke="#172421" stroke-width="${o.sw||2.4}" stroke-linejoin="round" stroke-linecap="round"/>`;
+  el.innerHTML=`<svg viewBox="0 0 ${w} ${h}" width="${w}" height="${h}" class="k-svg" role="img" aria-label="心電圖"><defs>${gridDefs(id,mm)}</defs>${bgRects(id,w,h,mm)}${o.under||''}${o.anim?`<g class="k-sweep" style="--w:${w};--d:${D}s">${path}</g>`:path}${o.extra||''}${o.label?`<text x="12" y="27" class="k-lbl">${o.label}</text>`:''}</svg>`;
+  return {y0,mv,pps};
+}
+const LAY=[['I','aVR','V1','V4'],['II','aVL','V2','V5'],['III','aVF','V3','V6']];
+function twelve(el,L,o={}){
+  const W=o.w||1000,RH=o.rh||112,H=RH*3,pps=W/10,mm=pps/25,mv=mm*10,id='k'+(++KID),cw=W/4,hi=o.hi||{};
+  let g='',fr='';
+  LAY.forEach((row,r)=>row.forEach((n,c)=>{
+    const f=rhythm(L[n],{rate:o.rate,ph:o.ph}),t0=c*2.5,y0=r*RH+RH*.6;
+    g+=`<path d="${trace(f,t0,t0+2.5,c*cw,pps,y0,mv,r*RH+2,(r+1)*RH-2)}"/>`;
+    if(c)g+=`<path d="M${c*cw} ${y0-12}V${y0+12}"/>`;
+    const h=hi[n];
+    if(h)fr+=`<rect x="${c*cw+3}" y="${r*RH+3}" width="${cw-6}" height="${RH-6}" rx="8" class="k-fr ${h}"/>`;
+    fr+=`<text x="${c*cw+10}" y="${r*RH+24}" class="k-ln${h?' '+h:''}">${n}</text>`;
+  }));
+  el.innerHTML=`<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" class="k-svg" role="img" aria-label="12 導程心電圖"><defs>${gridDefs(id,mm)}</defs>${bgRects(id,W,H,mm)}${fr}<g fill="none" stroke="#172421" stroke-width="${o.sw||1.8}" stroke-linejoin="round" stroke-linecap="round">${g}</g></svg>`;
+}
+
+/* ---------- cover ---------- */
+strip($('#covEcg'),rhythm(ecg12(PAT.inf).III,{rate:70,D:6,wrap:true}),{w:1408,h:230,D:6,anim:true,label:'III'});
+
+/* ---------- heart diagram ---------- */
+const TC={inf:['var(--amber)','#B06A08'],sep:['var(--purple)','#6A4BC4'],ant:['var(--red)','#D9412B'],lat:['var(--blue)','#2E5BC9'],rv:['var(--teal)','#1F7A80']};
+function heartSVG(p){
+  const H='M120 120 C120 80 190 62 262 70 C335 78 385 118 395 185 C407 265 402 345 372 398 C300 392 200 352 145 296 C108 258 112 170 120 120 Z';
+  const rg=(k,d)=>`<path id="${p}${k}" class="rg" d="${d}" fill="#E5EAE3" stroke="#F2F4F0" stroke-width="3"/>`;
+  return `<svg viewBox="0 0 460 440" class="k-heart" role="img" aria-label="心臟分區示意圖">
+   <defs><clipPath id="${p}clip"><path d="${H}"/></clipPath></defs>
+   <g clip-path="url(#${p}clip)">
+    ${rg('rv','M0 0 H262 L262 70 C272 180 310 300 372 398 L380 440 H0 Z')}
+    ${rg('ant','M262 0 H460 V440 H380 L372 398 C310 300 272 180 262 70 Z')}
+    ${rg('lat','M335 0 H460 V440 H400 L392 370 C380 260 362 160 335 80 Z')}
+    ${rg('inf','M0 440 V245 L130 262 C200 320 290 352 385 366 L460 370 V440 Z')}
+    <path id="${p}sep" class="rg" d="M262 50 C272 180 310 300 372 398" fill="none" stroke="#D3D9D1" stroke-width="38"/>
+   </g>
+   <path d="${H}" fill="none" stroke="#172421" stroke-width="3"/>
+   <g font-size="24" text-anchor="middle" fill="#172421">
+    <text x="185" y="200" id="${p}tRV">右心室</text>
+    <text x="330" y="230">前壁</text>
+    <text x="300" y="120" transform="rotate(74 300 120)" font-size="21">中膈</text>
+    <text x="240" y="352">下壁</text>
+    <text x="410" y="300" text-anchor="start">側壁</text>
+   </g></svg>`;
+}
+const SOFT={ant:'#F8DCD4',lat:'#D9E2F7',inf:'#F5E5C8',rv:'#E5EAE3',sep:'#DCD2F2'};
+function paintHeart(p,keys,soft){
+  ['rv','ant','lat','inf'].forEach(k=>$('#'+p+k).setAttribute('fill',keys.includes(k)?TC[k][1]+'B3':soft?SOFT[k]:'#E5EAE3'));
+  $('#'+p+'sep').setAttribute('stroke',keys.includes('sep')?TC.sep[1]+'CC':soft?SOFT.sep:'#D3D9D1');
+}
+
+/* ---------- 12 angles ---------- */
+(function(){
+  const T={I:'lat',aVL:'lat',V5:'lat',V6:'lat',II:'inf',III:'inf',aVF:'inf',V1:'sep',V2:'sep',V3:'ant',V4:'ant',aVR:'avr'};
+  const CAP={
+    all:['12 個導程，分四組','點上面的「下壁」「前壁」……或直接點導程，看它從哪個方向看心臟。','var(--ink)'],
+    inf:['下壁','<b>II、III、aVF</b>｜心臟貼著橫膈的底面<br>血管：右冠狀動脈 RCA（約 8 成）','var(--amber)'],
+    sep:['中膈','<b>V1、V2</b>｜左右心室中間那道牆<br>血管：左前降支 LAD','var(--purple)'],
+    ant:['前壁','<b>V3、V4</b>｜左心室正前方，範圍最大<br>血管：左前降支 LAD','var(--red)'],
+    lat:['側壁','<b>I、aVL、V5、V6</b>｜左心室的左邊<br>血管：左迴旋支 LCx（或 LAD 分支）','var(--blue)'],
+    avr:['aVR','從右肩往心臟裡面看，平常 P、QRS、T 都是倒的。先不用管它。','var(--muted)']
+  };
+  const COL={inf:['var(--amber-soft)','var(--amber)'],sep:['var(--purple-soft)','var(--purple)'],ant:['var(--red-soft)','var(--red)'],lat:['var(--blue-soft)','var(--blue)'],avr:['var(--paper-2)','var(--muted)']};
+  $('#angHeart').innerHTML=heartSVG('ah');
+  // same order as the printed 12-lead (row by row)
+  $('#leadMap').innerHTML=LAY.flat().map(n=>`<button data-l="${n}" style="--bg:${COL[T[n]][0]};--fg:${COL[T[n]][1]}">${n}</button>`).join('');
+  function set(t){
+    $$('#leadMap button').forEach(b=>{const k=T[b.dataset.l];b.classList.toggle('sel',t!=='all'&&k===t);b.classList.toggle('dim',t!=='all'&&k!==t)});
+    $$('#terrSeg .sbtn').forEach(b=>b.classList.toggle('on',b.dataset.t===t));
+    paintHeart('ah',t==='all'?[]:[t],t==='all');
+    const c=CAP[t],e=$('#angCap');e.style.setProperty('--pc',c[2]);e.innerHTML=`<h3>${c[0]}</h3><p>${c[1]}</p>`;
+  }
+  $$('#terrSeg .sbtn').forEach(b=>b.onclick=()=>set(b.dataset.t));
+  $$('#leadMap button').forEach(b=>b.onclick=()=>set(T[b.dataset.l]));
+  set('all');
+})();
+
+/* ---------- torso ---------- */
+const ribY=(y0,dx)=>y0+.0011*dx*dx;
+const ECOL={V1:'#D9412B',V2:'#E3B21C',V3:'#2F9A5A',V4:'#8B5A2B',V5:'#172421',V6:'#6A4BC4'};
+const OUTLINE='M282 18 L282 62 C270 82 230 92 170 100 C120 106 88 124 78 160 C70 200 72 260 76 330 C80 400 84 440 86 480 L554 480 C556 440 560 400 564 330 C568 260 570 200 562 160 C552 124 520 106 470 100 C410 92 370 82 358 62 L358 18 Z';
+function ribs(){let s='';[150,190,230,270,310,342].forEach(y0=>[1,-1].forEach(sd=>{let d='';for(let dx=24;dx<=246;dx+=11)d+=(d?'L':'M')+(320+sd*dx)+' '+ribY(y0,dx).toFixed(1);s+=`<path d="${d}"/>`}));return s}
+function vline(x,label){return `<path d="M${x} 104V438" stroke="#9AA6A0" stroke-width="2" stroke-dasharray="6 6"/><text x="${x}" y="458" text-anchor="middle" font-size="16" fill="#5B6A64">${label}</text>`}
+function torsoFront(p,lines,lx){
+  lx=lx||170;
+  return `<defs><clipPath id="${p}tc"><path d="${OUTLINE}"/></clipPath></defs><path d="${OUTLINE}" fill="#F6EEE6" stroke="#BFAF9E" stroke-width="3"/>
+   <g fill="none" stroke="#E6D8C8" stroke-width="10" stroke-linecap="round" clip-path="url(#${p}tc)">${ribs()}</g>
+   <g fill="none" stroke="#D3C2AF" stroke-width="11" stroke-linecap="round"><path d="M302 86 C262 80 222 92 170 98"/><path d="M338 86 C378 80 418 92 470 98"/></g>
+   <g fill="#EADFD2" stroke="#C4B19C" stroke-width="2"><path d="M298 80 H342 L338 150 H302 Z"/><path d="M302 152 H338 L336 330 H304 Z"/><path d="M304 332 H336 L320 362 Z"/></g>
+   <path d="M298 151 H342" stroke="#8E7860" stroke-width="5" stroke-linecap="round"/>
+   <path d="M296 150 L242 136" stroke="#5B6A64" stroke-width="2"/><text x="238" y="138" text-anchor="end" font-size="18" fill="#172421" font-weight="700">胸骨角</text>
+   <g font-size="15" fill="#5B6A64" text-anchor="middle">${[[170,2],[210,3],[250,4],[290,5]].map(([y,n])=>`<text x="${lx}" y="${(ribY(y,Math.abs(lx-320))+5).toFixed(0)}">第${n}肋間</text>`).join('')}</g>
+   <text x="34" y="40" font-size="17" fill="#5B6A64">病人右側</text><text x="606" y="40" font-size="17" fill="#5B6A64" text-anchor="end">病人左側</text>
+   ${lines}`;
+}
+function elDot(x,y,lab,col,ring,r){r=r||17;const dark=col==='#E3B21C';
+  return `<g class="k-el">${ring?`<circle cx="${x}" cy="${y}" r="${r+6}" fill="none" stroke="${ring}" stroke-width="4"/>`:''}<circle cx="${x}" cy="${y}" r="${r}" fill="${col}" stroke="#fff" stroke-width="2"/><text x="${x}" y="${y+5}" text-anchor="middle" fill="${dark?'#172421':'#fff'}">${lab}</text></g>`}
+
+/* ---------- electrode placement game ---------- */
+(function(){
+  const SP=[
+    {id:'r2',x:298,y:170,n:'胸骨右緣第 2 肋間',why:'太高了，這是第 2 肋間。V1、V2 貼太高，R 波會變小，看起來像前壁梗塞。'},
+    {id:'r4',x:298,y:250,n:'胸骨右緣第 4 肋間',ok:'V1'},
+    {id:'l2',x:342,y:170,n:'胸骨左緣第 2 肋間',why:'太高了，這是第 2 肋間。V1、V2 貼太高，R 波會變小，看起來像前壁梗塞。'},
+    {id:'l4',x:342,y:250,n:'胸骨左緣第 4 肋間',ok:'V2'},
+    {id:'md',x:380,y:276,n:'V2 和 V4 的正中間',ok:'V3'},
+    {id:'m4',x:418,y:261,n:'左鎖骨中線第 4 肋間',why:'高了一格，這是第 4 肋間。'},
+    {id:'m5',x:418,y:301,n:'左鎖骨中線第 5 肋間',ok:'V4'},
+    {id:'a5',x:495,y:301,n:'左前腋線，和 V4 同高',ok:'V5'},
+    {id:'a6',x:495,y:324,n:'左前腋線，沿著肋間往下',why:'V5、V6 要和 V4 同一個高度水平往外，不是沿著肋骨往下斜。'},
+    {id:'x5',x:552,y:301,n:'左中腋線，和 V4 同高',ok:'V6'},
+    {id:'x6',x:552,y:349,n:'左中腋線，沿著肋間往下',why:'V5、V6 要和 V4 同一個高度水平往外，不是沿著肋骨往下斜。'}
+  ];
+  const WHERE={V1:'胸骨右緣第 4 肋間',V2:'胸骨左緣第 4 肋間',V3:'V2 和 V4 的正中間',V4:'左鎖骨中線第 5 肋間',V5:'左前腋線，和 V4 同高',V6:'左中腋線，和 V4 同高'};
+  const EL=Object.keys(ECOL);
+  let sel='V1',at={},msg=['','<b>先點右邊的電極，再點胸前的圓圈。</b>從 V1 開始。'];
+  const spot=id=>SP.find(s=>s.id===id);
+  function draw(){
+    const lines=vline(418,'鎖骨中線')+vline(495,'前腋線')+vline(552,'中腋線');
+    const spots=SP.map(s=>`<g class="k-spot" data-s="${s.id}"><circle class="hit" cx="${s.x}" cy="${s.y}" r="20"/><circle class="dot" cx="${s.x}" cy="${s.y}" r="11"/></g>`).join('');
+    const els=EL.filter(e=>at[e]).map(e=>{const s=spot(at[e]);return elDot(s.x,s.y,e,ECOL[e],s.ok===e?'#2F9A5A':'#D9412B')}).join('');
+    $('#plSvg').innerHTML=`<svg viewBox="0 0 640 470" class="k-torso" role="img" aria-label="胸前電極位置練習">${torsoFront('pl',lines)}${spots}${els}</svg>`;
+    $$('#plSvg .k-spot').forEach(g=>g.onclick=()=>place(g.dataset.s));
+    $('#plChips').innerHTML=EL.map(e=>{const s=at[e]&&spot(at[e]),st=s?(s.ok===e?'ok':'bad'):'';return `<button class="k-chip ${st}${sel===e?' on':''}" data-e="${e}" style="--c:${ECOL[e]}"><i></i>${e}<em>${st==='ok'?'✓':st==='bad'?'✗':''}</em></button>`}).join('');
+    $$('#plChips .k-chip').forEach(b=>b.onclick=()=>{sel=b.dataset.e;msg=['',`<b>${sel}</b>：點胸前的位置。`];draw()});
+    const m=$('#plMsg');m.className='k-msg '+msg[0];m.innerHTML=msg[1];
+    $('#plCnt').textContent=`${EL.filter(e=>at[e]&&spot(at[e]).ok===e).length} / 6`;
+  }
+  function place(id){
+    if(!sel){msg=['','先點右邊的電極，再點胸前的圓圈。'];return draw()}
+    const s=spot(id);for(const e in at)if(at[e]===id)delete at[e];at[sel]=id;
+    if(s.ok===sel){msg=['ok',`✓ <b>${sel} 貼對了</b>：${s.n}。`];const nx=EL.find(e=>!(at[e]&&spot(at[e]).ok===e));sel=nx||null;
+      if(!nx)msg=['ok','✓ <b>六個都貼對了！</b>記得：V1、V2 在第 4 肋間，V4–V6 同一個高度。']}
+    else msg=['bad',`✗ <b>${sel} 不在這裡</b>（${s.n}）。${s.ok?`這是 ${s.ok} 的位置。`:s.why}<br>${sel} 應該在：<b>${WHERE[sel]}</b>。`];
+    draw();
+  }
+  $('#plReset').onclick=()=>{at={};sel='V1';msg=['','<b>先點右邊的電極，再點胸前的圓圈。</b>從 V1 開始。'];draw()};
+  $('#plShow').onclick=()=>{EL.forEach(e=>at[e]=SP.find(s=>s.ok===e).id);sel=null;msg=['ok','這是正確位置。V1、V2 在第 4 肋間；V3 在 V2、V4 正中間；V4 在鎖骨中線第 5 肋間；V5、V6 和 V4 同高。'];draw()};
+  draw();
+})();
+
+/* ---------- limb leads ---------- */
+(function(){
+  const LC={R:'#D9412B',L:'#E3B21C',F:'#2F9A5A',N:'#172421'};
+  function fig(swap){
+    const mk=(x,y,k,name,bad)=>`${bad?`<circle cx="${x}" cy="${y}" r="27" fill="none" stroke="#D9412B" stroke-width="4" stroke-dasharray="7 5"/>`:''}<circle cx="${x}" cy="${y}" r="20" fill="${LC[k]}" stroke="#fff" stroke-width="3"/><text x="${x}" y="${y+7}" text-anchor="middle" font-size="20" font-weight="700" fill="${k==='L'?'#172421':'#fff'}">${k}</text><text x="${x}" y="${y+50}" text-anchor="middle" font-size="18" fill="${bad?'#D9412B':'#172421'}" font-weight="700">${name}</text>`;
+    return `<svg viewBox="0 0 330 540" class="k-fig" role="img" aria-label="四肢導線位置">
+     <g fill="#E3E9E1" stroke="#C4CEC3" stroke-width="2"><circle cx="165" cy="60" r="38"/><path d="M95 116 Q165 100 235 116 L226 300 Q165 314 104 300 Z"/></g>
+     <g fill="none" stroke="#E3E9E1" stroke-width="30" stroke-linecap="round"><path d="M100 128 L66 300"/><path d="M230 128 L264 300"/><path d="M130 300 L122 470"/><path d="M200 300 L208 470"/></g>
+     ${mk(66,316,swap?'L':'R','右手',swap)}${mk(264,316,swap?'R':'L','左手',swap)}${mk(122,474,'N','右腳')}${mk(208,474,'F','左腳')}
+     <text x="165" y="14" text-anchor="middle" font-size="15" fill="#5B6A64">面對病人</text></svg>`;
+  }
+  const base=ecg12(),sw=ecg12(PAT.swap);
+  function set(m){
+    const L=m==='swap'?sw:base;$('#limbFig').innerHTML=fig(m==='swap');
+    $('#limbStrips').innerHTML=['I','aVR','II','aVL','III','aVF'].map(n=>`<div class="k-ecg" data-n="${n}"></div>`).join('');
+    $$('#limbStrips .k-ecg').forEach(el=>{const n=el.dataset.n;strip(el,rhythm(L[n],{rate:72,D:3,ph:.35}),{w:500,h:128,D:3,fit:true,label:n,sw:2.2})});
+    $$('#limbSeg .sbtn').forEach(b=>b.classList.toggle('on',b.dataset.m===m));
+    const c=$('#limbCap');
+    if(m==='swap'){c.style.setProperty('--pc','var(--red)');c.innerHTML='<b>Lead I 整個倒過來</b>（P、QRS、T 都朝下），<b>aVR 反而朝上</b>，II 和 III 對調 → 左右手接反。胸前導程不受影響。<b>重接再做一張</b>，舊的那張打叉註明。'}
+    else{c.style.setProperty('--pc','var(--green)');c.innerHTML='Lead I：P、QRS、T 都朝上；<b>aVR 本來就全部朝下</b>。四肢電極貼手腕、腳踝內側，顏色以本院導線標示為準。'}
+  }
+  $$('#limbSeg .sbtn').forEach(b=>b.onclick=()=>set(b.dataset.m));set('ok');
+})();
+
+/* ---------- artifacts ---------- */
+(function(){
+  const W=1408,D=6,pps=W/D,r=ECG.rnd(11),tc=[];for(let i=0;i<8;i++)tc.push([18+r()*28,r()*6.283,.4+r()*.6]);
+  const tremor=t=>{let s=0;for(const[f,p,a]of tc)s+=a*Math.sin(6.283*f*t+p);return .05*s*(.55+.45*Math.sin(6.283*.6*t))};
+  const acF=pps/5,ac=t=>.05*Math.sin(6.283*acF*t);
+  const wander=t=>.32*Math.sin(6.283*.2*t+1)+.12*Math.sin(6.283*.53*t);
+  const II=ecg12().II;
+  function make(k){
+    if(k==='loose'){const f0=rhythm(II,{D});const f=t=>{if(t>2.25&&t<3.35)return 1.2*Math.exp(-(t-2.25)/.09)-.15+.01*Math.sin(6.283*9*t);let y=f0(t);if(t>=3.35&&t<3.7)y-=.8*Math.exp(-(t-3.35)/.07);if(t>4.6&&t<4.64)y+=1.1;if(t>.9&&t<.94)y-=.9;return y};f.beats=f0.beats;return f}
+    return rhythm(II,{D,noise:{tremor,ac,wander}[k]});
+  }
+  const C={
+    clean:['乾淨的基準線','基準線平穩，P、QRS、T 都清楚。','這就是目標：平躺放鬆、皮膚乾燥、電極貼牢。'],
+    tremor:['肌肉顫抖','基準線毛毛的、不規則抖動。原因：冷、緊張、發抖、講話、帕金森氏症。','保暖蓋被、手放身體兩側、請他先不要講話；帕金森氏症病人四肢電極改貼上臂、大腿，並註明。'],
+    ac:['交流電干擾（60 Hz）','基準線又粗又規則，像細鋸齒。原因：旁邊插電的設備（電動床、充電器、幫浦），導線和電源線纏在一起。','拔掉不需要的插頭、導線拉直不要繞電源線、確認機器接地。'],
+    wander:['基準線飄移','整條線上上下下像波浪，ST 段會看不準。原因：呼吸、身體移動、電極膠乾掉。','請病人平順呼吸、不要動；換新的電極片。'],
+    loose:['電極接觸不良','突然跳很高、斷掉、一段直線。原因：流汗、胸毛、乳液、電極片過期乾掉、導線被拉扯。','擦乾皮膚、剃毛、換新電極，導線不要拉緊。']
+  };
+  function set(k){strip($('#artEcg'),make(k),{w:W,h:280,D,label:'II'});
+    const c=C[k];$('#artCap').innerHTML=`<div><h3>${c[0]}</h3><p>${c[1]}</p></div><div><p class="lb">怎麼修</p><p style="font-size:27px">${c[2]}</p></div>`;
+    $$('#artSeg .sbtn').forEach(b=>b.classList.toggle('on',b.dataset.a===k))}
+  $$('#artSeg .sbtn').forEach(b=>b.onclick=()=>set(b.dataset.a));set('clean');
+})();
+
+/* ---------- ST explorer ---------- */
+(function(){
+  const W=860,H=430,D=1.3,R=.52,rg=$('#stR');
+  function draw(){
+    const v=+rg.value,st=v/10,L=Object.assign({},ecg12().II,{st});
+    const f=rhythm(L,{rate:30,D,ph:R}),pps=W/D,mm=pps/25,mv=mm*10,y0=H*.68,xJ=(R+.06)*pps,yJ=y0-f(R+.06)*mv;
+    const under=`<path d="M0 ${y0}H${W}" stroke="#2E5BC9" stroke-width="3" stroke-dasharray="12 8"/><text x="14" y="${y0+30}" font-size="19" fill="#2E5BC9" font-weight="600">基準線（PR 段）</text>`;
+    let extra=`<circle cx="${xJ}" cy="${yJ}" r="9" fill="#E0672C" stroke="#fff" stroke-width="2"/><text x="${xJ+8}" y="${yJ+38}" font-size="20" fill="#E0672C" font-weight="700">J 點</text>`;
+    if(Math.abs(v)>=.5){const xa=xJ+110;extra+=`<path d="M${xa} ${y0}V${yJ}" stroke="${st>0?'#D9412B':'#2E5BC9'}" stroke-width="4"/><path d="M${xa-9} ${yJ+(st>0?12:-12)}L${xa} ${yJ}L${xa+9} ${yJ+(st>0?12:-12)}" fill="none" stroke="${st>0?'#D9412B':'#2E5BC9'}" stroke-width="4" stroke-linejoin="round"/><text x="${xa+14}" y="${(y0+yJ)/2+8}" font-size="24" font-weight="700" fill="${st>0?'#D9412B':'#2E5BC9'}">${v>0?'+':''}${v} 小格</text>`}
+    strip($('#stSvg'),f,{w:W,h:H,D,base:.68,under,extra,sw:3.2});
+    $('#stV').textContent=(v>0?'+':'')+v;
+    const c=$('#stCap');let pc,html,big;
+    if(v>=1){pc='var(--red)';big='上升';html=`<b>上升 ${v} 小格</b>：相鄰兩個導程都上升 ≥ 1 小格（V2、V3 標準較高）→ <b>疑似 STEMI，立刻交給醫師</b>。`}
+    else if(v>0){pc='var(--amber)';big='上升';html=`<b>上升不到 1 小格</b>：還沒到標準，但病人還在痛 → 交給醫師、和舊的比、15–30 分鐘重做。`}
+    else if(v===0){pc='var(--green)';big='';html='<b>平的</b>：ST 段和基準線一樣高 → 正常。'}
+    else{pc='var(--blue)';big='下降';html=`<b>下降 ${-v} 小格</b>：可能是<b>缺血</b>（NSTEMI），也可能是別處梗塞的<b>鏡像</b>。一樣要交給醫師。`}
+    c.style.setProperty('--pc',pc);c.innerHTML=html;
+    $('#stBig').innerHTML=`${v>0?'+':''}${v}<small style="color:${pc}">小格${big?'　'+big:''}</small>`;
+  }
+  rg.addEventListener('input',draw);draw();
+})();
+
+/* ---------- territory explorer ---------- */
+(function(){
+  const CAP={
+    norm:['正常','var(--green)','<p>ST 段都和基準線一樣高。</p><p>aVR 本來就是倒的，不用緊張。</p>',[]],
+    inf:['下壁 STEMI','var(--amber)','<p><b>上升</b>：II、III、aVF<br><b>鏡像</b>：I、aVL</p><p><b>血管</b>：右冠狀動脈（約 8 成）</p><p><b>護理</b>：加做 V4R；心跳容易變慢、血壓容易掉，NTG 前先確認。</p>',['inf']],
+    ant:['前壁 STEMI','var(--red)','<p><b>上升</b>：V1–V4<br><b>鏡像</b>：III、aVF</p><p><b>血管</b>：左前降支 LAD，範圍最大</p><p><b>護理</b>：容易心衰竭、VF → 先貼好電擊貼片。</p>',['sep','ant']],
+    lat:['側壁 STEMI','var(--blue)','<p><b>上升</b>：I、aVL、V5、V6<br><b>鏡像</b>：III、aVF</p><p><b>血管</b>：左迴旋支 LCx 或 LAD 分支</p><p><b>護理</b>：變化小、最容易漏看；還在痛就重做。</p>',['lat']]
+  };
+  let p='norm',mark=false;
+  $('#terHeart').innerHTML=heartSVG('th');
+  function set(){
+    twelve($('#ter12'),ecg12(PAT[p]),{w:1000,rh:128,hi:mark?HI[p]:null,rate:p==='inf'?58:75});
+    const c=CAP[p],e=$('#terCap');e.style.setProperty('--pc',c[1]);e.innerHTML=`<h3>${c[0]}</h3>${c[2]}`;
+    paintHeart('th',c[3]);
+    $$('#terSeg .sbtn').forEach(b=>b.classList.toggle('on',b.dataset.p===p));$('#terMark').classList.toggle('on',mark);
+  }
+  $$('#terSeg .sbtn').forEach(b=>b.onclick=()=>{p=b.dataset.p;set()});
+  $('#terMark').onclick=()=>{mark=!mark;set()};set();
+})();
+
+/* ---------- right / posterior leads ---------- */
+(function(){
+  function back(){
+    return `<path d="${OUTLINE}" fill="#F6EEE6" stroke="#BFAF9E" stroke-width="3"/>
+     <g fill="#EADFD2" stroke="#C4B19C" stroke-width="2">${Array.from({length:13},(_,i)=>`<rect x="310" y="${70+i*29}" width="20" height="22" rx="5"/>`).join('')}</g>
+     <g fill="#EBDDCC" stroke="#C4B19C" stroke-width="2"><path d="M288 118 C250 106 186 112 150 132 C168 196 190 258 206 300 C236 248 268 178 288 118 Z"/><path d="M352 118 C390 106 454 112 490 132 C472 196 450 258 434 300 C404 248 372 178 352 118 Z"/></g>
+     <text x="34" y="40" font-size="17" fill="#5B6A64">病人左側</text><text x="606" y="40" font-size="17" fill="#5B6A64" text-anchor="end">病人右側</text>
+     <text x="320" y="40" font-size="17" fill="#5B6A64" text-anchor="middle">從背後看</text>
+     ${vline(96,'後腋線')}${vline(206,'肩胛骨中線')}${vline(294,'脊椎旁')}
+     <path d="M60 301H300" stroke="#B06A08" stroke-width="2" stroke-dasharray="3 5"/>
+     ${elDot(96,301,'V7',ECOL.V4,null,19)}${elDot(206,301,'V8',ECOL.V5,null,19)}${elDot(294,301,'V9',ECOL.V6,null,19)}`;
+  }
+  function right(){
+    const hollow=(x,y,l)=>`<g class="k-el"><circle cx="${x}" cy="${y}" r="16" fill="#fff" stroke="#8B5A2B" stroke-width="2.5" stroke-dasharray="4 3"/><text x="${x}" y="${y+5}" text-anchor="middle" fill="#8B5A2B" style="font-size:12px">${l}</text></g>`;
+    return torsoFront('xr',vline(222,'右鎖骨中線')+vline(145,'右前腋線'),470)+
+      elDot(298,250,'V1','#B8C2BC',null,14)+elDot(342,250,'V2','#B8C2BC',null,14)+
+      hollow(260,276,'V3R')+hollow(145,301,'V5R')+hollow(88,301,'V6R')+elDot(222,301,'V4R',ECOL.V4,'#D9412B',20);
+  }
+  const CAP={
+    right:{rows:[['什麼時候','<b>下壁梗塞</b>（II、III、aVF 上升）'],['怎麼貼','把 V4 導線移到<b>右鎖骨中線第 5 肋間</b>（V3–V6 也可以全部鏡像貼到右胸）'],['看什麼','V4R ST 上升 ≥ 0.5 小格 → <b>右心室梗塞</b>：血壓容易掉，NTG 要先問醫師'],['別忘了','機器還是印「V4」→ <b>手寫改成 V4R＋時間</b>']],
+      lead:'V4R',L:{r:.2,s:.55,t:.12,st:.12}},
+    back:{rows:[['什麼時候','V1–V3 <b>ST 下降、R 波變高</b>，或胸痛典型但 12 導程「看起來沒事」'],['怎麼貼','V4、V5、V6 導線移到背後，<b>和 V6 同高</b>：後腋線 V7、肩胛骨中線 V8、脊椎左旁 V9'],['看什麼','V7–V9 ST 上升 ≥ 0.5 小格 → <b>後壁梗塞</b>，等同 STEMI'],['別忘了','機器還是印「V4–V6」→ <b>手寫改成 V7–V9＋時間</b>']],
+      lead:'V8',L:{q:.12,r:.28,s:.05,t:.1,st:.08}}
+  };
+  let x='right';
+  function set(){
+    $('#xSvg').innerHTML=`<svg viewBox="0 0 640 470" class="k-torso" role="img" aria-label="${x==='right'?'右側導程位置':'後側導程位置'}">${x==='right'?right():back()}</svg>`;
+    const c=CAP[x];$('#xCap').innerHTML=c.rows.map(([a,b])=>`<div class="k-xrow"><span>${a}</span><p>${b}</p></div>`).join('');
+    strip($('#xStrip'),rhythm(c.L,{rate:72,D:3.5,ph:.4}),{w:760,h:170,D:3.5,base:.6,label:c.lead+'（上升）'});
+    $$('#xSeg .sbtn').forEach(b=>b.classList.toggle('on',b.dataset.x===x));
+  }
+  $$('#xSeg .sbtn').forEach(b=>b.onclick=()=>{x=b.dataset.x;set()});set();
+})();
+
+/* ---------- timeline ---------- */
+(function(){
+  const S=[
+    ['0′','到院','胸痛病人進門',['胸痛、胸悶、上腹痛、喘、冒冷汗、昏倒都算','老人、女性、糖尿病常常只說「胃不舒服」「很累」','檢傷優先，直接推去做 12 導程（依本院胸痛流程）']],
+    ['10′','12 導程','10 分鐘內做完、交給醫師',['做完立刻交到醫師手上，記下完成時間','同時接監視器、量血壓與 SpO₂、建立靜脈管路','有舊的心電圖一起拿出來比']],
+    ['?','判讀','醫師判讀之後',['是 STEMI → 依本院流程啟動心導管團隊或轉院','還不是，但症狀持續 → 15–30 分鐘重做一張','症狀變化（更痛、冒汗、血壓掉）→ 隨時再做']],
+    ['Rx','準備','導管前的護理準備（依醫囑）',['Aspirin 嚼碎吞（常用 160–325 mg）、抗血小板藥','抽血：Troponin、CBC、凝血功能、腎功能','靜脈管路避開右手腕（心導管常從右手進去）','前壁大範圍 → 先貼好電擊貼片','NTG 前量血壓：SBP < 90、右心室梗塞、48 小時內用過威而鋼類藥 → 先問醫師']],
+    ['90′','打通','進門到打通血管',['本院做導管：進門到打通 ≤ 90 分鐘','需要轉院：進門到離院 ≤ 30 分鐘','全程記時間：到院、心電圖、判讀、給藥、出發']]
+  ];
+  $('#tlTrack').innerHTML=S.map((s,i)=>`<button class="stop" data-i="${i}"><i>${s[0]}</i><span>${s[1]}</span></button>`).join('');
+  function set(i){$$('#tlTrack .stop').forEach((b,k)=>b.classList.toggle('on',k<=i));const s=S[i];
+    $('#tlState').innerHTML=`<h3>${s[2]}</h3><ul>${s[3].map(x=>`<li>${x}</li>`).join('')}</ul>`}
+  $$('#tlTrack .stop').forEach(b=>b.onclick=()=>set(+b.dataset.i));set(0);
+})();
+
+/* ---------- mini tiles ---------- */
+(function(){
+  const II=ecg12().II,M={
+    ste:[Object.assign({},II,{st:.3,t:.4}),75],std:[Object.assign({},II,{st:-.18,t:-.22}),75],
+    hyk:[{p:.04,r:.7,s:.2,t:1.05,tw:.6,qw:1.2},75],wide:[{p:.1,r:.55,s:.55,t:-.28,qw:2.3},75],
+    slow:[II,38],norm:[II,75]
+  };
+  $$('[data-mini]').forEach(el=>{const [L,rate]=M[el.dataset.mini],D=rate<50?2.4:1.6;
+    strip(el,rhythm(L,{rate,D,ph:rate<50?.5:.36}),{w:240,h:104,D,base:.66,sw:2.6})});
+})();
+
+/* ---------- cases ---------- */
+twelve($('#c1Ecg'),ecg12(PAT.inf),{w:760,rh:100,rate:54});
+(function(){
+  function set(k){twelve($('#c2Ecg'),ecg12(k==='1'?PAT.early:PAT.ant),{w:760,rh:100,rate:k==='1'?88:96});
+    $$('#c2Seg .sbtn').forEach(b=>b.classList.toggle('on',b.dataset.k===k))}
+  $$('#c2Seg .sbtn').forEach(b=>b.onclick=()=>set(b.dataset.k));set('1');
+})();
+
+/* ---------- game ---------- */
+const WALLS=['下壁 STEMI','前壁 STEMI','側壁 STEMI','正常心電圖'];
+window.GAME=[
+  {s:'<b>63 歲男性</b>，胸口壓迫感 40 分鐘、冒冷汗，HR 54、BP 96/60。',p:'inf',rate:54,o:WALLS,ok:0,w:'II、III、aVF 上升，I、aVL 鏡像下降 → <b>下壁 STEMI</b>。立刻交給醫師、加做 V4R；心跳慢、血壓偏低，NTG 前先確認。'},
+  {s:'<b>52 歲男性</b>，抽菸，搬東西時胸痛、喘。',p:'ant',rate:96,o:WALLS,ok:1,w:'V1–V4 上升 → <b>前壁 STEMI</b>（左前降支）。範圍大，容易心衰竭、VF → 先貼好電擊貼片。'},
+  {s:'<b>45 歲女性</b>，胸悶。做完後護理師覺得「Lead I 怪怪的」。',p:'swap',rate:80,o:['側壁 STEMI','左右手導線接反','高血鉀','下壁 STEMI'],ok:1,w:'Lead I 的 P、QRS、T 全部倒過來，aVR 反而朝上，胸前導程正常 → <b>左右手接反</b>。重接再做一張。'},
+  {s:'<b>70 歲洗腎病人</b>，這兩天沒去洗腎，全身無力。',p:'hyk',rate:58,o:['前壁 STEMI','高血鉀','正常心電圖','後壁梗塞'],ok:1,w:'T 波又高又尖、P 波變小 → 想到<b>高血鉀</b>。立刻交給醫師、抽血、備鈣劑（見電解質急症那堂）。'},
+  {s:'<b>60 歲男性</b>，典型胸痛 1 小時，胸前導程「沒有翹起來」。',p:'post',rate:80,o:['正常，等抽血報告就好','懷疑後壁梗塞 → 加做 V7–V9','前壁 STEMI','左右手導線接反'],ok:1,w:'V1–V3 ST 下降、R 波變高 → 可能是背面的<b>後壁梗塞</b>（從前面看是倒影）。加做 V7–V9，上升 ≥ 0.5 小格就等同 STEMI。'},
+  {s:'<b>57 歲女性</b>，糖尿病，左肩痠、喘，說不出哪裡痛。',p:'lat',rate:88,o:WALLS,ok:2,w:'I、aVL、V5、V6 上升，III、aVF 鏡像下降 → <b>側壁 STEMI</b>。側壁變化比較小，最容易漏看。'}
+];
+GAME.forEach(g=>g.v=()=>'<div class="k-ecg"></div>');
+DECK.afterGame=i=>{const g=GAME[i];twelve($('#gVis .k-ecg'),ecg12(PAT[g.p]),{w:860,rh:98,rate:g.rate})};
+})();
+</script>
+<script>startDeck();</script>

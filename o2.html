@@ -1,5 +1,9 @@
 <meta charset="utf-8">
 <title>氧氣給對了嗎</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script>/* iPhone 防放大（全 App 統一，主任 2026-10-17）：iPhone／iPad 點輸入框不自動放大，兩指放大照常；Android 不加 maximum-scale（會連兩指放大都鎖掉） */
+(function(){var m=document.querySelector('meta[name=viewport]');if(m&&(/iP(hone|ad|od)/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))&&m.content.indexOf('maximum-scale')<0)m.content+=',maximum-scale=1';})();</script>
+<style>html,body,*{touch-action:manipulation}/* 連點兩下不放大，兩指放大照常 */</style>
 <meta name="description" content="急診護理在職教育：氧氣治療裝置、HFNC 與 BiPAP 互動投影片">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -263,6 +267,39 @@ sub,sup{line-height:0}
 .bnum.sm{font-size:72px}
 [hidden]{display:none!important}
 
+/* ---------- phone reading mode (html.m; decks opt in with DECK.mobile) ---------- */
+.mnotes{display:none}
+html.m,html.m body{height:auto}
+html.m body{overflow:visible;background:var(--paper)}
+html.m #stage{position:static;width:auto;height:auto;transform:none!important;box-shadow:none;overflow:visible;overflow-x:clip;zoom:var(--mz,.7)}
+html.m .slide{position:relative;inset:auto;opacity:1;visibility:visible;transform:none;transition:none;padding:44px 24px 40px;gap:22px;border-top:1px solid var(--line)}
+html.m .slide:first-child{border-top:0}
+html.m .body{flex:none}
+html.m h2{font-size:44px}
+html.m .cover{padding-top:48px;gap:34px}
+html.m .cover-title{font-size:92px}
+html.m .cover-sub{font-size:28px}
+html.m .poll,html.m .case,html.m .game,html.m .tf,html.m .wrapg,html.m .checks,html.m .steps{grid-template-columns:1fr;gap:26px}
+html.m .tiles{grid-template-columns:1fr 1fr!important}
+html.m .tile{min-height:0}
+html.m .tile .dt{display:none}
+html.m .tile.on .dt{display:block}
+html.m .flips{grid-template-columns:1fr 1fr}
+html.m .gopts{grid-template-columns:1fr}
+html.m .gtop{flex-wrap:wrap;gap:16px}
+html.m .tfq{font-size:40px;min-height:0}
+html.m .ring{width:190px;height:190px}
+html.m .ring .t{font-size:70px}
+html.m .story{margin-bottom:16px}
+html.m .bar{position:sticky;bottom:0;height:auto;padding:12px 24px;z-index:5}
+html.m .ctrl{display:none}
+html.m .secs{overflow-x:auto;gap:26px;scrollbar-width:none}
+html.m .secs button{white-space:nowrap}
+html.m #notes{display:none!important}
+html.m .mnotes{display:block;background:var(--paper-2);border-radius:12px;padding:12px 18px;font-size:21px;line-height:1.6;color:var(--muted)}
+html.m .mnotes summary{cursor:pointer;font-weight:700;color:var(--ink)}
+html.m .mnotes div{margin-top:8px}
+
 :root{--accent:var(--blue)}
 /* cover */
 .hero{position:relative;padding-top:160px}
@@ -355,6 +392,28 @@ sub,sup{line-height:0}
 .verdict{margin-top:20px;font-size:27px;line-height:1.55;padding:16px 24px;border-radius:10px}
 .verdict.ok{background:var(--green-soft);border-left:6px solid var(--green)}
 .verdict.bad{background:var(--red-soft);border-left:6px solid var(--red)}
+
+/* ---------- phone reading mode ---------- */
+html.m .poll>*,html.m .case>*,html.m .wrapg>*,html.m .game>*,html.m .odc>*,html.m .dev>*,html.m .mist>*,html.m .rox>*,html.m .bip>*,html.m .hr1>*{min-width:0}
+html.m .hero .m-wrap{left:84%!important;width:96px;margin-left:-48px}
+html.m .hero .bubble{right:104px;top:-4px;font-size:19px}
+html.m .band span{font-size:17px}
+html.m .odc,html.m .dev,html.m .mist,html.m .rox,html.m .bip{grid-template-columns:1fr;gap:28px}
+html.m .facesvg{max-width:300px;margin:0 auto}
+html.m .zone{min-height:0}
+html.m div:has(>#rH){flex-wrap:wrap;gap:10px 16px}
+html.m .bip>div:nth-child(2){order:-1}
+html.m .hr1{grid-template-columns:1fr 1fr;gap:14px}
+html.m .hr1 .arrow{display:none}
+html.m .hr1 .cmp{grid-column:1/-1}
+html.m .hr1 .slip-wrap{width:auto}
+html.m .hr1 .slip{width:auto;padding:14px 14px 26px}
+html.m .hr1 .slip-r{grid-template-columns:58px 1fr 40px 18px}
+html.m .hr1 .slip-r b{font-size:26px;padding-right:6px}
+html.m .hr1 .slip-r span{font-size:17px}
+html.m .hr1 .slip-r i{font-size:13px}
+html.m .face{padding:20px}
+html.m .back ul{font-size:22px;line-height:1.5}
 </style>
 
 <div id="stage" role="region" aria-label="投影片">
@@ -731,7 +790,7 @@ sub,sup{line-height:0}
 <div id="notes" hidden></div>
 
 <script>
-window.DECK={key:'o2',secs:[['基礎','var(--ink)'],['給氧裝置','var(--blue)'],['HFNC・BiPAP','var(--purple)'],['實戰','var(--red)'],['總結','var(--green)']],
+window.DECK={key:'o2',mobile:true,secs:[['基礎','var(--ink)'],['給氧裝置','var(--blue)'],['HFNC・BiPAP','var(--purple)'],['實戰','var(--red)'],['總結','var(--green)']],
   gameOpts:['鼻導管','非再吸入面罩','高流量鼻導管 HFNC','BiPAP']};
 window.TF=[
   {q:'SpO₂ 越高越好，所以一律拉到 100%。',a:false,w:'一般病人 94–98% 就好；COPD 等 CO₂ 滯留風險的人抓 88–92%。給太多氧氣也有害。'},
@@ -797,9 +856,25 @@ D.secs.forEach(([n,c],i)=>{const li=document.createElement('li');li.innerHTML=`<
 slides.forEach(s=>s.style.setProperty('--sec',D.secs[+s.dataset.sec][1]));
 const notes=$('#notes');
 const hooks=[];window.onSlide=fn=>hooks.push(fn);
-function go(i){
+/* ---------- phone reading mode (opt-in: DECK.mobile) ---------- */
+const mq=matchMedia('(max-width: 820px), (max-height: 520px)');
+let mobile=false;
+function setMobile(){const was=mobile;mobile=!!D.mobile&&mq.matches;
+  document.documentElement.classList.toggle('m',mobile);
+  stage.style.setProperty('--mz',Math.min(.85,Math.max(.55,innerWidth/560)).toFixed(3));
+  if(was!==mobile){slides.forEach((s,k)=>s.toggleAttribute('inert',!mobile&&k!==cur));if(!mobile)go(cur,false)}}
+window.isMobile=()=>mobile;
+if(D.mobile){
+  slides.forEach(s=>{const n=s.querySelector('.notes');if(!n)return;const d=document.createElement('details');d.className='mnotes';
+    d.innerHTML='<summary>講師講稿</summary><div>'+n.innerHTML.replace(/^\s*<b>[^<]*<\/b>/,'')+'</div>';s.appendChild(d)});
+  const io=new IntersectionObserver(es=>{if(!mobile)return;es.forEach(e=>{if(!e.isIntersecting)return;const k=slides.indexOf(e.target);cur=k;
+    $$('#secs button').forEach((b,j)=>b.classList.toggle('on',j===+slides[k].dataset.sec))})},{rootMargin:'-45% 0px -50% 0px'});
+  slides.forEach(s=>io.observe(s));
+}
+function go(i,scroll){
   i=Math.max(0,Math.min(slides.length-1,i));
-  slides.forEach((s,k)=>{s.classList.toggle('active',k===i);s.classList.toggle('past',k<i);s.toggleAttribute('inert',k!==i)});
+  slides.forEach((s,k)=>{s.classList.toggle('active',k===i);s.classList.toggle('past',k<i);s.toggleAttribute('inert',!mobile&&k!==i)});
+  if(mobile&&scroll!==false)slides[i].scrollIntoView({block:'start'});
   cur=i;
   $('#count').textContent=`${i+1} / ${slides.length}`;
   $$('#secs button').forEach((b,k)=>b.classList.toggle('on',k===+slides[i].dataset.sec));
@@ -810,7 +885,7 @@ function go(i){
 }
 window.go=go;
 function fit(){const s=Math.min(innerWidth/1600,innerHeight/900);stage.style.transform=`translate(-50%,-50%) scale(${s})`}
-addEventListener('resize',fit);fit();
+addEventListener('resize',()=>{fit();setMobile()});mq.addEventListener?.('change',setMobile);fit();setMobile();
 $('#prev').onclick=()=>go(cur-1);$('#next').onclick=()=>go(cur+1);
 function toggleNotes(){notes.hidden=!notes.hidden}
 function toggleFS(){if(!document.fullscreenElement)document.documentElement.requestFullscreen?.().catch(()=>{});else document.exitFullscreen?.()}
@@ -828,7 +903,7 @@ addEventListener('keydown',e=>{
   else if(e.key==='n'||e.key==='N')toggleNotes();
 });
 let tx=null;
-stage.addEventListener('touchstart',e=>{tx=e.target.closest('input,button')?null:e.touches[0].clientX},{passive:true});
+stage.addEventListener('touchstart',e=>{tx=(mobile||e.target.closest('input,button'))?null:e.touches[0].clientX},{passive:true});
 stage.addEventListener('touchend',e=>{if(tx==null)return;const d=e.changedTouches[0].clientX-tx;if(Math.abs(d)>60)go(cur+(d<0?1:-1));tx=null});
 
 /* ---------- polls ---------- */
